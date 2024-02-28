@@ -1,48 +1,50 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Articles from "../components/articles";
-import Sidebar from "../components/sidebar";
-import { useState,useEffect } from "react";
+import Sidebar from "../components/Homesidebar";
+import Footer from "../components/footer";
+import Hero from "../components/Hero";
+import Heroafter from "../components/HeroNext";
+import { InputContext } from "../context/context";
+import SyntaxHighlighter from "react-syntax-highlighter";
+
+// ... other imports
+
 const home = () => {
+  const { inputs } = useContext(InputContext); // Access shared data
+  const [publishedTexts, setPublishedTexts] = useState(inputs); // Initialize with context values
   const [isSidebarSticky, setIsSidebarSticky] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const sidebar = document.querySelector(".sidebar");
-      const articleContainer = document.querySelector(".article-container");
-
-      if (sidebar && articleContainer) {
-        const sidebarHeight = sidebar.offsetHeight;
-        const articleContainerHeight = articleContainer.offsetHeight;
-        const scrollY = window.scrollY;
-
-        if (
-          scrollY + window.innerHeight >=
-          articleContainerHeight + sidebarHeight
-        ) {
-          setIsSidebarSticky(true);
-        } else {
-          setIsSidebarSticky(false);
-        }
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  // No changes needed in render function, as it already displays published texts.
 
   return (
     <>
+      <Hero />
+      <Heroafter />
       <div className="homeFlex">
         <div>
           <Articles />
         </div>
         <div
-          className={`sidebar ${isSidebarSticky ? "sticky-bottom" : ""}`}
+          className={`sidebarHome ${isSidebarSticky ? "sticky-bottom" : ""}`}
         >
           <Sidebar />
         </div>
       </div>
+      {/* Display published texts without input elements */}
+      <div className="HomeGeneratedArray">
+      {inputs.map((text, index) => (
+          <div key={index} className="singleInputGenerated">
+            {text.type === "code" ? (
+              <SyntaxHighlighter language="javascript">
+                {text.content}
+              </SyntaxHighlighter>
+            ) : (
+              <span>{text.content}</span>
+            )}
+          </div>
+        ))}
+      </div>
+      <Footer />
     </>
   );
 };

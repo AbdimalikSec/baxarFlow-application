@@ -1,12 +1,30 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { nin } from "../assets";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaBars } from "react-icons/fa";
 import { FaSearch } from "react-icons/fa";
 
 const Header = ({ user }) => {
   const [open, setOpen] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      if (scrollPosition > 100) {
+        setIsHidden(true);
+      } else {
+        setIsHidden(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const logout = () => {
     window.open("http://localhost:5000/auth/logout", "_self");
@@ -25,6 +43,9 @@ const Header = ({ user }) => {
                   <Link to="/">Home</Link>
                 </li>
                 <li>
+                  <Link to="/signin">Write</Link>
+                </li>
+                <li>
                   <Link to="/signin">signin</Link>
                 </li>
                 <li>
@@ -36,7 +57,7 @@ const Header = ({ user }) => {
               <Link>
                 <div className="search">
                   <div>
-                      <FaSearch  className="searchIcon"/>
+                    <FaSearch className="searchIcon" />
                     <input type="text" placeholder="Search" />
                   </div>
                   <img
@@ -48,7 +69,7 @@ const Header = ({ user }) => {
                 </div>
               </Link>
             </div>
-            {open && (
+            {open && !isHidden ? (
               <div className="userInfo">
                 <Link className="infoSign" to="/signin">
                   <p>sign in</p>
@@ -56,13 +77,15 @@ const Header = ({ user }) => {
                 <Link className="infoSign" to="/signup">
                   <p>sign up</p>
                 </Link>
-                <Link to='/signin'>
-                <p>Become a medium member</p>
+                <Link to="/signin">
+                  <p>Become a medium member</p>
                 </Link>
-                <Link to='/signin'>
-                <p>apply for author verification</p>
+                <Link to="/signin">
+                  <p>apply for author verification</p>
                 </Link>
               </div>
+            ) : (
+              <div className="userInfo" style={{ display: "none" }}></div>
             )}
           </>
         )}
@@ -71,6 +94,9 @@ const Header = ({ user }) => {
             <ul>
               <li>
                 <Link to="/">Home</Link>
+              </li>
+              <li>
+                <Link to="/write">Write</Link>
               </li>
               <li>
                 <Link>Saacid</Link>

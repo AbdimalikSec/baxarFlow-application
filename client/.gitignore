@@ -1,11 +1,25 @@
 # Logs
 logs
+
+bardOne.md
+Basicwrite.md
+local.md
+note.md
+note.md
+poeOne.md
+usersidebar.md
+
+
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+
+
+
+*.md 
 
 node_modules
 dist

@@ -1,19 +1,17 @@
-import React from "react";
-import article from "./data";
+import React, { useState } from "react";
 import BookCard from "./articleCard";
-import { useLocation } from "react-router-dom";
+import article from "./data";
+import { naag, nin } from "../assets";
+import { useLocation, Link } from "react-router-dom";
 
 const books = () => {
   const location = useLocation();
-  /*     const path = location.pathname.split('/'[2])
-    const filterBooks = book.filter(book => book.category === path)
-    const singlebook = book.find((b) => b.id.toString() === path)  */
-
+  const path = location.pathname.split("/")[2]; // Assuming the bookId is part of the URL path
   return (
     <>
       <div className="article-container">
-        {article.map((book) => (
-          <BookCard book={book} />
+        {article.map((articleItem) => (
+          <BookCard key={articleItem.id} article={articleItem} />
         ))}
       </div>
     </>
@@ -21,3 +19,22 @@ const books = () => {
 };
 
 export default books;
+
+
+
+
+  {/*   <img src={nin}  alt="" />
+        <h2>Baxarflow</h2>
+        <div>
+          <nav>
+            <ul>
+              <li>
+                <Link to="/">Home</Link>
+              </li>
+              <li>
+                <Link to="/about">About</Link>
+              </li>
+            </ul>
+          </nav>
+          <hr className="hr"/>
+        </div> */}

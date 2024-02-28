@@ -25,30 +25,30 @@ const sidebar = () => {
           <div className="singleMember">
             <img src={nin} alt="nin" />
             <p>saacid</p>
-            <FaEllipsisH />
+            <FaEllipsisH className="dot"/>
           </div>
           <div className="singleMember">
             <img src={nin1} alt="nin1" />
             <p>cali</p>
-            <FaEllipsisH />
+            <FaEllipsisH className="dot"/>
           </div>
           <div className="singleMember">
             <img src={naag} alt="naag" />
             <p>cumar</p>
-            <FaEllipsisH />
+            <FaEllipsisH  className="dot"/>
           </div>
           <Link>
             <p className="seeall">seeAll(18)</p>
           </Link>
         </div>
       </div>
-      <footer className="footer">
+      <div className="footerSidebar">
         <p>status</p>
         <p>privacy</p>
         <p>about</p>
         <p>careers</p>
         <p>Blog</p>
-      </footer>
+      </div>
     </div>
   );
 };

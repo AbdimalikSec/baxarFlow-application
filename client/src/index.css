@@ -4,14 +4,21 @@
   box-sizing: border-box;
 }
 
+:root {
+  --main-color: #57d3f1;
+}
+
 body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  font-family: sans-serif;
+  font-family: "Courier New", Courier, monospace;
+  font-family: cursive;
   font-style: none;
   text-decoration: none;
 }
 
-Link {
+link {
+  font-style: none;
+  list-style: none;
+  display: none;
   text-decoration: none;
 }
 
@@ -45,7 +52,7 @@ Link {
 
 nav ul li {
   display: inline-block;
-  margin:  0rem 1rem;
+  margin: 0rem 1rem;
   cursor: pointer;
 }
 
@@ -87,18 +94,17 @@ nav ul li a {
   color: black;
 }
 
-.infoSign{
+.infoSign {
   font-size: 1.5rem;
   text-decoration: none;
   color: white;
 }
 
-.infoSign p{
+.infoSign p {
   background-color: #104579;
-  border-radius: 0.20rem;
-  padding: 0.30rem;
+  border-radius: 0.2rem;
+  padding: 0.3rem;
   margin-bottom: 1rem;
-
 }
 
 .sidebarNin {
@@ -125,6 +131,8 @@ nav ul li a {
 }
 
 .seeall {
+  color: #104579;
+  font-size: 1.3rem;
   margin-top: 0.4rem;
   margin-bottom: 1rem;
 }
@@ -137,7 +145,7 @@ nav ul li a {
   margin: 0.4rem;
 }
 
-.footer {
+.footerSidebar {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 }
@@ -239,37 +247,116 @@ nav ul li a {
 }
 
 .article-container {
-  width: 85%;
+  width: 90%;
   margin: auto;
+}
+
+.article-container img {
+  width: 20%;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+}
+
+.article-container h2 {
+  margin-bottom: 1.3rem;
+}
+
+.hr {
+  width: 118%;
 }
 
 /* .member{
   display: flex;
 } */
 
+.member {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-self: center;
+}
+
+.dot {
+  /* kan hose hda ka deledo wu uso dhawan */
+  margin: auto;
+  align-self: center;
+}
+
 .member img {
-  width: 20%;
-  height: 8vh;
+  width: 10%;
+  height: 6vh;
+  align-self: end;
   aspect-ratio: 3/1;
   border-radius: 80%;
 }
 
-.sidebar {
-  width: 45%;
+.sidebarHome {
+  width: 55%;
   height: 95vh;
   position: sticky;
-  top: 0; /* Stick to the top of the container */
+  top: 5%; /* Stick to the top of the container */
   padding: 2rem;
+  overflow: hidden;
   border-radius: 4px;
-  background-color: rgba(0, 0, 0, 0.856);
-  color: white;
+  background-color: white;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
+  color: black;
 }
 
-.sidebar.sticky-bottom {
+.sidebarUser {
+  width: 30%;
+  height: 95vh;
+  position: sticky;
+  right: 0;
+  top: 0%; /* Stick to the top of the container */
+  padding: 2rem;
+  overflow: hidden;
+  border-radius: 4px;
+  background-color: white;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
+  color: black;
+}
+
+.sidebarUser.sticky-bottom {
   position: sticky;
   bottom: 0; /* Stick to the bottom of the container */
-  top: unset; /* Remove the top property */
+  top: unset; /*Remove the top property */
 }
+
+.sidebarHome.sticky-bottom {
+  position: sticky;
+  bottom: 0; /* Stick to the bottom of the container */
+  top: unset; /*Remove the top property */
+}
+
+.Discover {
+}
+.Discover h2 {
+  font-size: 2rem;
+}
+
+.chooseDiscover {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 0.4rem;
+  color: black;
+}
+
+.chooseDiscover div {
+  font-weight: 600;
+  background-color: #efefef;
+  padding: 0.35rem;
+  border-radius: 7px;
+}
+
+.seeMore {
+  font-size: 1.2rem;
+  color: #486b74;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
 .name {
   font-size: 2rem;
 }
@@ -279,6 +366,350 @@ nav ul li a {
   justify-content: space-around;
   gap: 5rem;
 }
+
+.singleArticle {
+  width: 70%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin: auto;
+  align-items: center;
+}
+
+.singleArticle h2 {
+  font-size: 3rem;
+  margin-bottom: 1.2rem;
+}
+
+.highlighter {
+  /* important oen don't forget this down */
+  align-self: flex-start;
+  margin-top: 1.2rem;
+}
+
+footer {
+  background-color: black;
+  margin-top: 2rem;
+}
+
+.footerDiv {
+  width: 80%;
+  margin: auto;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}
+
+.policyDiv {
+  display: flex;
+  justify-content: center;
+}
+
+.developeby {
+  font-size: 1.5rem;
+}
+
+.policyDiv p {
+  font-size: 1.4rem;
+  margin: 0.4rem;
+}
+
+.iconf {
+  font-size: 2rem;
+  margin: 0 0.4rem;
+}
+
+.userInfo {
+  display: none;
+}
+
+/* about */
+
+.about {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1.4rem;
+}
+
+/* hero */
+
+.hero {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.heroText {
+  position: absolute;
+  top: 18%;
+  left: 7%;
+}
+
+.heroText h1 {
+  font-size: 6rem;
+  color: var(--main-color);
+}
+
+.hero img {
+  width: 100%;
+  background-repeat: none;
+  background-size: cover;
+  align-items: center;
+  background-position: center;
+}
+
+.hero span {
+  font-size: 1.2rem;
+  color: lightgrey;
+}
+
+.discover {
+  display: block;
+  margin-top: 1.2rem;
+  color: lightgrey;
+  font-size: 2rem;
+}
+
+/* hhero next */
+
+.PlaceBaxar {
+  width: 85%;
+  margin: auto;
+}
+
+.PlaceBaxar h1 {
+  font-size: 3.5rem;
+  margin: auto;
+}
+
+.PlaceBaxar p {
+  font-size: 1rem;
+  margin-bottom: 1.7rem;
+}
+
+.write {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-self: left;
+  margin-top: 1rem;
+}
+
+.write input {
+  width: 50%;
+  padding: 22px;
+  border: none;
+  background-color: #efefef;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.write input::placeholder {
+  font-size: 1.4rem;
+}
+
+.write input::placeholder:focus {
+  display: none;
+}
+
+.codeInput {
+  height: auto;
+  min-height: 60px;
+  resize: vertical;
+  padding: 8px;
+  font-family: "Courier New", Courier, monospace;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  overflow: auto;
+}
+
+
+.singleInputGenerated .code .react-syntax-highlighter {
+  margin-bottom: 10px;
+}
+
+.plus {
+  position: relative;
+  top: 1.1rem;
+  right: 1rem;
+  font-size: 1.8rem;
+}
+
+.otherIcon {
+  position: absolute;
+  top: 4rem;
+  left: 24rem;
+  font-size: 1.5rem;
+}
+
+.writeIcon {
+  margin: 0 0.4rem;
+  border: var(--main-color);
+}
+
+.publish {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.btnpub {
+  border-radius: 7px;
+  padding: 5px 10px;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.previousInput {
+  position: absolute;
+  left: 25%;
+  top: 12%;
+  display: flex;
+  justify-content: center;
+  align-self: flex-start;
+}
+.displayText {
+  position: absolute;
+  left: 25%;
+  top: 40%;
+  display: flex;
+  justify-content: center;
+  align-self: flex-start;
+}
+
+/* choose */
+
+.chooseHaye{
+  width: 95%;
+  margin: auto;
+}
+
+.chooseHaye h1 {
+  text-align: left;
+  margin-left: 2rem;
+}
+
+/* .userChoses {
+  display: flex;
+  justify-content: space-between;
+} */
+
+
+.Choose {
+  width: 80%;
+  margin: auto;
+  font-family: "Courier New", Courier, monospace;
+  /* cursive font */
+  margin-top: 1.3rem;
+}
+
+.chooseOne{
+  color: #63cee9;
+  font-size: 1.4rem;
+  display: block;
+  justify-content: space-between;
+  text-decoration: none;
+}
+ 
+.chosedOne{
+  font-size: 1.3rem;
+  background-color: #104579;
+  color: white;
+  padding: 0.5rem;
+  text-decoration: none;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.chooseSome {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.chooseSome p {
+  margin: 2rem 1rem;
+  background-color: lightgray;
+  padding: 4px;
+  color: black;
+  font-size: 1.3rem;
+}
+
+.articleUserHaye{
+  display: flex;
+}
+
+.articleUser{
+  width: 80%;
+  margin: auto;
+}
+
+
+.seeMore {
+  color: black;
+  padding: 4px 6px;
+}
+
+/* userchoose and choose  COMPONENTS*/
+
+/* write component */
+
+.generatedInput {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.singleInputGenerated {
+  margin: 5px;
+  flex: 1 0 45%;
+  max-width: 45%;
+}
+
+/* .codeContainer {
+} */
+
+.codeContainer {
+  overflow-y: auto;
+  overflow-y: scroll;
+  min-height: 40vh;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+
+.singleInputGenerated input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  resize: none;
+}
+
+
+/* write end */
+
+/* HomeGeneratedArray */
+
+
+.HomeGeneratedArray{
+  display: flex;
+  justify-content: flex-start;
+  width: 70%;
+  margin: auto;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+
 
 @media (max-width: 900px) {
   .homeFlex {
@@ -315,34 +746,34 @@ nav ul li a {
   }
 }
 
-.search{
+.search {
   display: none;
 }
 
 @media (min-width: 350px) and (max-width: 850px) {
-  .navka{
+  .navka {
     display: none;
   }
-  .search{
+  .search {
     display: flex;
     justify-content: center;
-    align-items: center; 
+    align-items: center;
     gap: 10rem;
   }
-  .search input{
+  .search input {
     width: 120%;
     border-radius: 18px;
     padding: 6px;
   }
-  input::placeholder{
+  .search input::placeholder {
     font-size: 1rem;
-    padding-top: 0.40rem;
-    padding-left: 1.2rem;
+    padding-top: 0.2rem;
+    padding-left: 1.3rem;
   }
-  .searchIcon{
+  .searchIcon {
     position: absolute;
     top: 1.2rem;
-    left: 4.5rem;
+    left: 5rem;
   }
   .sidebar {
     width: 100%;
@@ -368,28 +799,100 @@ nav ul li a {
     margin-left: 0.5rem;
   }
   .userInfo {
+    display: block;
     position: absolute;
     top: 4.6rem;
     text-align: left;
     right: 0.5rem;
     z-index: 9999;
     padding: 1.5rem;
-    padding-top: 0.30rem;
+    padding-top: 1.5rem;
     border-radius: 5px;
-    width: 30%;
-    background-color: black;
+    width: 50%;
+    background-color: rgb(29, 27, 27);
     color: white;
   }
-  .infoSign{
+  .infoSign {
     font-size: 1.5rem;
     text-decoration: none;
     color: white;
   }
-  .infoSign p{
+  .infoSign p {
     text-align: left;
     background-color: #104579;
     margin-bottom: 1rem;
-    padding: 0.40rem;
+    padding: 0.4rem;
     border-radius: 4px;
+  }
+  .hr {
+    width: 105%;
+  }
+  .hero {
+    position: relative;
+    margin-bottom: 1rem;
+  }
+
+  .heroText {
+    position: absolute;
+    top: 20%;
+    left: 10%;
+  }
+
+  .heroText h1 {
+    font-size: 4rem;
+    color: var(--main-color);
+  }
+  .otherIcon {
+    position: absolute;
+    top: 4rem;
+    left: 12rem;
+    font-size: 1.5rem;
+    border-color: var(--main-color);
+  }
+  .writeIcon {
+    margin: 0 0.4rem;
+  }
+  .chooseSome {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .chooseSome p {
+    font-weight: 500;
+    margin: 1rem 1rem;
+    background-color: lightgrey;
+    padding: 9px;
+    color: black;
+    font-size: 1.4rem;
+  }
+  .userChoses {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+  }
+  .sidebarUser {
+    width: 80%;
+    margin: auto;
+    margin-top: 2rem;
+  }
+  .chooseOne {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+  }
+  .chooseHaye h1 {
+    text-align: center;
+    margin-left: 2rem;
+  }
+  .hrChoose {
+    width: 85%;
+  }
+  .articleUser{
+    width: 90%;
+    margin: auto;
+  }
+  .articleUserHaye{
+    display: flex;
+    flex-direction: column;
   }
 }

@@ -65,3 +65,106 @@ passport.serializeUser((user,done)=>{
 passport.deserializeUser((user,done)=>{
     done(null,user);
 }); i created another credentials with diffrent github_cleint_id and github secret know what do i do with it becouse these befoe i was using it how about these ones 
+
+
+
+
+
+
+
+
+
+
+
+import React from "react";
+import { FaPlus } from "react-icons/fa6";
+import { useState, useRef } from "react";
+import { Link } from "react-router-dom";
+import { FaXmark } from "react-icons/fa6";
+import { TbJson } from "react-icons/tb";
+import { HiCodeBracket } from "react-icons/hi2";
+import { PiBracketsCurly, PiBracketsCurlyBold } from "react-icons/pi";
+import { CiYoutube } from "react-icons/ci";
+import { CiImageOn } from "react-icons/ci";
+
+const Write = () => {
+  const [open, setOpen] = useState(false);
+  const [draftText, setDraftText] = useState("");
+  const [publishedText, setPublishedText] = useState("");
+  const inputRef = useRef(null);
+
+  const handleTextChange = (event) => {
+    setDraftText(event.target.value);
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      setPublishedText(draftText);
+      setDraftText("");
+      inputRef.current.focus();
+    }
+  };
+
+ /*  const handlePublish = () => {
+    setPublishedText((prevText) => prevText + " " + draftText);
+    setDraftText("");
+  }; */
+  const handlePublish = () => {
+    setPublishedText((prevText) => {
+      if (draftText.trim() === "") {
+        return prevText;
+      }
+      if (prevText.trim() === "") {
+        return draftText;
+      }
+      return prevText + " " + draftText;
+    });
+    setDraftText("");
+  };
+
+  return (
+    <>
+      <div className="displayText">
+        <h3>{publishedText}</h3>
+      </div>
+      <div className="write">
+        <FaPlus className="plus" onClick={() => setOpen(!open)} />
+        <input
+          type="text"
+          value={draftText}
+          onKeyPress={handleKeyPress}
+          onChange={handleTextChange}
+          placeholder="Write"
+          ref={inputRef}
+        />
+
+        {open && (
+          <div className="otherIcon">
+            <Link to="json">
+              <TbJson className="writeIcon" />
+            </Link>
+            <Link className="img">
+              <CiImageOn className="writeIcon" />
+            </Link>
+            <Link className="code">
+              <HiCodeBracket className="writeIcon" />
+            </Link>
+            <Link className="youtube">
+              <CiYoutube className="writeIcon" />
+            </Link>
+            <Link className="baraket">
+              <PiBracketsCurly className="writeIcon" />
+            </Link>
+          </div>
+        )}
+      </div>
+      <div className="publish">
+        <button onClick={handlePublish} className="btnpub">
+          Publish
+        </button>
+      </div>
+    </>
+  );
+};
+
+export default Write;
