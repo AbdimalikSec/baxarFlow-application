@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 const sidebar = () => {
   return (
-    <div>
+    <div className="DiscoverHome">
       <div className="Discover">
         <h2>Discover what You hope</h2>
         <div className="chooseDiscover">

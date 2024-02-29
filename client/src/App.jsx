@@ -1,11 +1,12 @@
 import "./App.css";
-import { Route, Navigate } from "react-router-dom";
+import { Route, Navigate} from "react-router-dom";
 import { Routes } from "react-router-dom";
 import Header from "./components/Header";
 import Login from "./components/signin";
 import Home from "./pages/home";
 import Write from "./components/Write";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Singlearticle from "./components/Singlearticle";
 import About from "./components/About";
 import Choose from "./components/Choose";
@@ -13,12 +14,7 @@ import UserChooses from "./components/UserChooses";
 import { InputProvider } from "./context/context";
 
 function App() {
-
-  //error 403
-  /* 
-  equest details: response_type=code redirect_uri=http://localhost:5000/auth/google/callback client_id=1008204425496-iu0nv845q7uvt65f6ufo7714leqct6ld.apps.googleusercontent.com access_type=online scope=https://www.googleapis.com/auth/userinfo.profile
-  
-  */
+  const router = useNavigate()
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -46,8 +42,11 @@ function App() {
     };
     getUser();
   }, []);
-  //hdu user jiro book so bandhig
-  //hdu user jiro home ka joog
+  
+ /*  if(user){
+    router('/choose')
+  } */
+
   return (
     <>
       <div>
@@ -56,14 +55,15 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route
             path="/signin"
-            element={user ? <Navigate to="/" /> : <Login />} >
-            <Route index element={<Choose />} 
-            />
+            element={user ? <Navigate to="/choose" /> : <Login />}
+          >
+            <Route index element={<Choose />} />
           </Route>
+
           <Route
             path="/write"
-            element={user ? <Write /> : <Navigate to="/signin" />}
-            />
+            element={!user ? <Write /> : <Navigate to="/signin" />}
+          />
           <Route path="/article/:id" element={<Singlearticle />} />
           <Route path="/about" element={<About />} />
           <Route path="/choose" element={<Choose />} />
@@ -75,7 +75,3 @@ function App() {
 }
 
 export default App;
-
-
-
-

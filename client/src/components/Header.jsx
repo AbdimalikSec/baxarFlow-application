@@ -109,30 +109,35 @@ const Header = ({ user }) => {
         {user && (
           <div className="userProfile">
             <nav className="navka">
-              <div className="userProfile">
-                <Link>
-                  <div className="search">
-                    <div>
-                      {!isTyping && ( // Conditionally render the search icon
-                        <FaSearch className="searchIcon" />
-                      )}
-                      <input
-                        type="text"
-                        ref={inputRef}
-                        onChange={handleInputChange}
-                        placeholder="Search"
-                      />
-                    </div>
+              <Link>
+                <div className="searchUser">
+                  <div>
+                    {!isTyping && ( // Conditionally render the search icon
+                      <FaSearch className="searchIcon" />
+                    )}
+                    <input
+                      type="text"
+                      ref={inputRef}
+                      onChange={handleInputChange}
+                      placeholder="Search"
+                      className="userDisplayInputDesktop"
+                    />
                   </div>
-                </Link>
-              </div>
+                </div>
+              </Link>
               <ul>
                 <li>
                   <Link to="/">Home</Link>
                 </li>
                 <li>
-                  <Link to="/signin">Write</Link>
+                  <Link to="/write">Write</Link>
                 </li>
+                <img
+                className="userImg"
+                  src={user._json.avatar_url}
+                  onClick={() => setOpen(!open)}
+                  alt=""
+                />
               </ul>
             </nav>
             <div className="userProfile">
@@ -166,7 +171,12 @@ const Header = ({ user }) => {
                 <li>
                   <Link to="/write">Write</Link>
                 </li>
-                <Link to="/write">Write</Link>
+                <Link to="/signin">
+                  <p>Become a medium member</p>
+                </Link>
+                <Link to="/signin">
+                  <p>apply for author verification</p>
+                </Link>
                 <li>
                   <Link onClick={logout}>logout</Link>
                 </li>

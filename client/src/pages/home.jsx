@@ -11,11 +11,11 @@ import SyntaxHighlighter from "react-syntax-highlighter";
 
 const home = () => {
   const { inputs } = useContext(InputContext); // Access shared data
-  const [publishedTexts, setPublishedTexts] = useState(inputs); // Initialize with context values
   const [isSidebarSticky, setIsSidebarSticky] = useState(false);
-
+  
   // No changes needed in render function, as it already displays published texts.
 
+ 
   return (
     <>
       <Hero />

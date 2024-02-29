@@ -6,7 +6,7 @@ import { CiBookmarkPlus } from "react-icons/ci";
 const bookCard = ({ article }) => {
   return (
     <>
-      <Link className="articlehaye" to={`/article/${article.id}`}>
+      <Link style={{textDecoration: 'none'}} className="articlehaye" to={`/article/${article.id}`}>
         <div className="article">
           <div>
             <p className="name">{article.name}</p>
@@ -24,7 +24,7 @@ const bookCard = ({ article }) => {
             alt=""
           />
         </div>
-          <CiBookmarkPlus />
+          <CiBookmarkPlus className="save" />
       </Link>
     </>
   );

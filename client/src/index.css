@@ -5,7 +5,7 @@
 }
 
 :root {
-  --main-color: #57d3f1;
+  --main-color: #64a3e2;
 }
 
 body {
@@ -83,15 +83,20 @@ nav ul li a {
 
 .userInfo {
   position: absolute;
-  top: 6rem;
-  right: 10rem;
+  top: 4.5rem;
+  right: 0rem;
   z-index: 9999;
   padding: 1rem;
-  text-align: left;
+  text-align: right;
   border-radius: 5px;
-  width: 15%;
-  background-color: white;
-  color: black;
+  width: 35%;
+  background-color: black;
+  color: white;
+}
+
+.userInfo ul{
+  list-style: none;
+  list-style-type: none;
 }
 
 .infoSign {
@@ -301,7 +306,7 @@ nav ul li a {
 
 .sidebarHome {
   width: 55%;
-  height: 95vh;
+  height: 100vh;
   position: sticky;
   top: 5%; /* Stick to the top of the container */
   padding: 2rem;
@@ -314,7 +319,7 @@ nav ul li a {
 
 .sidebarUser {
   width: 30%;
-  height: 95vh;
+  height: 100vh;
   position: sticky;
   right: 0;
   top: 0%; /* Stick to the top of the container */
@@ -430,8 +435,12 @@ footer {
   margin: 0 0.4rem;
 }
 
-.userInfo {
+/* .userInfo {
   display: none;
+}
+ */
+.userInfoValid{
+  display: block;
 }
 
 /* about */
@@ -525,13 +534,10 @@ footer {
 
 .codeInput {
   height: auto;
-  min-height: 60px;
-  resize: vertical;
-  padding: 8px;
+  resize: horizontal;
+  padding: 45px;
   font-family: "Courier New", Courier, monospace;
   white-space: pre-wrap;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
   overflow: auto;
 }
 
@@ -672,30 +678,27 @@ footer {
 /* write component */
 
 .generatedInput {
+  width: 80%;
+  margin: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex-wrap: nowrap;
 }
 
 .singleInputGenerated {
   margin: 5px;
-  flex: 1 0 45%;
-  max-width: 45%;
+  flex: 1 5%;
+  max-width: 46%;
 }
 
-/* .codeContainer {
-} */
 
 .codeContainer {
-  overflow-y: auto;
   overflow-y: scroll;
-  min-height: 40vh;
-  overflow-y: hidden;
-  white-space: nowrap;
+  max-height: 40vh;
 }
 
-.singleInputGenerated input[type="text"] {
+
+.singleInputGenerated input {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
@@ -726,11 +729,38 @@ footer {
 
 /* user that logged in img */
 
+.search {
+  display: none;
+}
+
+.navka{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.searchUser{
+  display: block;
+}
+
+.userDisplayInputDesktop{
+  padding: 2px;
+}
+
+.userImg{
+  width: 100%;
+  height: 6vh;
+}
+
+.save{
+  font-size: 2rem;
+}
+
 
 /* end */
 
 
-@media (max-width: 900px) {
+@media (max-width: 950px) {
   .homeFlex {
     display: flex;
     flex-direction: column;
@@ -763,15 +793,35 @@ footer {
   .navka {
     margin-left: 1rem;
   }
+  .hero {
+    position: relative;
+    margin-bottom: 1rem;
+  }
+  .heroText {
+    position: absolute;
+    top: 20%;
+    left: 10%;
+  }
+  .heroText h1 {
+    font-size: 4rem;
+    color: var(--main-color);
+  }
 }
 
-.search {
-  display: none;
-}
-
-@media (min-width: 350px) and (max-width: 850px) {
+/* iphone 14 */
+@media (min-width: 430px) and (max-width: 850px) {
   .navka {
     display: none;
+  }
+  footer {
+    width: 160%;
+    background-color: black;
+    margin-top: 2rem;
+  }
+  .policyDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
   .search {
     display: flex;
@@ -784,6 +834,13 @@ footer {
     border-radius: 18px;
     padding: 6px;
   }
+  .navbar{
+    width: 150%;
+  }
+  .articlehaye {
+    width: 90%;
+    margin: auto;
+  }
   .search input::placeholder {
     font-size: 1rem;
     padding-top: 0.2rem;
@@ -791,8 +848,8 @@ footer {
   }
   .searchIcon {
     position: absolute;
-    top: 1.2rem;
-    left: 5rem;
+    top: 1rem;
+    left: 2rem;
   }
   .sidebar {
     width: 100%;
@@ -805,7 +862,10 @@ footer {
     background-color: black;
     color: white;
   }
-
+  .article-container {
+    width: 150%;
+    margin: auto;
+  }
   .navbar img {
     width: 10%;
     aspect-ratio: 1/1;
@@ -850,17 +910,18 @@ footer {
     position: relative;
     margin-bottom: 1rem;
   }
-
   .heroText {
     position: absolute;
     top: 20%;
     left: 10%;
   }
-
   .heroText h1 {
-    font-size: 4rem;
+    font-size: 3rem;
     color: var(--main-color);
   }
+  .hero img{
+    width: 150%;
+  } 
   .otherIcon {
     position: absolute;
     top: 4rem;
@@ -922,7 +983,10 @@ footer {
     display: flex;
     flex-direction: column;
   }
-
+  .PlaceBaxar {
+    width: 140%;
+    margin: auto;
+  }
   .userNote {
     position: absolute;
     top: -130%;
@@ -935,6 +999,573 @@ footer {
     box-shadow: 0 0 2px 2px rgba(255, 254, 254, 0.2);
   }
 }
+
+/* is agdhigid */
+/* @media (max-width: 600px) {
+  .navbar{
+    width: 100%;
+  }
+  .heroText h1{
+    font-size: 3rem;
+    color: var(--main-color);
+  }
+  .article-container {
+    width: 100%;
+    margin: auto;
+  }
+} */
+
+/* iphone 12 */
+@media (min-width: 390px) and (max-width: 844px) {
+  .navka {
+    display: none;
+  }
+  .search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10rem;
+  }
+  .search input {
+    width: 120%;
+    border-radius: 18px;
+    padding: 6px;
+  }
+  .navbar{
+    width: 150%;
+  }
+  .articlehaye {
+    width: 90%;
+    margin: auto;
+  }
+  .search input::placeholder {
+    font-size: 1rem;
+    padding-top: 0.2rem;
+    padding-left: 1.3rem;
+  }
+  .searchIcon {
+    position: absolute;
+    top: 1rem;
+    left: 2rem;
+  }
+  .sidebar {
+    width: 100%;
+    height: 70vh;
+    position: sticky;
+    margin: auto;
+    top: 0; /* Stick to the top of the container */
+    padding: 3rem;
+    border-radius: 1rem;
+    background-color: black;
+    color: white;
+  }
+  .article-container {
+    width: 150%;
+    margin: auto;
+  }
+  .navbar img {
+    width: 10%;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+  }
+  .logo {
+    margin-left: 1rem;
+  }
+  .navka {
+    margin-left: 0.5rem;
+  }
+  .sidebarHome{
+    display: none;
+  }
+  .userInfo {
+    display: block;
+    position: absolute;
+    top: 4.6rem;
+    text-align: left;
+    right: 0.5rem;
+    z-index: 9999;
+    padding: 1.5rem;
+    padding-top: 1.5rem;
+    border-radius: 5px;
+    width: 50%;
+    background-color: rgb(29, 27, 27);
+    color: white;
+  }
+  .infoSign {
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: white;
+  }
+  .infoSign p {
+    text-align: left;
+    background-color: #104579;
+    margin-bottom: 1rem;
+    padding: 0.4rem;
+    border-radius: 4px;
+  }
+  .hr {
+    width: 105%;
+  }
+  .hero {
+    position: relative;
+    margin-bottom: 1rem;
+  }
+  .heroText {
+    position: absolute;
+    top: 20%;
+    left: 10%;
+  }
+  .heroText h1 {
+    font-size: 3rem;
+    color: var(--main-color);
+  }
+  .hero img{
+    width: 150%;
+  } 
+  .otherIcon {
+    position: absolute;
+    top: 4rem;
+    left: 12rem;
+    font-size: 1.5rem;
+    border-color: var(--main-color);
+  }
+  .writeIcon {
+    margin: 0 0.4rem;
+  }
+  .chooseSome {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .chooseSome p {
+    font-weight: 500;
+    margin: 1rem 0.5rem;
+    background-color: white;
+    border: 1px solid black;
+    padding: 7px;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
+    color: black;
+    font-size: 1.4rem;
+    cursor: pointer;
+  }
+  .userChoses {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+  }
+  .sidebarUser {
+    width: 80%;
+    margin: auto;
+    margin-top: 2rem;
+  }
+  .chooseOne {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+  }
+  .chooseHaye h1 {
+    text-align: center;
+    margin-left: 2rem;
+  }
+  .hrChoose {
+    width: 85%;
+  }
+  .articleUser {
+    width: 90%;
+    margin: auto;
+  }
+  .UserChoseIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .articleUserHaye {
+    display: flex;
+    flex-direction: column;
+  }
+  .PlaceBaxar {
+    width: 140%;
+    margin: auto;
+  }
+  .userNote {
+    position: absolute;
+    top: -130%;
+    width: 60%;
+    right: -5%;
+    padding: 3px;
+    background-color: black;
+    border-radius: 4px;
+    color: white;
+    box-shadow: 0 0 2px 2px rgba(255, 254, 254, 0.2);
+  }
+}
+
+/* samsung glaxy s8+ */
+
+@media (min-width: 360px) and (max-width: 740px) {
+  .navka {
+    display: none;
+  }
+  .search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10rem;
+  }
+  .search input {
+    width: 120%;
+    border-radius: 18px;
+    padding: 6px;
+  }
+  .navbar{
+    width: 150%;
+  }
+  .articlehaye {
+    width: 90%;
+    margin: auto;
+  }
+  .search input::placeholder {
+    font-size: 1rem;
+    padding-top: 0.2rem;
+    padding-left: 1.3rem;
+  }
+  .searchIcon {
+    position: absolute;
+    top: 1.2rem;
+    left: 5rem;
+  }
+  .sidebar {
+    width: 100%;
+    height: 70vh;
+    position: sticky;
+    margin: auto;
+    top: 0; /* Stick to the top of the container */
+    padding: 3rem;
+    border-radius: 1rem;
+    background-color: black;
+    color: white;
+  }
+  .article-container {
+    width: 150%;
+    margin: auto;
+  }
+  .navbar img {
+    width: 10%;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+  }
+  .logo {
+    margin-left: 1rem;
+  }
+  .navka {
+    margin-left: 0.5rem;
+  }
+  .userInfo {
+    display: block;
+    position: absolute;
+    top: 4.6rem;
+    text-align: left;
+    right: 0.5rem;
+    z-index: 9999;
+    padding: 1.5rem;
+    padding-top: 1.5rem;
+    border-radius: 5px;
+    width: 50%;
+    background-color: rgb(29, 27, 27);
+    color: white;
+  }
+  .infoSign {
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: white;
+  }
+  .infoSign p {
+    text-align: left;
+    background-color: #104579;
+    margin-bottom: 1rem;
+    padding: 0.4rem;
+    border-radius: 4px;
+  }
+  .hr {
+    width: 105%;
+  }
+  .hero {
+    position: relative;
+    margin-bottom: 1rem;
+  }
+  .heroText {
+    position: absolute;
+    top: 20%;
+    left: 10%;
+  }
+  .heroText h1 {
+    font-size: 2rem;
+    color: var(--main-color);
+  }
+  .hero img{
+    width: 150%;
+  } 
+  .otherIcon {
+    position: absolute;
+    top: 4rem;
+    left: 12rem;
+    font-size: 1.5rem;
+    border-color: var(--main-color);
+  }
+  .writeIcon {
+    margin: 0 0.4rem;
+  }
+  .chooseSome {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .chooseSome p {
+    font-weight: 500;
+    margin: 1rem 0.5rem;
+    background-color: white;
+    border: 1px solid black;
+    padding: 7px;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
+    color: black;
+    font-size: 1.4rem;
+    cursor: pointer;
+  }
+  .userChoses {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+  }
+  .sidebarUser {
+    width: 80%;
+    margin: auto;
+    margin-top: 2rem;
+  }
+  .chooseOne {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+  }
+  .chooseHaye h1 {
+    text-align: center;
+    margin-left: 2rem;
+  }
+  .hrChoose {
+    width: 85%;
+  }
+  .articleUser {
+    width: 90%;
+    margin: auto;
+  }
+  .UserChoseIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .articleUserHaye {
+    display: flex;
+    flex-direction: column;
+  }
+  .PlaceBaxar {
+    width: 140%;
+    margin: auto;
+  }
+  .userNote {
+    position: absolute;
+    top: -130%;
+    width: 60%;
+    right: -5%;
+    padding: 3px;
+    background-color: black;
+    border-radius: 4px;
+    color: white;
+    box-shadow: 0 0 2px 2px rgba(255, 254, 254, 0.2);
+  }
+}
+
+/* ipad mini */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .navka {
+    display: none;
+  }
+  .search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10rem;
+  }
+  .search input {
+    width: 120%;
+    border-radius: 18px;
+    padding: 6px;
+  }
+  .navbar{
+    width: 150%;
+  }
+  .articlehaye {
+    width: 90%;
+    margin: auto;
+  }
+  .search input::placeholder {
+    font-size: 1rem;
+    padding-top: 0.2rem;
+    padding-left: 1.3rem;
+  }
+  .searchIcon {
+    position: absolute;
+    top: 1.2rem;
+    left: 5rem;
+  }
+  .sidebar {
+    width: 100%;
+    height: 70vh;
+    position: sticky;
+    margin: auto;
+    top: 0; /* Stick to the top of the container */
+    padding: 3rem;
+    border-radius: 1rem;
+    background-color: black;
+    color: white;
+  }
+  .article-container {
+    width: 150%;
+    margin: auto;
+  }
+  .navbar img {
+    width: 10%;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+  }
+  .logo {
+    margin-left: 1rem;
+  }
+  .navka {
+    margin-left: 0.5rem;
+  }
+  .userInfo {
+    display: block;
+    position: absolute;
+    top: 4.6rem;
+    text-align: left;
+    right: 0.5rem;
+    z-index: 9999;
+    padding: 1.5rem;
+    padding-top: 1.5rem;
+    border-radius: 5px;
+    width: 50%;
+    background-color: rgb(29, 27, 27);
+    color: white;
+  }
+  .infoSign {
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: white;
+  }
+  .infoSign p {
+    text-align: left;
+    background-color: #104579;
+    margin-bottom: 1rem;
+    padding: 0.4rem;
+    border-radius: 4px;
+  }
+  .hr {
+    width: 105%;
+  }
+  .hero {
+    position: relative;
+    margin-bottom: 1rem;
+  }
+  .heroText {
+    position: absolute;
+    top: 20%;
+    left: 10%;
+  }
+  .heroText h1 {
+    font-size: 5rem;
+    color: var(--main-color);
+  }
+  .hero img{
+    width: 150%;
+  } 
+  .otherIcon {
+    position: absolute;
+    top: 4rem;
+    left: 12rem;
+    font-size: 1.5rem;
+    border-color: var(--main-color);
+  }
+  .writeIcon {
+    margin: 0 0.4rem;
+  }
+  .chooseSome {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .chooseSome p {
+    font-weight: 500;
+    margin: 1rem 0.5rem;
+    background-color: white;
+    border: 1px solid black;
+    padding: 7px;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
+    color: black;
+    font-size: 1.4rem;
+    cursor: pointer;
+  }
+  .userChoses {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+  }
+  .sidebarUser {
+    width: 80%;
+    margin: auto;
+    margin-top: 2rem;
+  }
+  .chooseOne {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+  }
+  .chooseHaye h1 {
+    text-align: center;
+    margin-left: 2rem;
+  }
+  .hrChoose {
+    width: 85%;
+  }
+  .articleUser {
+    width: 90%;
+    margin: auto;
+  }
+  .UserChoseIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .articleUserHaye {
+    display: flex;
+    flex-direction: column;
+  }
+  .PlaceBaxar {
+    width: 140%;
+    margin: auto;
+  }
+  .userNote {
+    position: absolute;
+    top: -130%;
+    width: 60%;
+    right: -5%;
+    padding: 3px;
+    background-color: black;
+    border-radius: 4px;
+    color: white;
+    box-shadow: 0 0 2px 2px rgba(255, 254, 254, 0.2);
+  }
+}
+
+
 
 .selected{
   border: 1px solid blue;

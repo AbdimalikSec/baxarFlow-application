@@ -70,7 +70,7 @@ const Write = () => {
   const handlePublishClick = () => {
     if (isCodeInput) {
       if (code.trim() !== "") {
-        addInput(code);
+        addInput({ type: "code", content: code });
         setCode("");
         setIsCodeInput(false);
       }
@@ -103,6 +103,7 @@ const Write = () => {
             {item.type === "text" ? (
               <input
                 type="text"
+                className="inputCodeKa"
                 value={item.content}
                 onChange={(e) => handleEditInput(index, e.target.value)}
               />
@@ -166,9 +167,9 @@ const Write = () => {
       </div>
 
       <div className="publish">
-        <button className="btnpub" onClick={handlePublishClick}>
+        <Link to='/' className="btnpub" onClick={handlePublishClick}>
           Publish
-        </button>
+        </Link>
       </div>
     </>
   );
