@@ -3,45 +3,55 @@ import { Link } from "react-router-dom";
 import UserSidebar from "./userSidebar";
 import { useState } from "react";
 import ChooseData from "./ChooseData";
-import BookCard from "./articleCard";
+import ArticleCard from "./articleCard";
+import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
 import article from "./data";
+import { InputContext } from "../context/context";
+import { useContext } from "react";
 
 const UserChooses = () => {
+  const { selectedCategory } = useContext(InputContext);
   const [isSidebarSticky, setIsSidebarSticky] = useState(false);
-  const [isSelected, setSelected] = useState(false);
+  let [isSelected, setSelected] = useState(false);
+  const [startIndex, setStartIndex] = useState(0);
 
-  /* className={`sidebarHome ${isSidebarSticky ? "sticky-bottom" : ""}`} */
+  const handleNext = () => {
+    if (startIndex < selectedCategory.length - 1) {
+      setStartIndex(startIndex + 1);
+    }
+  };
 
-  /*   const clickHandler = () =>{
-    setSelected(() => isSelected == ChooseData.length - 1 ? 0 : isSelected + 1 );
-  }
- */
+  const handlePrev = () => {
+    if (startIndex > 0) {
+      setStartIndex(startIndex - 1);
+    }
+  };
+
   return (
     <>
       <div className="chooseHaye">
-        <h1>UserChooses </h1>
+        <h1>UserChooses</h1>
         <div className="userChoses">
-          {ChooseData.map((category, index) => (
-            <>
+          {startIndex > 0 && (
+            <FaAngleUp className="UserChoseIcon" onClick={handlePrev} />
+          )}
+          {selectedCategory
+            .slice(startIndex, startIndex + 3)
+            .map((category, index) => (
               <div className="chooseOne" key={index}>
-                <Link
-                  onClick={() => setSelected(index)}
-                  key={index}
-                  className={isSelected == index ? "chosedOne" : "wow"}
-                  to="/userchooses"
-                >
-                  <p>
-                  {category.category}
-                  </p>
+                <Link to="/userchooses">
+                  <p>{category}</p>
                 </Link>
               </div>
-            </>
-          ))}
+            ))}
+          {startIndex + 3 < selectedCategory.length && (
+            <FaAngleDown className="UserChoseIcon" onClick={handleNext} />
+          )}
 
           <div className="articleUserHaye">
             <div className="articleUser">
               {article.map((articleItem) => (
-                <BookCard key={articleItem.id} article={articleItem} />
+                <ArticleCard key={articleItem.id} article={articleItem} />
               ))}
             </div>
             <div
@@ -59,67 +69,3 @@ const UserChooses = () => {
 };
 
 export default UserChooses;
-
-/* 
-
-import Image from 'next/image';
-import { useState} from "react";
-import { TestiData } from "./TestiData";
-import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
-import { BsBraces } from "react-icons/bs";
-const Corousel = () => {
-  const [slide, setslide] = useState(0);
-
-  const nextSlide = () => {
-    setslide(slide === TestiData.length - 1 ? 0 : slide + 1  );
-  };
-  const prevSlide = () => {
-    setslide(slide === 0 ? TestiData.length - 1 : slide - 1 );
-  };
-
-  return (
-    <>
-      <h1 className='testiTitle'>Testimonial</h1>
-    <section className="testimonial">
-    <div className="flex">
-      <FaAngleLeft className="left" onClick={prevSlide}/>
-      {TestiData.map((data, index) => {
-        return (
-          <div
-            key={index}
-            className={slide === index ? "haye" : "haye haye-hidden"}>
-            <div className="bracesHaye">
-            <BsBraces className='braces'/>
-            <h3 className='bracesText'>Our Client for past months </h3>
-            </div>
-            <p>{data.desc}</p>
-            <div className="wrap">
-            <Image className="image" src={data.img} alt="" />
-            <h1>{data.name}</h1>
-            </div>
-          </div>
-        );
-      })}
-      <FaAngleRight className="right" onClick={nextSlide} />
-      <span className="indicators">
-        {TestiData.map((_, index) => {
-          return (
-            <button
-              onClick={() => setslide(index)}
-              key={index}
-              className={slide === index ? "indicator" : "indicator-inactive"}
-            ></button>
-          );
-        })}
-      </span>
-    </div>
-    </section>
-    </>
-  );
-};
-
-export default Corousel;
-
-
-
-*/

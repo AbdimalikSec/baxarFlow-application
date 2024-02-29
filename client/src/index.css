@@ -138,12 +138,27 @@ nav ul li a {
 }
 
 .singleMember {
+  position: relative;
   display: flex;
   column-gap: 2rem;
   font-size: 1rem;
   align-items: center;
   margin: 0.4rem;
 }
+
+.userNote {
+  position: absolute;
+  top: -320%;
+  width: 85%;
+  right: -12%;
+  padding: 3px;
+  background-color: black;
+  border-radius: 6px;
+  color: white;
+  box-shadow: 0 0 2px 2px rgba(255, 254, 254, 0.2);
+}
+
+/*  */
 
 .footerSidebar {
   display: grid;
@@ -226,20 +241,15 @@ nav ul li a {
   margin: auto;
 }
 
-.article img {
-  width: 40%;
-  border-radius: 50%;
-}
-
 .article {
   display: flex;
-  align-items: start;
-  flex-direction: column;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
   background-color: white;
   color: black;
   font-size: 1.2rem;
-  margin-top: 2rem;
+  margin-top: 1rem;
+  margin-right: 1.2rem;
 }
 
 .article .text {
@@ -251,10 +261,9 @@ nav ul li a {
   margin: auto;
 }
 
-.article-container img {
-  width: 20%;
-  aspect-ratio: 1/1;
-  border-radius: 50%;
+.article img {
+  width: 40%;
+  height: 30vh;
 }
 
 .article-container h2 {
@@ -526,7 +535,6 @@ footer {
   overflow: auto;
 }
 
-
 .singleInputGenerated .code .react-syntax-highlighter {
   margin-bottom: 10px;
 }
@@ -582,8 +590,8 @@ footer {
 
 /* choose */
 
-.chooseHaye{
-  width: 95%;
+.chooseHaye {
+  width: 97%;
   margin: auto;
 }
 
@@ -597,7 +605,6 @@ footer {
   justify-content: space-between;
 } */
 
-
 .Choose {
   width: 80%;
   margin: auto;
@@ -606,15 +613,17 @@ footer {
   margin-top: 1.3rem;
 }
 
-.chooseOne{
+.chooseOne {
+  height: 5%;
+  overflow: hidden;
   color: #63cee9;
   font-size: 1.4rem;
   display: block;
   justify-content: space-between;
   text-decoration: none;
 }
- 
-.chosedOne{
+
+.chosedOne {
   font-size: 1.3rem;
   background-color: #104579;
   color: white;
@@ -625,7 +634,6 @@ footer {
   justify-content: space-between;
 }
 
-
 .chooseSome {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -633,21 +641,26 @@ footer {
 
 .chooseSome p {
   margin: 2rem 1rem;
-  background-color: lightgray;
-  padding: 4px;
+  background-color: white;
+  border: 1px solid black;
+  padding: 7px;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
   color: black;
+  border-radius: 8px;
+  cursor: pointer;
   font-size: 1.3rem;
 }
 
-.articleUserHaye{
+
+
+.articleUserHaye {
   display: flex;
 }
 
-.articleUser{
+.articleUser {
   width: 80%;
   margin: auto;
 }
-
 
 .seeMore {
   color: black;
@@ -691,13 +704,11 @@ footer {
   resize: none;
 }
 
-
 /* write end */
 
 /* HomeGeneratedArray */
 
-
-.HomeGeneratedArray{
+.HomeGeneratedArray {
   display: flex;
   justify-content: flex-start;
   width: 70%;
@@ -707,8 +718,16 @@ footer {
   align-items: center;
 }
 
+/* usechooses */
+
+.UserChoseIcon {
+  font-size: 1.4rem;
+}
+
+/* user that logged in img */
 
 
+/* end */
 
 
 @media (max-width: 900px) {
@@ -858,11 +877,14 @@ footer {
   }
   .chooseSome p {
     font-weight: 500;
-    margin: 1rem 1rem;
-    background-color: lightgrey;
-    padding: 9px;
+    margin: 1rem 0.5rem;
+    background-color: white;
+    border: 1px solid black;
+    padding: 7px;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
     color: black;
     font-size: 1.4rem;
+    cursor: pointer;
   }
   .userChoses {
     display: flex;
@@ -887,12 +909,34 @@ footer {
   .hrChoose {
     width: 85%;
   }
-  .articleUser{
+  .articleUser {
     width: 90%;
     margin: auto;
   }
-  .articleUserHaye{
+  .UserChoseIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .articleUserHaye {
     display: flex;
     flex-direction: column;
   }
+
+  .userNote {
+    position: absolute;
+    top: -130%;
+    width: 60%;
+    right: -5%;
+    padding: 3px;
+    background-color: black;
+    border-radius: 4px;
+    color: white;
+    box-shadow: 0 0 2px 2px rgba(255, 254, 254, 0.2);
+  }
+}
+
+.selected{
+  border: 1px solid blue;
+  background-color: aquamarine;
 }

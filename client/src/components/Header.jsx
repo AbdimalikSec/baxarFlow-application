@@ -1,13 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { nin } from "../assets";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FaBars } from "react-icons/fa";
 import { FaSearch } from "react-icons/fa";
 
 const Header = ({ user }) => {
   const [open, setOpen] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
+
+  const [isTyping, setIsTyping] = useState(false);
+  const inputRef = useRef(null);
+
+  const handleInputChange = (event) => {
+    setIsTyping(event.target.value !== ""); // Update typing state based on input value
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,12 +36,14 @@ const Header = ({ user }) => {
   const logout = () => {
     window.open("http://localhost:5000/auth/logout", "_self");
   };
+
   return (
     <>
       <div className="navbar">
         <Link to="/">
           <h1 className="logo">BaxarFlow</h1>
         </Link>
+
         {!user && (
           <>
             <nav className="navka">
@@ -57,8 +66,15 @@ const Header = ({ user }) => {
               <Link>
                 <div className="search">
                   <div>
-                    <FaSearch className="searchIcon" />
-                    <input type="text" placeholder="Search" />
+                    {!isTyping && ( // Conditionally render the search icon
+                      <FaSearch className="searchIcon" />
+                    )}
+                    <input
+                      type="text"
+                      ref={inputRef}
+                      onChange={handleInputChange}
+                      placeholder="Search"
+                    />
                   </div>
                   <img
                     className="username"
@@ -89,23 +105,76 @@ const Header = ({ user }) => {
             )}
           </>
         )}
+
         {user && (
-          <nav>
-            <ul>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
+          <div className="userProfile">
+            <nav className="navka">
+              <div className="userProfile">
+                <Link>
+                  <div className="search">
+                    <div>
+                      {!isTyping && ( // Conditionally render the search icon
+                        <FaSearch className="searchIcon" />
+                      )}
+                      <input
+                        type="text"
+                        ref={inputRef}
+                        onChange={handleInputChange}
+                        placeholder="Search"
+                      />
+                    </div>
+                  </div>
+                </Link>
+              </div>
+              <ul>
+                <li>
+                  <Link to="/">Home</Link>
+                </li>
+                <li>
+                  <Link to="/signin">Write</Link>
+                </li>
+              </ul>
+            </nav>
+            <div className="userProfile">
+              <Link>
+                <div className="search">
+                  <div>
+                    {!isTyping && ( // Conditionally render the search icon
+                      <FaSearch className="searchIcon" />
+                    )}
+                    <input
+                      type="text"
+                      ref={inputRef}
+                      onChange={handleInputChange}
+                      placeholder="Search"
+                    />
+                  </div>
+                  <img
+                    src={user._json.avatar_url}
+                    onClick={() => setOpen(!open)}
+                    alt=""
+                  />
+                </div>
+              </Link>
+            </div>
+
+            {open && !isHidden ? (
+              <div className="userInfo">
+                <li>
+                  <Link to="/">Home</Link>
+                </li>
+                <li>
+                  <Link to="/write">Write</Link>
+                </li>
                 <Link to="/write">Write</Link>
-              </li>
-              <li>
-                <Link>Saacid</Link>
-              </li>
-              <li>
-                <Link onClick={logout}>logout</Link>
-              </li>
-            </ul>
-          </nav>
+                <li>
+                  <Link onClick={logout}>logout</Link>
+                </li>
+              </div>
+            ) : (
+              <div className="userInfo" style={{ display: "none" }}></div>
+            )}
+          </div>
         )}
       </div>
     </>

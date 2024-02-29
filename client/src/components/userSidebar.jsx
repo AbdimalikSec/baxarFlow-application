@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { nin, nin1, naag, nin3, nin4 } from "../assets/index";
 import { forwardRef } from "react";
 import { FaEllipsisH } from "react-icons/fa";
 import { MdOutlineAttachEmail } from "react-icons/md";
 import { Link } from "react-router-dom";
+import Members from "./membersData";
 
 const sidebar = () => {
+  const [selectedUserId, setSelectedUserId] = useState(null);
+  const handleUserNoteToggle = (userId) => {
+    setSelectedUserId(userId === selectedUserId ? null : userId);
+  };
   return (
     <div>
       <div>
@@ -21,26 +26,28 @@ const sidebar = () => {
       </div>
       <div className="members">
         <h4>following</h4>
-        <div className="member">
-          <div className="singleMember">
-            <img src={nin} alt="nin" />
-            <p>saacid</p>
-            <FaEllipsisH className="dot"/>
-          </div>
-          <div className="singleMember">
-            <img src={nin1} alt="nin1" />
-            <p>cali</p>
-            <FaEllipsisH className="dot"/>
-          </div>
-          <div className="singleMember">
-            <img src={naag} alt="naag" />
-            <p>cumar</p>
-            <FaEllipsisH  className="dot"/>
-          </div>
-          <Link>
-            <p className="seeall">seeAll(18)</p>
-          </Link>
-        </div>
+        {Members.map((mem) => (
+          <>
+            <div className="member" key={mem.id} id={mem.id}>
+              <div key={mem.id} className="singleMember">
+                <img src={mem.img} alt="nin" />
+                <p>{mem.name}</p>
+                <FaEllipsisH
+                  onClick={() => handleUserNoteToggle(mem.id)}
+                  className="dot"
+                />
+                {selectedUserId === mem.id &&(
+                  <div id={mem.id} className="userNote">
+                    {mem.text}
+                  </div>
+                )}
+              </div>
+            </div>
+          </>
+        ))}
+        <Link>
+          <p className="seeall">seeAll(18)</p>
+        </Link>
       </div>
       <div className="footerSidebar">
         <p>status</p>

@@ -3,89 +3,39 @@ import { nin, naag } from "../assets/index";
 const article = [
   {
     id: 1,
-    category: "web application",
-    name: "Attendence",
-    img: { nin },
-    content: [
-      {
-        type: "text",
-        text: "Article 1 description",
-      },
-      {
-        type: "code",
-        code: `function attendence() {
-        return  "attendence"
-}`,
-      },
-    ],
+    category: "algorithm",
+    name: "Passport auth with react",
+    text: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa enim ut corporis aspernatur
+        accusantium beatae est animi fugia accusantium beatae animi fugiat aliquid`,
   },
   {
     id: 2,
-    category: "Database",
-    name: "Connect to mysql",
-    img: { naag },
-    content: [
-      {
-        type: "text",
-        text: "Article 2 description",
-      },
-      {
-        type: "code",
-        code: `function() {
-            return "connect to mysql"
-        }`,
-      },
-    ],
+    category: "software engineer",
+    name: "Hooks",
+    text: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa enim ut corporis aspernatur
+        accusantium beatae est animi fugia accusantium beatae animi fugiat aliquid`,
   },
-
   {
     id: 3,
-    category: "auth",
-    name: "Passport auth with react",
-    img: { naag },
+    category: "science",
+    name: "setup Express.js",
     text: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa enim ut corporis aspernatur
         accusantium beatae est animi fugia accusantium beatae animi fugiat aliquid`,
   },
   {
     id: 4,
-    category: "react state",
-    name: "Hooks",
-    img: { naag },
+    category: "video Editing",
+    name: "setup Express.js",
     text: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa enim ut corporis aspernatur
         accusantium beatae est animi fugia accusantium beatae animi fugiat aliquid`,
   },
   {
     id: 5,
-    category: "Express",
+    category: "Reading",
     name: "setup Express.js",
-    img: { naag },
     text: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa enim ut corporis aspernatur
         accusantium beatae est animi fugia accusantium beatae animi fugiat aliquid`,
-  },
-  {
-    id: 6,
-    category: "Express",
-    name: "setup Express.js",
-    img: { naag },
-    text: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa enim ut corporis aspernatur
-        accusantium beatae est animi fugia accusantium beatae animi fugiat aliquid`,
-  },
-  {
-    id: 7,
-    category: "Express",
-    name: "setup Express.js",
-    img: { naag },
-    text: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa enim ut corporis aspernatur
-        accusantium beatae est animi fugia accusantium beatae animi fugiat aliquid`,
-  },
-  {
-    id: 8,
-    category: "Express",
-    name: "setup Express.js",
-    img: { naag },
-    text: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa enim ut corporis aspernatur
-        accusantium beatae est animi fugia accusantium beatae animi fugiat aliquid`,
-  },
+  }
 ];
 
 export default article;
