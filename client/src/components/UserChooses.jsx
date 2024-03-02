@@ -9,10 +9,9 @@ import article from "./data";
 import { InputContext } from "../context/context";
 import { useContext } from "react";
 
-const UserChooses = () => {
+const UserChooses = ({user}) => {
   const { selectedCategory } = useContext(InputContext);
   const [isSidebarSticky, setIsSidebarSticky] = useState(false);
-  let [isSelected, setSelected] = useState(false);
   const [startIndex, setStartIndex] = useState(0);
 
   const handleNext = () => {
@@ -59,7 +58,7 @@ const UserChooses = () => {
                 isSidebarSticky ? "sticky-bottom" : ""
               }`}
             >
-              <UserSidebar />
+              <UserSidebar user={user} />
             </div>
           </div>
         </div>

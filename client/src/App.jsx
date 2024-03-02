@@ -12,6 +12,8 @@ import About from "./components/About";
 import Choose from "./components/Choose";
 import UserChooses from "./components/UserChooses";
 import { InputProvider } from "./context/context";
+import ReadList from "./components/ReadList";
+import EachCategory from "./components/EachCategory";
 
 function App() {
   const router = useNavigate()
@@ -52,7 +54,7 @@ function App() {
       <div>
         <Header user={user} />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" user={user} element={<Home />} />
           <Route
             path="/signin"
             element={user ? <Navigate to="/choose" /> : <Login />}
@@ -67,7 +69,9 @@ function App() {
           <Route path="/article/:id" element={<Singlearticle />} />
           <Route path="/about" element={<About />} />
           <Route path="/choose" element={<Choose />} />
-          <Route path="/userchooses" element={<UserChooses />} />
+          <Route user={user} path="/userchooses" element={<UserChooses />} />
+          <Route user={user} path="/readlist" element={<ReadList />} />
+          <Route path="/eachCategory" element={<EachCategory />} />
         </Routes>
       </div>
     </>

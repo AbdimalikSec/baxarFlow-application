@@ -6,7 +6,7 @@ import { MdOutlineAttachEmail } from "react-icons/md";
 import { Link } from "react-router-dom";
 import Members from "./membersData";
 
-const sidebar = () => {
+const sidebar = ({ user }) => {
   const [selectedUserId, setSelectedUserId] = useState(null);
   const handleUserNoteToggle = (userId) => {
     setSelectedUserId(userId === selectedUserId ? null : userId);
@@ -29,19 +29,35 @@ const sidebar = () => {
         {Members.map((mem) => (
           <>
             <div className="member" key={mem.id} id={mem.id}>
-              <div key={mem.id} className="singleMember">
-                <img src={mem.img} alt="nin" />
-                <p>{mem.name}</p>
-                <FaEllipsisH
-                  onClick={() => handleUserNoteToggle(mem.id)}
-                  className="dot"
-                />
-                {selectedUserId === mem.id &&(
-                  <div id={mem.id} className="userNote">
-                    {mem.text}
-                  </div>
-                )}
-              </div>
+              {user ? (
+                <div key={mem.id} className="singleMember">
+                  <img src={user._json.avatar_url} alt="nin" />
+                  <p>{user.name}</p>
+                  <FaEllipsisH
+                    onClick={() => handleUserNoteToggle(mem.id)}
+                    className="dot"
+                  />
+                  {selectedUserId === mem.id && (
+                    <div id={mem.id} className="userNote">
+                      {mem.text}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div key={mem.id} className="singleMember">
+                  <img src={mem.img} alt="nin" />
+                  <p>{mem.name}</p>
+                  <FaEllipsisH
+                    onClick={() => handleUserNoteToggle(mem.id)}
+                    className="dot"
+                  />
+                  {selectedUserId === mem.id && (
+                    <div id={mem.id} className="userNote">
+                      {mem.text}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </>
         ))}

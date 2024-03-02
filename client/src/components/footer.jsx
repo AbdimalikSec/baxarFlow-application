@@ -9,21 +9,23 @@ const footer = () => {
     <footer>
       <div className="footerDiv">
         <div className="policyDiv">
-          <Link>
+          <Link style={{ textDecoration: "none" }}>
             <p>Privacy</p>
           </Link>
-          <Link>
+          <Link style={{ textDecoration: "none" }}>
             <p>Blog</p>
           </Link>
-          <Link>
+          <Link style={{ textDecoration: "none" }}>
             <p>Article</p>
           </Link>
-          <Link>
+          <Link style={{ textDecoration: "none" }}>
             <p>Contact</p>
           </Link>
         </div>
         <div className="iconsFooters">
-          <FaGithub className="iconf" />
+          <a href="https://github.com/saacidyuusuf">
+            <FaGithub className="iconf" />
+          </a>
           <FaTwitter className="iconf" />
           <FaYoutube className="iconf" />
         </div>

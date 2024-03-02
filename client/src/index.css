@@ -350,20 +350,24 @@ nav ul li a {
 }
 
 .chooseDiscover {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
   margin: 0.4rem;
   color: black;
 }
 
-.chooseDiscover div {
+.chooseCategory h4{
+  display: flex;
+  justify-content: space-between;
+  color: black;
+}
+ 
+/* .chooseCategory div {
   font-weight: 600;
   background-color: #efefef;
   padding: 0.35rem;
   border-radius: 7px;
 }
-
+ */
 .seeMore {
   font-size: 1.2rem;
   color: #486b74;
@@ -391,8 +395,12 @@ nav ul li a {
 }
 
 .singleArticle h2 {
-  font-size: 3rem;
+  font-size: 3.4rem;
   margin-bottom: 1.2rem;
+}
+
+.singleArticle img{
+  width: 60%;
 }
 
 .highlighter {
@@ -755,9 +763,50 @@ footer {
 .save{
   font-size: 2rem;
 }
+/* end */
+
+/* readlist */
+.readList{
+  position: absolute;
+  top: 5%;
+  left: 0%;
+  display: flex;
+  flex-direction: column;
+}
+
+.readList h1{
+  margin-top: 3rem;
+  margin-left: 1.3rem;
+}
+/* end */
+
+/* modal */
+
+.modal{
+  position: relative;
+}
+
+.modalcontent{
+  display: inline;
+  font-size: 1.2rem;
+  background-color: var(--main-color);
+  color: white;
+  padding: 4px;
+  border-radius: 12px;
+}        
+/* end */
+
+/* eachCategory */
+
+.eachCategory h1{
+  text-align: center;
+  font-size: 4rem;
+}
+
 
 
 /* end */
+
 
 
 @media (max-width: 950px) {

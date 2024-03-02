@@ -9,7 +9,7 @@ import SyntaxHighlighter from "react-syntax-highlighter";
 
 // ... other imports
 
-const home = () => {
+const home = ({user}) => {
   const { inputs } = useContext(InputContext); // Access shared data
   const [isSidebarSticky, setIsSidebarSticky] = useState(false);
   
@@ -22,7 +22,7 @@ const home = () => {
       <Heroafter />
       <div className="homeFlex">
         <div>
-          <Articles />
+          <Articles user={user} />
         </div>
         <div
           className={`sidebarHome ${isSidebarSticky ? "sticky-bottom" : ""}`}

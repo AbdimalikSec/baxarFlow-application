@@ -4,22 +4,33 @@ import { forwardRef } from "react";
 import { FaEllipsisH } from "react-icons/fa";
 import { MdOutlineAttachEmail } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import ChooseCategory from "./ChooseData";
+import { InputContext } from "../context/context";
 
 const sidebar = () => {
+  const { clickedCategory, AddclickCategory } = useContext(InputContext);
+
+  const handleClickedCategory = (category) => {
+    AddclickCategory(category);
+  };
+
   return (
     <div className="DiscoverHome">
       <div className="Discover">
         <h2>Discover what You hope</h2>
-        <div className="chooseDiscover">
-          <div>programming</div>
-          <div>Data science</div>
-          <div>Technology</div>
-          <div>self-Improvment</div>
-          <div>Writing</div>
-          <div>Technology</div>
-          <div>self-Improvment</div>
-          <div>Writing</div>
-        </div>
+        {ChooseCategory.map((category) => (
+          <div className="chooseDiscover">
+            <div
+              onClick={() => handleClickedCategory(category.category)}
+              className="chooseCategory"
+            >
+              <Link to='/eachCategory' style={{ textDecoration: "none" }}>
+                <h4>{category.category}</h4>
+              </Link>
+            </div>
+          </div>
+        ))}
         <Link>
           <p className="seeMore">see more topics</p>
         </Link>

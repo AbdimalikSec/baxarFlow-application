@@ -3,14 +3,14 @@ import { nin, naag } from "../assets/index";
 const article = [
   {
     id: 1,
-    category: "algorithm",
+    category: "Programming",
     name: "Passport auth with react",
     text: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa enim ut corporis aspernatur
         accusantium beatae est animi fugia accusantium beatae animi fugiat aliquid`,
   },
   {
     id: 2,
-    category: "software engineer",
+    category: "Software engineer",
     name: "Hooks",
     text: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa enim ut corporis aspernatur
         accusantium beatae est animi fugia accusantium beatae animi fugiat aliquid`,
@@ -24,7 +24,7 @@ const article = [
   },
   {
     id: 4,
-    category: "video Editing",
+    category: "Video editing",
     name: "setup Express.js",
     text: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa enim ut corporis aspernatur
         accusantium beatae est animi fugia accusantium beatae animi fugiat aliquid`,

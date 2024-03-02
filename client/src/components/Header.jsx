@@ -40,10 +40,9 @@ const Header = ({ user }) => {
   return (
     <>
       <div className="navbar">
-        <Link to="/">
+        <Link to="/" style={{ textDecoration: "none" }}>
           <h1 className="logo">BaxarFlow</h1>
         </Link>
-
         {!user && (
           <>
             <nav className="navka">
@@ -133,7 +132,7 @@ const Header = ({ user }) => {
                   <Link to="/write">Write</Link>
                 </li>
                 <img
-                className="userImg"
+                  className="userImg"
                   src={user._json.avatar_url}
                   onClick={() => setOpen(!open)}
                   alt=""

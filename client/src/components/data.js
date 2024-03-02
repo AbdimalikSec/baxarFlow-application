@@ -3,7 +3,7 @@ import { codingImg } from "../assets/index";
 const article = [
   {
     id: 1,
-    category: "web application",
+    category: "programming",
     name: "Attendence",
     img: codingImg,
     content: [
@@ -21,7 +21,7 @@ const article = [
   },
   {
     id: 2,
-    category: "Database",
+    category: "Programming",
     name: "Connect to mysql",
     img:  codingImg ,
     content: [
@@ -40,7 +40,7 @@ const article = [
 
   {
     id: 3,
-    category: "auth",
+    category: "Programming",
     name: "Passport auth with react",
     img: codingImg ,
     text: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa enim ut corporis aspernatur
@@ -48,7 +48,7 @@ const article = [
   },
   {
     id: 4,
-    category: "react state",
+    category: "Programming",
     name: "Hooks",
     img: codingImg ,
     text: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa enim ut corporis aspernatur
@@ -56,32 +56,32 @@ const article = [
   },
   {
     id: 5,
-    category: "Express",
-    name: "setup Express.js",
+    category: "Software engineering",
+    name: "Sidee lagu noqda Software engineering",
     img:  codingImg ,
     text: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa enim ut corporis aspernatur
         accusantium beatae est animi fugia accusantium beatae animi fugiat aliquid`,
   },
   {
     id: 6,
-    category: "Express",
-    name: "setup Express.js",
+    category: "Reading",
+    name: "Baro sida wax loo Akhriyo",
     img: codingImg ,
     text: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa enim ut corporis aspernatur
         accusantium beatae est animi fugia accusantium beatae animi fugiat aliquid`,
   },
   {
     id: 7,
-    category: "Express",
-    name: "setup Express.js",
+    category: "Video editing",
+    name: "Baro sida loo sameeyo Video editing",
     img: codingImg ,
     text: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa enim ut corporis aspernatur
         accusantium beatae est animi fugia accusantium beatae animi fugiat aliquid`,
   },
   {
     id: 8,
-    category: "Express",
-    name: "setup Express.js",
+    category: "Science",
+    name: "Wax ka baro Science",
     img: codingImg ,
     text: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa enim ut corporis aspernatur
         accusantium beatae est animi fugia accusantium beatae animi fugiat aliquid`,
