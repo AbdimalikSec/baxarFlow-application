@@ -9,10 +9,16 @@ import article from "./data";
 import { InputContext } from "../context/context";
 import { useContext } from "react";
 
-const UserChooses = ({user}) => {
+const UserChooses = () => {
   const { selectedCategory } = useContext(InputContext);
   const [isSidebarSticky, setIsSidebarSticky] = useState(false);
   const [startIndex, setStartIndex] = useState(0);
+
+  const filterCategoryByChoosed = article.filter((article) => {
+    if (selectedCategory.includes(article.category)) {
+      return article;
+    }
+  });
 
   const handleNext = () => {
     if (startIndex < selectedCategory.length - 1) {
@@ -38,7 +44,7 @@ const UserChooses = ({user}) => {
             .slice(startIndex, startIndex + 3)
             .map((category, index) => (
               <div className="chooseOne" key={index}>
-                <Link to="/userchooses">
+                <Link to="/userchooses" style={{ textDecoration: "none" }}>
                   <p>{category}</p>
                 </Link>
               </div>
@@ -49,16 +55,18 @@ const UserChooses = ({user}) => {
 
           <div className="articleUserHaye">
             <div className="articleUser">
-              {article.map((articleItem) => (
-                <ArticleCard key={articleItem.id} article={articleItem} />
+              {filterCategoryByChoosed.map((articleItem) => (
+                <ArticleCard
+                  key={articleItem.id}
+                  name={articleItem.name}
+                  img={articleItem.img}
+                  category={articleItem.category}
+                  id={articleItem.id}
+                  text={articleItem.text}
+                  content={articleItem.content}
+                  article={articleItem}
+                />
               ))}
-            </div>
-            <div
-              className={`sidebarUser ${
-                isSidebarSticky ? "sticky-bottom" : ""
-              }`}
-            >
-              <UserSidebar user={user} />
             </div>
           </div>
         </div>

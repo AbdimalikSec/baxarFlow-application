@@ -6,7 +6,7 @@ import { useLocation, Link } from "react-router-dom";
 import ReadList from "./ReadList";
 import { InputContext } from "../context/context";
 
-const books = ({user}) => {
+const books = () => {
   //const {} = useContext(InputContext);
   const location = useLocation();
   const path = location.pathname.split("/")[2];
@@ -18,7 +18,6 @@ const books = ({user}) => {
         {article.map((articleItem) => (
           <>
             <BookCard 
-            user={user}
             key={articleItem.id} 
             name={articleItem.name}
             category={articleItem.category}

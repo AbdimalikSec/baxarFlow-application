@@ -5,7 +5,7 @@ import Header from "./components/Header";
 import Login from "./components/signin";
 import Home from "./pages/home";
 import Write from "./components/Write";
-import { useState, useEffect } from "react";
+import { useState, useEffect,useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Singlearticle from "./components/Singlearticle";
 import About from "./components/About";
@@ -14,10 +14,11 @@ import UserChooses from "./components/UserChooses";
 import { InputProvider } from "./context/context";
 import ReadList from "./components/ReadList";
 import EachCategory from "./components/EachCategory";
+import { InputContext } from "./context/context";
 
 function App() {
   const router = useNavigate()
-  const [user, setUser] = useState(null);
+  const {user,setUser} = useContext(InputContext)
 
   useEffect(() => {
     const getUser = () => {
@@ -54,7 +55,7 @@ function App() {
       <div>
         <Header user={user} />
         <Routes>
-          <Route path="/" user={user} element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route
             path="/signin"
             element={user ? <Navigate to="/choose" /> : <Login />}
@@ -70,7 +71,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/choose" element={<Choose />} />
           <Route user={user} path="/userchooses" element={<UserChooses />} />
-          <Route user={user} path="/readlist" element={<ReadList />} />
+          <Route path="/readlist" element={<ReadList />} />
           <Route path="/eachCategory" element={<EachCategory />} />
         </Routes>
       </div>

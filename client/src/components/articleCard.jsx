@@ -4,9 +4,9 @@ import { CiBookmarkPlus } from "react-icons/ci";
 /* when i scroll i want a element to be hidden */
 import { InputContext } from "../context/context";
 
-const bookCard = ({ name, text, id, category, img, content, user }) => {
+const bookCard = ({ name, text, id, category, img, content }) => {
   const [addReadList, setAddReadList] = useState(false);
-  const { addArticle, removeArticle, articles } = useContext(InputContext);
+  const { addArticle, user,removeArticle, articles } = useContext(InputContext);
   const isArticleAdded = articles.some((article) => article.id === id);
 
   const handleAddingToReadList = (article) => {

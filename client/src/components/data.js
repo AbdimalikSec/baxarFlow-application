@@ -3,7 +3,7 @@ import { codingImg } from "../assets/index";
 const article = [
   {
     id: 1,
-    category: "programming",
+    category: "Programming",
     name: "Attendence",
     img: codingImg,
     content: [

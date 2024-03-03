@@ -10,6 +10,7 @@ export const InputContext = createContext();
 
 //  const isItemAdded = dharbadan.some((item) => item.id === id);
 export const InputProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
   const [article, SetArticle] = useState([]);
   const [inputs, setInputs] = useState([]);
   const [state, dispatch] = useReducer(Reducer, intialArticles);
@@ -64,7 +65,9 @@ export const InputProvider = ({ children }) => {
         AddclickCategory,
         clickedCategory,
         addArticle,
-        removeArticle
+        removeArticle,
+        user,
+        setUser
       }}
     >
       {children}

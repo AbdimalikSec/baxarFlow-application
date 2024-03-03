@@ -18,6 +18,7 @@ router.get("/login/failed", (req, res) => {
     message: "failure",
   });
 });
+
 router.get("/logout", (req, res) => {
   req.logout((err) =>{
     if(err){

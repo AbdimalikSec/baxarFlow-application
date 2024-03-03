@@ -4,8 +4,9 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { InputContext } from "../context/context";
 
-const ReadList = ({user}) => {
+const ReadList = () => {
   const { articles } = useContext(InputContext);
+
 
   return (
     <div className="readList">

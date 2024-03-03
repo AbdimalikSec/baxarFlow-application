@@ -4,6 +4,7 @@ import { InputContext } from "../context/context";
 
 const EachCategory = () => {
     const {clickedCategory} = useContext(InputContext)
+
   return (
     <div className="eachCategory">
       <h1>{clickedCategory}</h1>

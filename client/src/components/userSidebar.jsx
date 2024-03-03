@@ -1,21 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { nin, nin1, naag, nin3, nin4 } from "../assets/index";
 import { forwardRef } from "react";
 import { FaEllipsisH } from "react-icons/fa";
 import { MdOutlineAttachEmail } from "react-icons/md";
 import { Link } from "react-router-dom";
 import Members from "./membersData";
+import { InputContext } from "../context/context";
 
-const sidebar = ({ user }) => {
+const sidebar = () => {
   const [selectedUserId, setSelectedUserId] = useState(null);
+  const { user } = useContext(InputContext);
   const handleUserNoteToggle = (userId) => {
     setSelectedUserId(userId === selectedUserId ? null : userId);
   };
   return (
     <div>
       <div>
-        <img src={nin} className="sidebarNin" alt="" />
-        <h3>baxarFlow</h3>
+        {user && (
+          <>
+            <img src={user._json.avatar_url} className="sidebarNin" alt="" />
+            <h3>{user.displayName}</h3>
+          </>
+        )}
+        {!user && (
+          <>
+            <img src={nin1} className="sidebarNin" alt="" />
+            <h3>no user</h3>
+          </>
+        )}
         <span>17Followers</span>
       </div>
       <div className="icons">
@@ -29,35 +41,19 @@ const sidebar = ({ user }) => {
         {Members.map((mem) => (
           <>
             <div className="member" key={mem.id} id={mem.id}>
-              {user ? (
-                <div key={mem.id} className="singleMember">
-                  <img src={user._json.avatar_url} alt="nin" />
-                  <p>{user.name}</p>
-                  <FaEllipsisH
-                    onClick={() => handleUserNoteToggle(mem.id)}
-                    className="dot"
-                  />
-                  {selectedUserId === mem.id && (
-                    <div id={mem.id} className="userNote">
-                      {mem.text}
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <div key={mem.id} className="singleMember">
-                  <img src={mem.img} alt="nin" />
-                  <p>{mem.name}</p>
-                  <FaEllipsisH
-                    onClick={() => handleUserNoteToggle(mem.id)}
-                    className="dot"
-                  />
-                  {selectedUserId === mem.id && (
-                    <div id={mem.id} className="userNote">
-                      {mem.text}
-                    </div>
-                  )}
-                </div>
-              )}
+              <div key={mem.id} className="singleMember">
+                <img src={mem.img} alt="nin" />
+                <p>{mem.name}</p>
+                <FaEllipsisH
+                  onClick={() => handleUserNoteToggle(mem.id)}
+                  className="dot"
+                />
+                {selectedUserId === mem.id && (
+                  <div id={mem.id} className="userNote">
+                    {mem.text}
+                  </div>
+                )}
+              </div>
             </div>
           </>
         ))}

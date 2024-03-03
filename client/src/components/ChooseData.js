@@ -10,14 +10,14 @@ const article = [
   },
   {
     id: 2,
-    category: "Software engineer",
+    category: "Software engineering",
     name: "Hooks",
     text: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa enim ut corporis aspernatur
         accusantium beatae est animi fugia accusantium beatae animi fugiat aliquid`,
   },
   {
     id: 3,
-    category: "science",
+    category: "Science",
     name: "setup Express.js",
     text: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa enim ut corporis aspernatur
         accusantium beatae est animi fugia accusantium beatae animi fugiat aliquid`,

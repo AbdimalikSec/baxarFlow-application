@@ -7,15 +7,18 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import ChooseCategory from "./ChooseData";
 import { InputContext } from "../context/context";
+import UserSidebar from "./userSidebar";
 
 const sidebar = () => {
-  const { clickedCategory, AddclickCategory } = useContext(InputContext);
+  const { clickedCategory, user, AddclickCategory } = useContext(InputContext);
 
   const handleClickedCategory = (category) => {
     AddclickCategory(category);
   };
 
-  return (
+  return user ? (
+    <UserSidebar />
+  ) : (
     <div className="DiscoverHome">
       <div className="Discover">
         <h2>Discover what You hope</h2>
@@ -25,7 +28,7 @@ const sidebar = () => {
               onClick={() => handleClickedCategory(category.category)}
               className="chooseCategory"
             >
-              <Link to='/eachCategory' style={{ textDecoration: "none" }}>
+              <Link to="/eachCategory" style={{ textDecoration: "none" }}>
                 <h4>{category.category}</h4>
               </Link>
             </div>

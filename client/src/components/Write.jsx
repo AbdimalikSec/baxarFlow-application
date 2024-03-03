@@ -7,6 +7,7 @@ import { PiBracketsCurly, PiBracketsCurlyBold } from "react-icons/pi";
 import { CiYoutube } from "react-icons/ci";
 import { CiImageOn } from "react-icons/ci";
 import { InputContext } from "../context/context";
+import Upload from './upload'
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { solarizedlight } from "react-syntax-highlighter/dist/esm/styles/prism";
 

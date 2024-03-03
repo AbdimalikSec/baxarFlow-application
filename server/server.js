@@ -6,8 +6,15 @@ const cors = require("cors");
 const app = express();
 const authRoute = require("./routes/auth");
 const articleRoute = require("./routes/articles");
+const loginRoute = require("./routes/login");
+const getImgRoute = require("./routes/getimg");
 const passportSetup = require("./passport");
+const cookieParser = require("cookie-parser");
 
+app.use(express.static('public'))
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.json());
 
 app.use(
   session({
@@ -33,7 +40,11 @@ app.use(
 
 app.use("/auth", authRoute);
 app.use("/article", articleRoute);
+app.use("/sql", loginRoute);
+app.use("/getimg", getImgRoute);
 
+//http://localhost:5000/getimg/upload
+//http://localhost:5000/getimg/images
 
 app.listen("5000", () => {
   console.log("server is running!");

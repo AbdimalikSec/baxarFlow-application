@@ -5,7 +5,8 @@ import { InputContext } from "../context/context";
 import { useContext } from "react";
 
 const Choose = () => {
-  const { addCategory, selectedCategory,removeCategory } = useContext(InputContext);
+  const { addCategory, selectedCategory, removeCategory } =
+    useContext(InputContext);
 
   const handleChoose = (category) => {
     if (isCategorySelected(category)) {
@@ -24,13 +25,12 @@ const Choose = () => {
       <h1>Discover your world</h1>
       <div className="chooseSome">
         {ChooseData.map((chosed, index) => (
-          <div key={index} >
-            <p
-              onClick={() => handleChoose(chosed.category)}
-              className={isCategorySelected(chosed.category) ? "selected" : ""}
-            >
-              {chosed.category}
-            </p>
+          <div 
+            key={index}
+            onClick={() => handleChoose(chosed.category)}
+            className={isCategorySelected(chosed.category) ? "selected" : ""}
+          >
+            <p>{chosed.category}</p>
           </div>
         ))}
       </div>

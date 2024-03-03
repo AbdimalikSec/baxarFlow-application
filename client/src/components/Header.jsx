@@ -1,11 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { nin } from "../assets";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { FaBars } from "react-icons/fa";
 import { FaSearch } from "react-icons/fa";
+import { InputContext } from "../context/context";
+import { CiSettings } from "react-icons/ci";
+import { CiUser } from "react-icons/ci";
+import { HiOutlineChatBubbleOvalLeftEllipsis } from "react-icons/hi2";
 
-const Header = ({ user }) => {
+const Header = () => {
+  const { user } = useContext(InputContext);
   const [open, setOpen] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
 
@@ -40,9 +45,35 @@ const Header = ({ user }) => {
   return (
     <>
       <div className="navbar">
-        <Link to="/" style={{ textDecoration: "none" }}>
-          <h1 className="logo">BaxarFlow</h1>
-        </Link>
+        {user ? (
+          <>
+            <Link to="/" style={{ textDecoration: "none" }}>
+              <h1 className="logo">BaxarFlow</h1>
+            </Link>
+            <Link style={{ textDecoration: "none" }}>
+              <div className="searchUser searchIconMobile">
+                <div>
+                  {!isTyping && ( // Conditionally render the search icon
+                    <FaSearch className="searchIcon iconInMobile" />
+                  )}
+                  <input
+                    type="text"
+                    ref={inputRef}
+                    onChange={handleInputChange}
+                    placeholder="Search"
+                    className="userDisplayInputDesktop"
+                  />
+                </div>
+              </div>
+            </Link>
+          </>
+        ) : (
+          <>
+            <Link to="/" style={{ textDecoration: "none" }}>
+              <h1 className="logo">BaxarFlow</h1>
+            </Link>
+          </>
+        )}
         {!user && (
           <>
             <nav className="navka">
@@ -108,28 +139,16 @@ const Header = ({ user }) => {
         {user && (
           <div className="userProfile">
             <nav className="navka">
-              <Link>
-                <div className="searchUser">
-                  <div>
-                    {!isTyping && ( // Conditionally render the search icon
-                      <FaSearch className="searchIcon" />
-                    )}
-                    <input
-                      type="text"
-                      ref={inputRef}
-                      onChange={handleInputChange}
-                      placeholder="Search"
-                      className="userDisplayInputDesktop"
-                    />
-                  </div>
-                </div>
-              </Link>
               <ul>
                 <li>
-                  <Link to="/">Home</Link>
+                  <Link style={{ textDecoration: "none" }} to="/">
+                    Home
+                  </Link>
                 </li>
                 <li>
-                  <Link to="/write">Write</Link>
+                  <Link style={{ textDecoration: "none" }} to="/write">
+                    Write
+                  </Link>
                 </li>
                 <img
                   className="userImg"
@@ -139,46 +158,36 @@ const Header = ({ user }) => {
                 />
               </ul>
             </nav>
-            <div className="userProfile">
-              <Link>
-                <div className="search">
-                  <div>
-                    {!isTyping && ( // Conditionally render the search icon
-                      <FaSearch className="searchIcon" />
-                    )}
-                    <input
-                      type="text"
-                      ref={inputRef}
-                      onChange={handleInputChange}
-                      placeholder="Search"
-                    />
-                  </div>
-                  <img
-                    src={user._json.avatar_url}
-                    onClick={() => setOpen(!open)}
-                    alt=""
-                  />
-                </div>
-              </Link>
-            </div>
-
             {open && !isHidden ? (
               <div className="userInfo">
-                <li>
-                  <Link to="/">Home</Link>
-                </li>
-                <li>
-                  <Link to="/write">Write</Link>
-                </li>
-                <Link to="/signin">
+                <Link style={{ textDecoration: "none" }} to="/profile">
+                  <div className="userProfileIcon">
+                    <p>Profile</p>
+                    <p>
+                      <CiUser />
+                    </p>
+                  </div>
+                </Link>
+                <Link style={{ textDecoration: "none" }} to="/story">
+                  <div className="userStory">
+                    <p>Story</p>
+                    <p>
+                      <HiOutlineChatBubbleOvalLeftEllipsis />
+                    </p>
+                  </div>
+                </Link>
+                <Link style={{ textDecoration: "none" }} to="/write">
+                  Write
+                </Link>
+                <Link style={{ textDecoration: "none" }} to="/signin">
                   <p>Become a medium member</p>
                 </Link>
-                <Link to="/signin">
+                <Link style={{ textDecoration: "none" }} to="/signin">
                   <p>apply for author verification</p>
                 </Link>
-                <li>
-                  <Link onClick={logout}>logout</Link>
-                </li>
+                <Link style={{ textDecoration: 'none' }} onClick={logout}>
+                  logout
+                </Link>
               </div>
             ) : (
               <div className="userInfo" style={{ display: "none" }}></div>
