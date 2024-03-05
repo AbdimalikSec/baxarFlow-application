@@ -9,14 +9,16 @@ import SyntaxHighlighter from "react-syntax-highlighter";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import UserChooses from "../components/UserChooses";
+import { useLocation } from "react-router-dom";
 // ... other imports
 
 const home = () => {
   const [auth, setAuth] = useState(false);
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
-  const { inputs, user } = useContext(InputContext); // Access shared data
+  const { inputs, user,generatedTexts} = useContext(InputContext); // Access shared data
   const [isSidebarSticky, setIsSidebarSticky] = useState(false);
+
 
   // No changes needed in render function, as it already displays published texts.
 
@@ -53,6 +55,20 @@ const home = () => {
 
   return (
     <>
+    <div className="HomeGeneratedArray">
+        {generatedTexts.map((text, index) => (
+          <div key={index} className="singleInputGenerated">
+            {text.type === "code" ? (
+              <SyntaxHighlighter language="javascript">
+                {text.content}
+              </SyntaxHighlighter>
+            ) : (
+              <span>{text.content}</span>
+            )}
+          </div>
+        ))}
+      </div>
+
       {user && <UserChooses />}
       <Hero />
       {auth ? (
@@ -82,19 +98,7 @@ const home = () => {
         </div>
       </div>
       {/* Display published texts without input elements */}
-      <div className="HomeGeneratedArray">
-        {inputs.map((text, index) => (
-          <div key={index} className="singleInputGenerated">
-            {text.type === "code" ? (
-              <SyntaxHighlighter language="javascript">
-                {text.content}
-              </SyntaxHighlighter>
-            ) : (
-              <span>{text.content}</span>
-            )}
-          </div>
-        ))}
-      </div>
+      
       <Footer />
     </>
   );

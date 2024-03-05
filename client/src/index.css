@@ -5,7 +5,7 @@
 }
 
 :root {
-  --main-color: #64a3e2;
+  --main-color: #1369be;
 }
 
 body {
@@ -861,7 +861,6 @@ footer {
 }
 
 
-
 /* .searchIconMobile{
   position: absolute;
   left: 50%;
@@ -927,6 +926,8 @@ footer {
     top: 4%;
     right: 10%;
   }
+ 
+  
 }
 
 /* iphone 14 */
@@ -1118,6 +1119,14 @@ footer {
     border-radius: 4px;
     color: white;
     box-shadow: 0 0 2px 2px rgba(255, 254, 254, 0.2);
+  }
+  .signUpContext {
+    display: flex;
+    justify-content: center;
+    width: 90%;
+    margin: auto;
+    margin-left: 7.5rem;
+    margin-top: 10rem;
   }
 }
 
@@ -1319,6 +1328,14 @@ footer {
     border-radius: 4px;
     color: white;
     box-shadow: 0 0 2px 2px rgba(255, 254, 254, 0.2);
+  }
+  .signUpContext {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: auto;
+    margin-left: 7.5rem;
+    margin-top: 10rem;
   }
 }
 

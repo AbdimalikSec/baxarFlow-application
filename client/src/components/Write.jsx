@@ -7,30 +7,33 @@ import { PiBracketsCurly, PiBracketsCurlyBold } from "react-icons/pi";
 import { CiYoutube } from "react-icons/ci";
 import { CiImageOn } from "react-icons/ci";
 import { InputContext } from "../context/context";
-import Upload from './upload'
+import Upload from "./upload";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { solarizedlight } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { useNavigate } from "react-router-dom";
 
 const Write = () => {
   const [open, setOpen] = useState(false);
-  const { inputs, addInput } = useContext(InputContext); // Access shared data
+  const { inputs, addInput,generatedTexts,setGeneratedTexts } = useContext(InputContext); // Access shared data
   const [currentText, setCurrentText] = useState("");
-  const [generatedTexts, setGeneratedTexts] = useState([]);
+ // const [generatedTexts, setGeneratedTexts] = useState([]);
   const [isCodeInput, setIsCodeInput] = useState(false);
   const [code, setCode] = useState("");
   const inputRef = useRef(null);
   const [showVideo, setShowVideo] = useState(false);
-  const [imageUrl, setImageUrl] = useState('');
+  const [imageUrl, setImageUrl] = useState("");
+
+
 
   const handleImageClick = async () => {
     // Make an API request to fetch the image from Upleash
     try {
-      const response = await fetch('YOUR_UPLASH_API_ENDPOINT');
+      const response = await fetch("YOUR_UPLASH_API_ENDPOINT");
       const data = await response.json();
       const imageSrc = data.image_url;
       setImageUrl(imageSrc);
     } catch (error) {
-      console.log('Error fetching image from Upleash:', error);
+      console.log("Error fetching image from Upleash:", error);
     }
   };
 
@@ -45,7 +48,7 @@ const Write = () => {
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
-  
+
       if (isCodeInput) {
         if (code.trim() !== "") {
           setGeneratedTexts((prevTexts) => [
@@ -131,7 +134,7 @@ const Write = () => {
             ></iframe>
           </div>
         )}
-         {imageUrl && <img src={imageUrl} alt="Upleash Image" />}
+        {imageUrl && <img src={imageUrl} alt="Upleash Image" />}
       </div>
 
       <div className="write">
@@ -151,7 +154,7 @@ const Write = () => {
             <button>
               <TbJson className="writeIcon" />
             </button>
-            <button  onClick={handleImageClick} className="img">
+            <button onClick={handleImageClick} className="img">
               <CiImageOn className="writeIcon" />
             </button>
             <button onClick={handleYoutubeClick} className="youtube">
@@ -168,7 +171,7 @@ const Write = () => {
       </div>
 
       <div className="publish">
-        <Link to='/' className="btnpub" onClick={handlePublishClick}>
+        <Link className="btnpub" onClick={handlePublishClick}>
           Publish
         </Link>
       </div>

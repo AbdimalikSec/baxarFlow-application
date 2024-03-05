@@ -16,6 +16,8 @@ export const InputProvider = ({ children }) => {
   const [state, dispatch] = useReducer(Reducer, intialArticles);
   const [selectedCategory, setSelectedCategory] = useState([]);
   const [clickedCategory, setClickedCategory] = useState("");
+  const [generatedTexts, setGeneratedTexts] = useState([]);
+
 
   const addInput = (text) => {
     setInputs((prevInputs) => [...prevInputs, text]);
@@ -26,9 +28,9 @@ export const InputProvider = ({ children }) => {
       setSelectedCategory((prevCategory) => [...prevCategory, category]);
     }
   };
-    //adding category to selectedCategory
+  //adding category to selectedCategory
   //state so that u use selectedcategory
-  // in userchoosed Category
+  // in userchoosed component
 
   const removeCategory = (category) => {
     setSelectedCategory((prevCategory) =>
@@ -39,7 +41,8 @@ export const InputProvider = ({ children }) => {
   //state if we deselect in choose component
 
   const AddclickCategory = (category) => {
-    setClickedCategory((prevCategory) => [...prevCategory, category]);
+   // setClickedCategory((prevCategory) => [...prevCategory, category]);
+    setClickedCategory([category]);
   };
   //func kore wa homesidebar tabs of category
 
@@ -74,7 +77,9 @@ export const InputProvider = ({ children }) => {
         addArticle,
         removeArticle,
         user,
-        setUser
+        setUser,
+        setGeneratedTexts,
+        generatedTexts
       }}
     >
       {children}
