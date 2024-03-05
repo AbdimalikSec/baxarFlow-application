@@ -26,16 +26,23 @@ export const InputProvider = ({ children }) => {
       setSelectedCategory((prevCategory) => [...prevCategory, category]);
     }
   };
-
-  const AddclickCategory = (category) => {
-    setClickedCategory((prevCategory) => [...prevCategory, category]);
-  };
+    //adding category to selectedCategory
+  //state so that u use selectedcategory
+  // in userchoosed Category
 
   const removeCategory = (category) => {
     setSelectedCategory((prevCategory) =>
       prevCategory.filter((selectedCat) => selectedCat !== category)
     );
   };
+  //removing category from selectedCategory
+  //state if we deselect in choose component
+
+  const AddclickCategory = (category) => {
+    setClickedCategory((prevCategory) => [...prevCategory, category]);
+  };
+  //func kore wa homesidebar tabs of category
+
 
   const addArticle = (articles) => {
     dispatch({

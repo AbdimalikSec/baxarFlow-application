@@ -11,17 +11,27 @@ import { useContext } from "react";
 
 const UserChooses = () => {
   const { selectedCategory } = useContext(InputContext);
-  const [isSidebarSticky, setIsSidebarSticky] = useState(false);
   const [startIndex, setStartIndex] = useState(0);
+  const [isTouched, setIstouched] = useState(false);
+  const [touchedCategoryIndex, setTouchedCategoryIndex] = useState(0);
 
-  const filterCategoryByChoosed = article.filter((article) => {
+  /*   const filterCategoryByChoosed = article.filter((article) => {
     if (selectedCategory.includes(article.category)) {
       return article;
     }
-  });
+  }); */
+  
+
+  const filteredCategoryByChoosed =
+    touchedCategoryIndex !== null
+      ? article.filter(
+          (article) =>
+            article.category === selectedCategory[touchedCategoryIndex]
+        )
+      : [];
 
   const handleNext = () => {
-    if (startIndex < selectedCategory.length - 1) {
+    if (startIndex < filteredCategoryByChoosed.length - 3) {
       setStartIndex(startIndex + 1);
     }
   };
@@ -31,6 +41,18 @@ const UserChooses = () => {
       setStartIndex(startIndex - 1);
     }
   };
+
+  /*   const handleNext = () => {
+    if (startIndex < selectedCategory.length - 1) {
+      setStartIndex(startIndex + 1);
+    }
+  };
+
+  const handlePrev = () => {
+    if (startIndex > 0) {
+      setStartIndex(startIndex - 1);
+    }
+  }; */
 
   return (
     <>
@@ -42,20 +64,26 @@ const UserChooses = () => {
           )}
           {selectedCategory
             .slice(startIndex, startIndex + 3)
-            .map((category, index) => (
-              <div className="chooseOne" key={index}>
-                <Link to="/userchooses" style={{ textDecoration: "none" }}>
-                  <p>{category}</p>
-                </Link>
-              </div>
-            ))}
+            .map((category, index) => {
+              return (
+                <div className="chooseOne" key={index}>
+                  <p
+                    key={index}
+                    className={touchedCategoryIndex === index ? "red" : ""}
+                    onClick={() => setTouchedCategoryIndex(index)}
+                  >
+                    {category}
+                  </p>
+                </div>
+              );
+            })}
           {startIndex + 3 < selectedCategory.length && (
             <FaAngleDown className="UserChoseIcon" onClick={handleNext} />
           )}
 
           <div className="articleUserHaye">
             <div className="articleUser">
-              {filterCategoryByChoosed.map((articleItem) => (
+              {filteredCategoryByChoosed.map((articleItem) => (
                 <ArticleCard
                   key={articleItem.id}
                   name={articleItem.name}

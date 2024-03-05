@@ -15,19 +15,15 @@ const home = () => {
   const [auth, setAuth] = useState(false);
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
-  const { inputs,user } = useContext(InputContext); // Access shared data
+  const { inputs, user } = useContext(InputContext); // Access shared data
   const [isSidebarSticky, setIsSidebarSticky] = useState(false);
 
   // No changes needed in render function, as it already displays published texts.
 
   useEffect(() => {
-    const token = document.cookie.split("; ").find((row) => row.startsWith("token="));
-    if(token){
-      fetch("http://localhost:5000/sql/verify",{
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+    fetch("http://localhost:5000/sql/verify", {
+      credentials: "include",
+    })
       .then((res) => res.json())
       .then((data) => {
         if (data.status === "success") {
@@ -38,11 +34,12 @@ const home = () => {
           setMessage(data.message);
         }
       });
-    }
   }, []);
 
   const handleLogout = () => {
-    fetch("http://localhost:5000/sql/logout")
+    fetch("http://localhost:5000/sql/logout",{
+      credentials: "include",
+    })
       .then((res) => res.json())
       .then((data) => {
         if (data.status === "success") {
@@ -56,9 +53,7 @@ const home = () => {
 
   return (
     <>
-    {user && (
-      <UserChooses/>
-    )}
+      {user && <UserChooses />}
       <Hero />
       {auth ? (
         <div>
