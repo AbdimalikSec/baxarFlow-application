@@ -26,8 +26,7 @@ const sidebar = () => {
           <div className="chooseDiscover">
             <div
               onClick={() => handleClickedCategory(category.category)}
-              className="chooseCategory"
-            >
+              className="chooseCategory">
               <Link to="/eachCategory" style={{ textDecoration: "none" }}>
                 <h4>{category.category}</h4>
               </Link>

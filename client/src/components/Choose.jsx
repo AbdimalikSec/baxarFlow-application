@@ -28,8 +28,7 @@ const Choose = () => {
           <div 
             key={index}
             onClick={() => handleChoose(chosed.category)}
-            className={isCategorySelected(chosed.category) ? "selected" : ""}
-          >
+            className={isCategorySelected(chosed.category) ? "selected" : ""}>
             <p>{chosed.category}</p>
           </div>
         ))}

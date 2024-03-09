@@ -13,8 +13,49 @@ const article = [
       },
       {
         type: "code",
-        code: `function attendence() {
-        return  "attendence"
+        code: `import React from "react";
+        import { useContext } from "react";
+        import { InputContext } from "../context/context";
+        import Data from "./data";
+        import ArticleCard from './articleCard'
+        
+        const EachCategory = () => {
+          const { clickedCategory } = useContext(InputContext);
+        
+          let filterSameCategory = Data.filter((data) => {
+            if (clickedCategory.includes(data.category)) {
+              console.log(data)
+              return data
+            };
+          });
+        
+          /*   const filterCategoryByChoosed = article.filter((article) => {
+            if (selectedCategory.includes(article.category)) {
+              return article;
+            }
+          }); */
+        
+          return (
+            <div className="eachCategory">
+              <h1>{clickedCategory}</h1>
+              {filterSameCategory.map((articleItem) => {
+                <ArticleCard
+                key={articleItem.id}
+                name={articleItem.name}
+                img={articleItem.img}
+                category={articleItem.category}
+                id={articleItem.id}
+                text={articleItem.text}
+                content={articleItem.content}
+                article={articleItem}
+              />
+              })}
+            </div>
+          );
+        };
+        
+        export default EachCategory;
+        "
 }`,
       },
     ],

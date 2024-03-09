@@ -3,7 +3,7 @@ import { FaPlus } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { TbJson } from "react-icons/tb";
 import { HiCodeBracket } from "react-icons/hi2";
-import { PiBracketsCurly, PiBracketsCurlyBold } from "react-icons/pi";
+import { PiBracketsCurly} from "react-icons/pi";
 import { CiYoutube } from "react-icons/ci";
 import { CiImageOn } from "react-icons/ci";
 import { InputContext } from "../context/context";
@@ -14,9 +14,8 @@ import { useNavigate } from "react-router-dom";
 
 const Write = () => {
   const [open, setOpen] = useState(false);
-  const { inputs, addInput,generatedTexts,setGeneratedTexts } = useContext(InputContext); // Access shared data
+  const { inputs, addInput, generatedTexts,setGeneratedTexts } = useContext(InputContext); // Access shared data
   const [currentText, setCurrentText] = useState("");
- // const [generatedTexts, setGeneratedTexts] = useState([]);
   const [isCodeInput, setIsCodeInput] = useState(false);
   const [code, setCode] = useState("");
   const inputRef = useRef(null);
@@ -43,6 +42,10 @@ const Write = () => {
 
   const handleTextChange = (event) => {
     setCurrentText(event.target.value);
+  };
+
+  const handleCodeChange = (event) => {
+    setCode(event.target.value);
   };
 
   const handleKeyPress = (event) => {
@@ -87,10 +90,6 @@ const Write = () => {
     setGeneratedTexts([]); // Clear generated texts for next use
   };
 
-  const handleCodeChange = (event) => {
-    setCode(event.target.value);
-  };
-
   const handleEditInput = (index, newValue) => {
     setGeneratedTexts((prevTexts) => {
       const updatedTexts = [...prevTexts];
@@ -98,6 +97,8 @@ const Write = () => {
       return updatedTexts;
     });
   };
+  console.log(generatedTexts)
+
 
   return (
     <>
@@ -173,6 +174,9 @@ const Write = () => {
       <div className="publish">
         <Link className="btnpub" onClick={handlePublishClick}>
           Publish
+        </Link>
+        <Link  to='/profile' className="btnpub" onClick={handlePublishClick}>
+          go
         </Link>
       </div>
     </>

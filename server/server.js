@@ -16,16 +16,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.json());
 
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    methods: "GET,POST,PUT,DELETE",
-    credentials: true,
-  })
-);
-
 app.use(
   session({
     secret: "openreplay",
@@ -35,6 +25,17 @@ app.use(
       secure: false, // Set it to true if using HTTPS
       maxAge: 24 * 60 * 60 * 1000, // 1 day
     },
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: "GET,POST,PUT,DELETE",
+    credentials: true,
   })
 );
 

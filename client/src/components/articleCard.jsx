@@ -8,21 +8,21 @@ const bookCard = ({ name, text, id, category, img, content }) => {
   const [addReadList, setAddReadList] = useState(false);
   const { addArticle, user,removeArticle, articles } = useContext(InputContext);
   const isArticleAdded = articles.some((article) => article.id === id);
-
-  const handleAddingToReadList = (article) => {
+  
+  const handleAddingToReadList = () => {
     if (isArticleAdded) {
       removeArticle(id);
     } else {
       addArticle({ name, img, id, content, text, category });
     }
   };
+
   return (
     <>
       <Link
         style={{ textDecoration: "none" }}
         to={`article/${id}`}
-        className="articlehaye"
-      >
+        className="articlehaye">
         <div className="article">
           <div>
             <p className="name">{name}</p>

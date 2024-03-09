@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const passport = require("passport");
-const CLIENT_URL = "http://localhost:5173";
+const CLIENT_URL = "http://localhost:5173/choose";
+const LOGOUT_URL = "http://localhost:5173";
 
 router.get("/login/success", (req, res) => {
   if (req.user) {
@@ -25,7 +26,7 @@ router.get("/logout", (req, res) => {
       return (err)
     }
   });
-  res.redirect(CLIENT_URL);
+  res.redirect(LOGOUT_URL);
 });
 
 router.get("/google", passport.authenticate("google", { scope: ["profile"] }));

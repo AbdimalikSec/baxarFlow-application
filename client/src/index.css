@@ -5,7 +5,7 @@
 }
 
 :root {
-  --main-color: #1369be;
+  --main-color: #543992;
 }
 
 body {
@@ -451,18 +451,12 @@ footer {
   display: block;
 }
 
-/* about */
-
-.about {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 1.4rem;
-}
-
 /* hero */
 
 .hero {
+  background-color: black;
+  width: 100%;
+  height: 95vh;
   position: relative;
   margin-bottom: 1rem;
 }
@@ -525,9 +519,9 @@ footer {
 
 .write input {
   width: 50%;
-  padding: 22px;
+  padding: 30px;
   border: none;
-  background-color: #efefef;
+  background-color: white;
   outline: none;
   box-sizing: border-box;
 }
@@ -549,9 +543,6 @@ footer {
   overflow: auto;
 }
 
-.singleInputGenerated .code .react-syntax-highlighter {
-  margin-bottom: 10px;
-}
 
 .plus {
   position: relative;
@@ -672,6 +663,7 @@ footer {
 
 .articleUserHaye {
   display: flex;
+  gap: 2rem;
 }
 
 .articleUser {
@@ -695,26 +687,20 @@ footer {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-left: -5rem;
 }
 
 .singleInputGenerated {
-  margin: 5px;
-  flex: 1 5%;
-  max-width: 46%;
+  margin: 10px;
+  max-width: 40%;
 }
 
-.codeContainer {
-  overflow-y: scroll;
-  max-height: 40vh;
-}
 
 .singleInputGenerated input {
-  width: 100%;
+  width: 250%;
   padding: 10px;
-  border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
-  resize: none;
 }
 
 /* write end */
@@ -807,42 +793,42 @@ footer {
 
 /* end */
 
-
 /* upload */
 
-.upload{
+.upload {
   width: 95%;
   margin: auto;
 }
 
-.upload img{
+.upload img {
   display: flex;
   margin-top: 1.2rem;
 }
 
-.displayHeroNone{
+.displayHeroNone {
   display: none;
 }
 
-.SearchMobileQari{
+.SearchMobileQari {
   display: none;
 }
 
-.DiscoverNone{
+.DiscoverNone {
   display: none;
 }
 
-.searchIconMobile input{
+.searchIconMobile input {
   width: 200%;
   padding: 6px;
   border-radius: 6px;
 }
-.searchUser .iconInMobile{
+.searchUser .iconInMobile {
   top: 40%;
   right: 10%;
 }
 
-.userStory, .userProfileIcon{
+.userStory,
+.userProfileIcon {
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -851,15 +837,14 @@ footer {
   color: white;
 }
 
-.userInfo{
+.userInfo {
   text-decoration: none;
   color: white;
 }
 
-.red{
+.red {
   background-color: red;
 }
-
 
 /* .searchIconMobile{
   position: absolute;
@@ -867,6 +852,164 @@ footer {
 }
  */
 /* end */
+
+.profile {
+  width: 80%;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 35rem;
+}
+
+.profilename {
+  margin-left: 3rem;
+}
+
+.profileNav {
+  display: flex;
+  margin: auto;
+}
+
+.profileNav p {
+  cursor: pointer;
+  font-size: 1.2rem;
+  margin: 0 1rem;
+}
+
+.UserProfileEDit img {
+  width: 30%;
+  border-radius: 50%;
+  aspect-ratio: 1/1;
+}
+
+.UserProfileEDit h2{
+  margin-bottom: 1rem;
+}
+
+/* about */
+
+.about {
+  width: 80%;
+  margin: auto;
+}
+
+.about p {
+  width: 60%;
+  margin: auto;
+  margin-right: 80rem;
+}
+
+/* end */
+
+/* userpublished */
+
+.userpublished {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 3rem;
+}
+
+.userpublishedName {
+  display: flex;
+  justify-content: left;
+  margin-left: 25rem;
+  align-items: center;
+  align-self: flex-start;
+}
+
+.userpublished img {
+  width: 5%;
+  border-radius: 50%;
+  margin: 0 1rem;
+  aspect-ratio: 1/1;
+}
+
+.userPublishedIcon {
+  border: 1px solid rgba(128, 128, 128, 0.336);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 35rem;
+  margin-top: 2rem;
+  align-items: center;
+}
+
+.publishIcon {
+  font-size: 1.5rem;
+}
+
+.publishIcon p {
+  margin: auto 1rem;
+}
+
+/* header */
+
+.responseModel {
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  top: 4rem;
+  width: 30%;
+  height: 75vh;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: white;
+  padding: 10px;
+  box-shadow: 0 0 20px 0 rgba(77, 18, 18, 0.2);
+}
+
+.flexresponseHeader{
+  display: flex;
+  justify-content: left;
+  align-items: baseline;
+  gap: 5rem;
+  margin: auto 0.40rem;
+  margin-bottom: 1rem;
+}
+
+.responseModel img {
+  display: block;
+  width: 10%;
+  border-radius: 50%;
+  aspect-ratio: 1/1;
+
+}
+
+.responseHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.responseHeader {
+  display: inline;
+}
+
+.textareaBottom {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  text-align: left;
+  justify-content: left;
+  align-items: baseline;
+  margin: 1rem;
+  gap: 3rem;
+}
+
+.textareaBottom button {
+  margin: 0.4rem;
+  padding: 5px;
+  border-radius: 7px;
+}
+
+
+
+/* end */
+
 @media (max-width: 950px) {
   .homeFlex {
     display: flex;
@@ -913,20 +1056,65 @@ footer {
     font-size: 4rem;
     color: var(--main-color);
   }
-  .searchUser{
+  .searchUser {
     position: relative;
   }
-  .searchIconMobile input{
+  .searchIconMobile input {
     width: 100%;
     padding: 6px;
     border-radius: 6px;
   }
-  .iconInMobile{
+  .iconInMobile {
     position: absolute;
     top: 4%;
     right: 10%;
   }
- 
+  .profile {
+    width: 80%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10rem;
+  }
+  .about p {
+    width: 80%;
+    margin: auto;
+    margin-right: 80rem;
+    margin-top: 1.4rem;
+  }
+  .userpublishedName {
+    display: flex;
+    justify-content: left;
+    margin-left: 10rem;
+    align-items: center;
+    align-self: flex-start;
+  }
+
+  .userpublished img {
+    width: 10%;
+    border-radius: 50%;
+    margin: 0 1rem;
+    aspect-ratio: 1/1;
+  }
+  .responseModel {
+    position: none;
+    width: 40%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: white;
+    padding: 10px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
+  }
+  .generatedInput {
+    width: 80%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    margin-left: -4rem;
+  }
   
 }
 

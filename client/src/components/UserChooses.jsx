@@ -12,15 +12,7 @@ import { useContext } from "react";
 const UserChooses = () => {
   const { selectedCategory } = useContext(InputContext);
   const [startIndex, setStartIndex] = useState(0);
-  const [isTouched, setIstouched] = useState(false);
   const [touchedCategoryIndex, setTouchedCategoryIndex] = useState(0);
-
-  /*   const filterCategoryByChoosed = article.filter((article) => {
-    if (selectedCategory.includes(article.category)) {
-      return article;
-    }
-  }); */
-  
 
   const filteredCategoryByChoosed =
     touchedCategoryIndex !== null
@@ -29,6 +21,9 @@ const UserChooses = () => {
             article.category === selectedCategory[touchedCategoryIndex]
         )
       : [];
+  
+      //kan waa navigating the category
+      //to see different category content
 
   const handleNext = () => {
     if (startIndex < filteredCategoryByChoosed.length - 3) {
@@ -40,7 +35,7 @@ const UserChooses = () => {
     if (startIndex > 0) {
       setStartIndex(startIndex - 1);
     }
-  };
+};
 
   /*   const handleNext = () => {
     if (startIndex < selectedCategory.length - 1) {
@@ -96,6 +91,7 @@ const UserChooses = () => {
                 />
               ))}
             </div>
+            <UserSidebar/>
           </div>
         </div>
       </div>

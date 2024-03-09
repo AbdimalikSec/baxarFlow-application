@@ -16,9 +16,8 @@ const home = () => {
   const [auth, setAuth] = useState(false);
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
-  const { inputs, user,generatedTexts} = useContext(InputContext); // Access shared data
+  const { inputs, user, generatedTexts } = useContext(InputContext); // Access shared data
   const [isSidebarSticky, setIsSidebarSticky] = useState(false);
-
 
   // No changes needed in render function, as it already displays published texts.
 
@@ -39,7 +38,7 @@ const home = () => {
   }, []);
 
   const handleLogout = () => {
-    fetch("http://localhost:5000/sql/logout",{
+    fetch("http://localhost:5000/sql/logout", {
       credentials: "include",
     })
       .then((res) => res.json())
@@ -55,23 +54,10 @@ const home = () => {
 
   return (
     <>
-    <div className="HomeGeneratedArray">
-        {generatedTexts.map((text, index) => (
-          <div key={index} className="singleInputGenerated">
-            {text.type === "code" ? (
-              <SyntaxHighlighter language="javascript">
-                {text.content}
-              </SyntaxHighlighter>
-            ) : (
-              <span>{text.content}</span>
-            )}
-          </div>
-        ))}
-      </div>
-
-      {user && <UserChooses />}
+      {/*   {user && <UserChooses />} */}
       <Hero />
-      {auth ? (
+
+      {/* {auth ? (
         <div>
           you are authorized {name}
           <button onClick={handleLogout} className="logout">
@@ -85,23 +71,55 @@ const home = () => {
             <button className="login">Login</button>
           </Link>
         </div>
-      )}
+      )} */}
+
       <Heroafter />
       <div className="homeFlex">
-        <div>
-          <Articles />
-        </div>
-        <div
-          className={`sidebarHome ${isSidebarSticky ? "sticky-bottom" : ""}`}
-        >
-          <Sidebar />
-        </div>
+        {user && <UserChooses />}
+        {!user && (
+          <div>
+            <Articles />
+          </div>
+        )}
+        {!user && (
+          <div
+            className={`sidebarHome ${isSidebarSticky ? "sticky-bottom" : ""}`}
+          >
+            <Sidebar />
+          </div>
+        )}
       </div>
-      {/* Display published texts without input elements */}
-      
+
       <Footer />
     </>
   );
 };
 
 export default home;
+
+
+/* 
+{
+    "id": "108734287876941176918",
+    "displayName": "Cubayd Yuusuf",
+    "name": {
+        "familyName": "Yuusuf",
+        "givenName": "Cubayd"
+    },
+    "photos": [
+        {
+            "value": "https://lh3.googleusercontent.com/a/ACg8ocJlawsxyIyse2j_T8zfTGR_U1xaFYVO2-RKS6EAafeobg=s96-c"
+        }
+    ],
+    "provider": "google",
+    "_raw": "{\n  \"sub\": \"108734287876941176918\",\n  \"name\": \"Cubayd Yuusuf\",\n  \"given_name\": \"Cubayd\",\n  \"family_name\": \"Yuusuf\",\n  \"picture\": \"https://lh3.googleusercontent.com/a/ACg8ocJlawsxyIyse2j_T8zfTGR_U1xaFYVO2-RKS6EAafeobg\\u003ds96-c\",\n  \"locale\": \"en\"\n}",
+    "_json": {
+        "sub": "108734287876941176918",
+        "name": "Cubayd Yuusuf",
+        "given_name": "Cubayd",
+        "family_name": "Yuusuf",
+        "picture": "https://lh3.googleusercontent.com/a/ACg8ocJlawsxyIyse2j_T8zfTGR_U1xaFYVO2-RKS6EAafeobg=s96-c",
+        "locale": "en"
+    }
+}
+*/

@@ -1,11 +1,11 @@
 import "./App.css";
-import { Route, Navigate} from "react-router-dom";
+import { Route, Navigate } from "react-router-dom";
 import { Routes } from "react-router-dom";
 import Header from "./components/Header";
 import Login from "./components/signin";
 import Home from "./pages/home";
 import Write from "./components/Write";
-import { useState, useEffect,useContext } from "react";
+import { useState, useEffect, useContext, Profiler } from "react";
 import { useNavigate } from "react-router-dom";
 import Singlearticle from "./components/Singlearticle";
 import About from "./components/About";
@@ -15,10 +15,12 @@ import { InputProvider } from "./context/context";
 import ReadList from "./components/ReadList";
 import EachCategory from "./components/EachCategory";
 import { InputContext } from "./context/context";
+import Profile from "./components/Profile";
+import UserPublished from "./components/userPublished";
 
 function App() {
-  const router = useNavigate()
-  const {user,setUser} = useContext(InputContext)
+  const router = useNavigate();
+  const { user, setUser } = useContext(InputContext);
 
   useEffect(() => {
     const getUser = () => {
@@ -45,8 +47,8 @@ function App() {
     };
     getUser();
   }, []);
-  
- /*  if(user){
+
+  /*  if(user){
     router('/choose')
   } */
 
@@ -55,17 +57,16 @@ function App() {
       <div>
         <Header user={user} />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/choose" index element={<Choose />} />
           <Route
             path="/signin"
             element={user ? <Navigate to="/choose" /> : <Login />}
-          >
-            <Route index element={<Choose />} />
-          </Route>
+          ></Route>
 
+          <Route path="/" element={<Home />} />
           <Route
             path="/write"
-            element={!user ? <Write /> : <Navigate to="/signin" />}
+            element={user ? <Write /> : <Navigate to="/signin" />}
           />
           <Route path="/article/:id" element={<Singlearticle />} />
           <Route path="/about" element={<About />} />
@@ -73,6 +74,8 @@ function App() {
           <Route user={user} path="/userchooses" element={<UserChooses />} />
           <Route path="/readlist" element={<ReadList />} />
           <Route path="/eachCategory" element={<EachCategory />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/userpublished" element={<UserPublished />} />
         </Routes>
       </div>
     </>
