@@ -1,55 +1,52 @@
-import React, { useState, useContext } from "react";
-import BookCard from "./articleCard";
-import article from "./data";
-import { naag, nin } from "../assets";
-import { useLocation, Link } from "react-router-dom";
-import ReadList from "./ReadList";
-import { InputContext } from "../context/context";
+import React, { useContext, useEffect } from 'react';
+import { InputContext } from '../context/context';
+import ArticleCard from './ArticleCard';
+import { db } from '../firebase';
+import { collection, getDocs } from 'firebase/firestore';
 
-const books = () => {
-  //const {} = useContext(InputContext);
-  const location = useLocation();
-  const path = location.pathname.split("/")[2];
-  // Assuming the bookId is part of the URL path
+const Books = () => {
+  const { articles, setArticles, selectedCategory } = useContext(InputContext);
+
+  useEffect(() => {
+    const fetchArticles = async () => {
+      const articlesCollection = collection(db, 'articles');
+      const articlesSnapshot = await getDocs(articlesCollection);
+      const articlesList = articlesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setArticles(articlesList);
+    };
+
+    fetchArticles();
+  }, [setArticles]);
+
+  // Filter articles based on selected categories
+  const filteredArticles = selectedCategory.length
+    ? articles.filter(article => selectedCategory.includes(article.category))
+    : articles;
 
   return (
-    <>
-      <div className="article-container">
-        {article.map((articleItem) => (
-          <>
-            <BookCard 
-            key={articleItem.id} 
-            name={articleItem.name}
-            category={articleItem.category}
-            id={articleItem.id}
-            img={articleItem.img}
-            text={articleItem.text}
-            content={articleItem.content}
-            />
-
-          </>
-        ))}
-      </div>
-    </>
+    <div className="max-w-xl mx-auto mt-4">
+      {filteredArticles && filteredArticles.length > 0 ? (
+        filteredArticles.map((article) => (
+          <ArticleCard
+            key={article.id}
+            title={article.title}
+            content={article.content}
+            img={article.img} // Use the img URL directly
+            youtube={article.youtube}
+            link={article.link}
+            category={article.category}
+            author={article.author}
+            authorImg={article.authorImg}
+            date={article.date}
+            comments={article.comments} // Pass comments
+            likes={article.likes} // Pass likes
+          />
+        ))
+      ) : (
+        <p>No articles yet.</p>
+      )}
+    </div>
   );
 };
 
-export default books;
-
-{
-  /*   <img src={nin}  alt="" />
-        <h2>Baxarflow</h2>
-        <div>
-          <nav>
-            <ul>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/about">About</Link>
-              </li>
-            </ul>
-          </nav>
-          <hr className="hr"/>
-        </div> */
-}
+export default Books;

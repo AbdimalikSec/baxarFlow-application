@@ -1,11 +1,9 @@
 import React from "react";
-import { nin, nin1, naag, nin3, nin4 } from "../assets/index";
+import { mustafa } from "../assets/index";
 import { forwardRef } from "react";
-import { FaEllipsisH } from "react-icons/fa";
-import { MdOutlineAttachEmail } from "react-icons/md";
+
 import { Link } from "react-router-dom";
 import { useContext } from "react";
-import ChooseCategory from "./ChooseData";
 import { InputContext } from "../context/context";
 import UserSidebar from "./userSidebar";
 
@@ -21,31 +19,24 @@ const sidebar = () => {
   ) : (
     <div className="DiscoverHome">
       <div className="Discover">
-        <h2>Discover what You hope</h2>
-        {ChooseCategory.map((category) => (
-          <div className="chooseDiscover">
-            <div
-              onClick={() => handleClickedCategory(category.category)}
-              className="chooseCategory">
-              <Link to="/eachCategory" style={{ textDecoration: "none" }}>
-                <h4>{category.category}</h4>
-              </Link>
-            </div>
-          </div>
-        ))}
+        <img src={mustafa} alt="" />
+        <h2 className="font-bold">cyberHack | Community</h2>
+        <p>CyberHack.com</p>
         <Link>
-          <p className="seeMore">see more topics</p>
+          <p className="seeMore">Break into Cybersecurity with Training, Hands-On Projects and a Career Pathway Call - Did we say this is free?
+          </p>
+          <p>START HERE</p>
         </Link>
       </div>
       <div className="footerSidebar">
-        <p>status</p>
-        <p>privacy</p>
-        <p>about</p>
-        <p>careers</p>
-        <p>Blog</p>
+        <p>5k members</p>
+        <p>17 online</p>
+        <p>5 admins</p>
       </div>
     </div>
   );
 };
 
 export default sidebar;
+
+

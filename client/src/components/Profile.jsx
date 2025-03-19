@@ -2,12 +2,11 @@ import React from "react";
 import { useContext, useState, useEffect } from "react";
 import { InputContext } from "../context/context";
 import UserSidebar from "./userSidebar";
-import { nin1 } from "../assets";
 import About from "./About";
 import SyntaxHighlighter from "react-syntax-highlighter";
 
 const Profile = () => {
-  const { user, generatedTexts } = useContext(InputContext);
+  const { user, generatedTexts,setGeneratedTexts } = useContext(InputContext);
   const [isAbout, setAbout] = useState(false);
   const [selectedprofileNav, setSelectedprofileNav] = useState(false);
 

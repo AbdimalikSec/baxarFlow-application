@@ -1,4 +1,4 @@
-export default (state, action) => {
+const Reducer = (state, action) => {
   switch (action.type) {
     case "add":
       return {
@@ -8,12 +8,16 @@ export default (state, action) => {
     case "remove":
       return {
         ...state,
-        articles: state.articles.filter(
-          (article) => article.id !== action.payload
-        ),
+        articles: state.articles.filter(article => article.id !== action.payload),
       };
-    default: {
+    case "set":
+      return {
+        ...state,
+        articles: action.payload,
+      };
+    default:
       return state;
-    }
   }
 };
+
+export default Reducer;

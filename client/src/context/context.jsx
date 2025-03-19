@@ -1,8 +1,8 @@
 import { createContext, useState, useReducer } from "react";
 import Reducer from "./Reducer";
 
-const intialArticles = {
-  articles: [],
+const initialArticles = {
+  articles: [], // list of articles
   articlesLength: 0,
 };
 
@@ -10,46 +10,31 @@ export const InputContext = createContext();
 
 export const InputProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [article, SetArticle] = useState([]);
-  const [inputs, setInputs] = useState([]);
-  const [state, dispatch] = useReducer(Reducer, intialArticles);
+  const [state, dispatch] = useReducer(Reducer, initialArticles);
   const [selectedCategory, setSelectedCategory] = useState([]);
-  const [clickedCategory, setClickedCategory] = useState("");
+  const [clickedCategory, setClickedCategory] = useState([]);
   const [generatedTexts, setGeneratedTexts] = useState([]);
-
-
-  const addInput = (text) => {
-    setInputs((prevInputs) => [...prevInputs, text]);
-  };
 
   const addCategory = (category) => {
     if (!selectedCategory.includes(category)) {
-      setSelectedCategory((prevCategory) => [...prevCategory, category]);
+      setSelectedCategory((prev) => [...prev, category]);
     }
   };
-  //adding category to selectedCategory
-  //state so that u use selectedcategory
-  // in userchoosed component
 
   const removeCategory = (category) => {
-    setSelectedCategory((prevCategory) =>
-      prevCategory.filter((selectedCat) => selectedCat !== category)
+    setSelectedCategory((prev) =>
+      prev.filter((cat) => cat !== category)
     );
   };
-  //removing category from selectedCategory
-  //state if we deselect in choose component
 
   const AddclickCategory = (category) => {
-   // setClickedCategory((prevCategory) => [...prevCategory, category]);
-    setClickedCategory([category]);
+    setClickedCategory(category);
   };
-  //func kore wa homesidebar tabs of category
 
-
-  const addArticle = (articles) => {
+  const addArticle = (article) => {
     dispatch({
       type: "add",
-      payload: articles,
+      payload: article,
     });
   };
 
@@ -60,13 +45,18 @@ export const InputProvider = ({ children }) => {
     });
   };
 
+  const setArticles = (articles) => {
+    dispatch({
+      type: "set",
+      payload: articles,
+    });
+  };
+
   return (
     <InputContext.Provider
       value={{
         articles: state.articles,
         articlesLength: state.articles.length,
-        inputs,
-        addInput,
         selectedCategory,
         setSelectedCategory,
         addCategory,
@@ -75,6 +65,7 @@ export const InputProvider = ({ children }) => {
         clickedCategory,
         addArticle,
         removeArticle,
+        setArticles, // Provide setArticles in context
         user,
         setUser,
         setGeneratedTexts,

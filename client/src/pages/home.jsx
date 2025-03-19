@@ -1,125 +1,67 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import Articles from "../components/articles";
 import Sidebar from "../components/Homesidebar";
 import Footer from "../components/footer";
-import Hero from "../components/Hero";
-import Heroafter from "../components/HeroNext";
+import Write from '../components/Write';
 import { InputContext } from "../context/context";
-import SyntaxHighlighter from "react-syntax-highlighter";
-import axios from "axios";
-import { Link } from "react-router-dom";
-import UserChooses from "../components/UserChooses";
-import { useLocation } from "react-router-dom";
-// ... other imports
+import ChooseCategory from "../components/Choose";
 
-const home = () => {
-  const [auth, setAuth] = useState(false);
-  const [name, setName] = useState("");
-  const [message, setMessage] = useState("");
-  const { inputs, user, generatedTexts } = useContext(InputContext); // Access shared data
-  const [isSidebarSticky, setIsSidebarSticky] = useState(false);
+const Home = () => {
+  const { user } = useContext(InputContext);
 
-  // No changes needed in render function, as it already displays published texts.
-
-  useEffect(() => {
-    fetch("http://localhost:5000/sql/verify", {
-      credentials: "include",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.status === "success") {
-          setAuth(true);
-          setName(data.name);
-        } else {
-          setAuth(false);
-          setMessage(data.message);
-        }
-      });
-  }, []);
-
-  const handleLogout = () => {
-    fetch("http://localhost:5000/sql/logout", {
-      credentials: "include",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.status === "success") {
-          window.location.reload();
-        } else {
-          console.log("logout error");
-        }
-      })
-      .catch((err) => console.log(err));
-  };
+//  console.log("User in Home:", user);
 
   return (
     <>
-      {/*   {user && <UserChooses />} */}
-      <Hero />
-
-      {/* {auth ? (
-        <div>
-          you are authorized {name}
-          <button onClick={handleLogout} className="logout">
-            Logout
-          </button>
-        </div>
-      ) : (
-        <div>
-          <Link to="/signin">
-            <p>{message}</p>
-            <button className="login">Login</button>
-          </Link>
-        </div>
-      )} */}
-
-      <Heroafter />
+    
+      <Write />
       <div className="homeFlex">
-        {user && <UserChooses />}
-        {!user && (
-          <div>
-            <Articles />
-          </div>
-        )}
-        {!user && (
-          <div
-            className={`sidebarHome ${isSidebarSticky ? "sticky-bottom" : ""}`}
-          >
+        <div className="flex-Category-Article">
+          <ChooseCategory />
+          <Articles />
+        </div>
+        {user && (
+          <div className={`sidebarHome`}>
             <Sidebar />
+            {/* Conditional rendering based on role */}
+            {user.role === 'admin' && (
+              <div>
+                <h2 style={{ color: "red" }}>Admin Panel</h2>
+                {/* Add admin functionalities here */}
+              </div>
+            )}
+            {user.role === 'member' && (
+              <div>
+                <h2 style={{ color: "red" }}>member Panel</h2>
+                {/* Add admin functionalities here */}
+              </div>
+            )}
           </div>
         )}
       </div>
-
       <Footer />
     </>
-  );
+  )
 };
 
-export default home;
+export default Home;
 
 
-/* 
-{
-    "id": "108734287876941176918",
-    "displayName": "Cubayd Yuusuf",
-    "name": {
-        "familyName": "Yuusuf",
-        "givenName": "Cubayd"
-    },
-    "photos": [
-        {
-            "value": "https://lh3.googleusercontent.com/a/ACg8ocJlawsxyIyse2j_T8zfTGR_U1xaFYVO2-RKS6EAafeobg=s96-c"
-        }
-    ],
-    "provider": "google",
-    "_raw": "{\n  \"sub\": \"108734287876941176918\",\n  \"name\": \"Cubayd Yuusuf\",\n  \"given_name\": \"Cubayd\",\n  \"family_name\": \"Yuusuf\",\n  \"picture\": \"https://lh3.googleusercontent.com/a/ACg8ocJlawsxyIyse2j_T8zfTGR_U1xaFYVO2-RKS6EAafeobg\\u003ds96-c\",\n  \"locale\": \"en\"\n}",
-    "_json": {
-        "sub": "108734287876941176918",
-        "name": "Cubayd Yuusuf",
-        "given_name": "Cubayd",
-        "family_name": "Yuusuf",
-        "picture": "https://lh3.googleusercontent.com/a/ACg8ocJlawsxyIyse2j_T8zfTGR_U1xaFYVO2-RKS6EAafeobg=s96-c",
-        "locale": "en"
-    }
-}
-*/
+
+/* const firebaseConfig = {
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId:  import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASURE_ID
+}; */
+
+/* VITE_FIREBASE_API_KEY="AIzaSyDYD4D4sSgktt8skWNlVDPjL27IbOMFy7M",
+VITE_FIREBASE_AUTH_DOMAIN="fashilhack.firebaseapp.com",
+VITE_FIREBASE_PROJECT_ID="fashilhack",
+VITE_FIREBASE_STORAGE_BUCKET="fashilhack.firebasestorage.app",
+VITE_FIREBASE_MESSAGING_SENDER_ID="26946334493",
+VITE_FIREBASE_APP_ID="1:26946334493:web:1f685d063661774bf6fbf4",
+VITE_FIREBASE_MEASURE_ID="G-E6HGX30XGN" */

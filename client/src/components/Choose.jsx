@@ -1,13 +1,9 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import ChooseData from "./ChooseData";
+import React, { useContext } from "react";
 import { InputContext } from "../context/context";
-import { useContext } from "react";
 
-const Choose = () => {
-  const { addCategory, selectedCategory, removeCategory } =
-    useContext(InputContext);
-
+const ChooseCategory = () => {
+  const { addCategory, selectedCategory, removeCategory } = useContext(InputContext);
+  
   const handleChoose = (category) => {
     if (isCategorySelected(category)) {
       removeCategory(category);
@@ -20,24 +16,24 @@ const Choose = () => {
     return selectedCategory.includes(category);
   };
 
+  // Example categories, replace with dynamic if needed
+  const categories = ["Web Security", "Network", "Pentesting", "Tools"];
+
   return (
     <div className="Choose">
-      <h1>Discover your world</h1>
+      <h1>Categories</h1>
       <div className="chooseSome">
-        {ChooseData.map((chosed, index) => (
+        {categories.map((category, index) => (
           <div 
             key={index}
-            onClick={() => handleChoose(chosed.category)}
-            className={isCategorySelected(chosed.category) ? "selected" : ""}>
-            <p>{chosed.category}</p>
+            onClick={() => handleChoose(category)}
+            className={`cursor-pointer p-2 rounded ${isCategorySelected(category) ? "bg-blue-500 text-white" : "bg-gray-200"}`}>
+            <p>{category}</p>
           </div>
         ))}
       </div>
-      <Link to="/userChooses" className="seeMore">
-        continue
-      </Link>
     </div>
   );
 };
 
-export default Choose;
+export default ChooseCategory;

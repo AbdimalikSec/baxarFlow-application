@@ -1,81 +1,45 @@
 import "./App.css";
-import { Route, Navigate } from "react-router-dom";
-import { Routes } from "react-router-dom";
+import { Route, Navigate, Routes } from "react-router-dom";
 import Header from "./components/Header";
-import Login from "./components/signin";
 import Home from "./pages/home";
 import Write from "./components/Write";
-import { useState, useEffect, useContext, Profiler } from "react";
-import { useNavigate } from "react-router-dom";
-import Singlearticle from "./components/Singlearticle";
+import { useState, useEffect, useContext } from "react";
 import About from "./components/About";
 import Choose from "./components/Choose";
-import UserChooses from "./components/UserChooses";
+import Members from "./components/Members";
 import { InputProvider } from "./context/context";
-import ReadList from "./components/ReadList";
-import EachCategory from "./components/EachCategory";
 import { InputContext } from "./context/context";
 import Profile from "./components/Profile";
-import UserPublished from "./components/userPublished";
+import JoinGroup from "./components/joinGroup"; // Import JoinGroup
+import { auth } from './firebase'; // Import Firebase auth
+import { onAuthStateChanged } from "firebase/auth";
 
 function App() {
-  const router = useNavigate();
   const { user, setUser } = useContext(InputContext);
 
   useEffect(() => {
-    const getUser = () => {
-      fetch("http://localhost:5000/auth/login/success", {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Credentials": true,
-        },
-      })
-        .then((response) => {
-          if (response.status === 200) return response.json();
-          throw new Error("authentication has been failed!");
-        })
-        .then((resObject) => {
-          setUser(resObject.user);
-          console.log(resObject.user);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-    getUser();
-  }, []);
-
-  /*  if(user){
-    router('/choose')
-  } */
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user); // Set user in context
+      } else {
+        setUser(null); // No user is signed in
+      }
+    });
+    return () => unsubscribe(); // Cleanup subscription on unmount
+  }, [setUser]);
 
   return (
     <>
       <div>
         <Header user={user} />
         <Routes>
-          <Route path="/choose" index element={<Choose />} />
-          <Route
-            path="/signin"
-            element={user ? <Navigate to="/choose" /> : <Login />}
-          ></Route>
-
-          <Route path="/" element={<Home />} />
-          <Route
-            path="/write"
-            element={user ? <Write /> : <Navigate to="/signin" />}
-          />
-          <Route path="/article/:id" element={<Singlearticle />} />
-          <Route path="/about" element={<About />} />
+          <Route path="/" element={user ? <Home /> : <JoinGroup />} /> {/* Default route */}
           <Route path="/choose" element={<Choose />} />
-          <Route user={user} path="/userchooses" element={<UserChooses />} />
-          <Route path="/readlist" element={<ReadList />} />
-          <Route path="/eachCategory" element={<EachCategory />} />
+          <Route path="/signup" element={user ? <Navigate to="/" /> : <JoinGroup />} />
+          <Route path="/write" element={!user ? <Navigate to="/signup" /> : <Write />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/Members" element={<Members />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/userpublished" element={<UserPublished />} />
         </Routes>
       </div>
     </>

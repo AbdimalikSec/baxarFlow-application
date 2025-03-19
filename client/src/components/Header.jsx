@@ -1,34 +1,31 @@
-import React from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { Link } from "react-router-dom";
-import { nin } from "../assets";
-import { useState, useEffect, useRef, useContext } from "react";
-import { FaBars } from "react-icons/fa";
 import { FaSearch } from "react-icons/fa";
+import Section from './sections';
+import { nin } from "../assets";
 import { InputContext } from "../context/context";
-import { CiSettings } from "react-icons/ci";
 import { CiUser } from "react-icons/ci";
-import { HiOutlineChatBubbleOvalLeftEllipsis } from "react-icons/hi2";
+import { auth } from '../firebase';
+import { signOut } from "firebase/auth";
+import Login from './Login';
+import SignUp from './SignUp';
 
 const Header = () => {
-  const { user } = useContext(InputContext);
+  const { user, setUser } = useContext(InputContext);
   const [open, setOpen] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
-
   const [isTyping, setIsTyping] = useState(false);
   const inputRef = useRef(null);
+  const [modal, setModal] = useState(null); 
 
   const handleInputChange = (event) => {
-    setIsTyping(event.target.value !== ""); // Update typing state based on input value
+    setIsTyping(event.target.value !== "");
   };
 
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
-      if (scrollPosition > 100) {
-        setIsHidden(true);
-      } else {
-        setIsHidden(false);
-      }
+      setIsHidden(scrollPosition > 100);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -38,163 +35,104 @@ const Header = () => {
     };
   }, []);
 
-  const logout = () => {
-    window.open("http://localhost:5000/auth/logout", "_self");
+  const logout = async () => {
+    try {
+      await signOut(auth);
+      setUser(null);
+      console.log("Logged out successfully");
+    } catch (error) {
+      console.error("Logout error: ", error);
+    }
   };
 
   return (
     <>
       <div className="navbar">
-        {user ? (
+        {/* Logo and Search */}
+        <div className="searchUser searchIconMobile">
+          <Link to="/" style={{ textDecoration: "none" }}>
+            <h1 className="logo">BaxarFlow</h1>
+          </Link>
+        </div>
+
+        {user && !isTyping && (
           <>
-            <Link to="/" style={{ textDecoration: "none" }}>
-              <h1 className="logo">BaxarFlow</h1>
-            </Link>
-            <Link style={{ textDecoration: "none" }}>
-              <div className="searchUser searchIconMobile">
-                <div>
-                  {!isTyping && ( // Conditionally render the search icon
-                    <FaSearch className="searchIcon iconInMobile" />
-                  )}
-                  <input
-                    type="text"
-                    ref={inputRef}
-                    onChange={handleInputChange}
-                    placeholder="Search"
-                    className="userDisplayInputDesktop"
-                  />
-                </div>
-              </div>
-            </Link>
-          </>
-        ) : (
-          <>
-            <Link to="/" style={{ textDecoration: "none" }}>
-              <h1 className="logo">BaxarFlow</h1>
-            </Link>
-          </>
-        )}
-        {!user && (
-          <>
-            <nav className="navka">
-              <ul>
-                <li>
-                  <Link to="/">Home</Link>
-                </li>
-                <li>
-                  <Link to="/signin">Write</Link>
-                </li>
-                <li>
-                  <Link to="/signin">signin</Link>
-                </li>
-                <li>
-                  <Link to="/signup">signup</Link>
-                </li>
-              </ul>
-            </nav>
-            <div className="userProfile">
-              <Link>
-                <div className="search">
-                  <div>
-                    {!isTyping && ( // Conditionally render the search icon
-                      <FaSearch className="searchIcon" />
-                    )}
-                    <input
-                      type="text"
-                      ref={inputRef}
-                      onChange={handleInputChange}
-                      placeholder="Search"
-                    />
-                  </div>
-                  <img
-                    className="username"
-                    onClick={() => setOpen(!open)}
-                    src={nin}
-                    alt=""
-                  />
-                </div>
-              </Link>
+            <div style={{ marginLeft: '650px', position: "absolute" }}>
+              <FaSearch />
             </div>
-            {open && !isHidden ? (
-              <div className="userInfo">
-                <Link className="infoSign" to="/signin">
-                  <p>sign in</p>
-                </Link>
-                <Link className="infoSign" to="/signup">
-                  <p>sign up</p>
-                </Link>
-                <Link to="/signin">
-                  <p>Become a medium member</p>
-                </Link>
-                <Link to="/signin">
-                  <p>apply for author verification</p>
-                </Link>
-              </div>
-            ) : (
-              <div className="userInfo" style={{ display: "none" }}></div>
-            )}
+            <input
+              type="text"
+              ref={inputRef}
+              onChange={handleInputChange}
+              placeholder="Search"
+              style={{ borderStyle: "gray" }}
+            />
           </>
         )}
 
-        {user && (
-          <div className="userProfile">
-            <nav className="navka">
-              <ul>
-                <li>
-                  <Link style={{ textDecoration: "none" }} to="/">
-                    Home
-                  </Link>
-                </li>
-                <li>
-                  <Link style={{ textDecoration: "none" }} to="/write">
-                    Write
-                  </Link>
-                </li>
-                <img
-                  className="userImg"
-                  src={user._json.avatar_url}
-                  onClick={() => setOpen(!open)}
-                  alt=""
-                />
-              </ul>
-            </nav>
-            {open && !isHidden ? (
-              <div className="userInfo">
-                <Link style={{ textDecoration: "none" }} to="/profile">
-                  <div className="userProfileIcon">
-                    <p>Profile</p>
-                    <p>
-                      <CiUser />
-                    </p>
-                  </div>
-                </Link>
-                <Link style={{ textDecoration: "none" }} to="/story">
-                  <div className="userStory">
-                    <p>Story</p>
-                    <p>
-                      <HiOutlineChatBubbleOvalLeftEllipsis />
-                    </p>
-                  </div>
-                </Link>
-                <Link style={{ textDecoration: "none" }} to="/write">
-                  Write
-                </Link>
-                <Link style={{ textDecoration: "none" }} to="/signin">
-                  <p>Become a medium member</p>
-                </Link>
-                <Link style={{ textDecoration: "none" }} to="/signin">
-                  <p>apply for author verification</p>
-                </Link>
-                <Link style={{ textDecoration: 'none' }} onClick={logout}>
-                  logout
-                </Link>
+        {/* Right Section */}
+        <div className="imageAndNav" style={{ marginRight: '50px' }}>
+          {user ? (
+            <>
+              <span style={{ marginRight: "10px" }}>{user.displayName || user.email}</span>
+              <img
+                className="userImg"
+                src={user.photoURL || nin}
+                onClick={() => setOpen(!open)}
+                alt="User Avatar"
+                style={{ cursor: "pointer" }}
+              />
+            </>
+          ) : (
+            <button
+              onClick={() => setModal('login')}
+              className="bg-green-600 text-white px-4 py-2 rounded-lg"
+            >
+              Login
+            </button>
+          )}
+        </div>
+
+        {/* User Info */}
+        {open && !isHidden && user && (
+          <div className="userInfo">
+            <Link style={{ textDecoration: "none" }} to="/profile">
+              <div className="userProfileIcon">
+                <p>Profile</p>
+                <p><CiUser /></p>
               </div>
-            ) : (
-              <div className="userInfo" style={{ display: "none" }}></div>
-            )}
+            </Link>
+            <div className="userProfileIcon">
+              <p>Email: {user.email}</p>
+            </div>
+            <div className="userProfileIcon">
+              <p>Display Name: {user.displayName}</p>
+            </div>
+            <div className="userProfileIcon">
+              <p>Role: {user.role}</p>
+            </div>
+            <div onClick={logout} className="userProfileIcon">
+              <p>Logout</p>
+            </div>
           </div>
         )}
       </div>
+
+      {/* Modals */}
+      {modal === 'login' && (
+        <div className="fixed inset-0 flex justify-center items-center z-50 backdrop-blur-sm">
+          <Login onClose={() => setModal(null)} onSwitchToSignUp={() => setModal('signup')} />
+        </div>
+      )}
+
+      {modal === 'signup' && (
+        <div className="fixed inset-0 flex justify-center items-center z-50 backdrop-blur-sm">
+          <SignUp onClose={() => setModal(null)} onSwitchToLogin={() => setModal('login')} />
+        </div>
+      )}
+      
+      <Section />
+      <hr />
     </>
   );
 };

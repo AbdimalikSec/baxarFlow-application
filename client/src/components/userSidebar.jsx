@@ -1,10 +1,9 @@
 import React, { useState, useContext } from "react";
-import { nin, nin1, naag, nin3, nin4 } from "../assets/index";
 import { forwardRef } from "react";
+import { nin } from "../assets";
 import { FaEllipsisH } from "react-icons/fa";
 import { MdOutlineAttachEmail } from "react-icons/md";
 import { Link } from "react-router-dom";
-import Members from "./membersData";
 import { InputContext } from "../context/context";
 
 const sidebar = () => {
@@ -13,18 +12,19 @@ const sidebar = () => {
   const handleUserNoteToggle = (userId) => {
     setSelectedUserId(userId === selectedUserId ? null : userId);
   };
+
   return (
     <div>
       <div>
         {user && (
           <>
-            <img src={user._json.avatar_url} className="sidebarNin" alt="" />
+            <img src={user.photoURL || nin} className="sidebarNin" alt="" />
             <h3>{user.displayName}</h3>
           </>
         )}
         {!user && (
           <>
-            <img src={nin1} className="sidebarNin" alt="" />
+            <img src={nin} className="sidebarNin" alt="" />
             <h3>no user</h3>
           </>
         )}
@@ -37,26 +37,7 @@ const sidebar = () => {
         </p>
       </div>
       <div className="members">
-        <h4>following</h4>
-        {Members.map((mem) => (
-          <>
-            <div className="member" key={mem.id} id={mem.id}>
-              <div key={mem.id} className="singleMember">
-                <img src={mem.img} alt="nin" />
-                <p>{mem.name}</p>
-                <FaEllipsisH
-                  onClick={() => handleUserNoteToggle(mem.id)}
-                  className="dot"
-                />
-                {selectedUserId === mem.id && (
-                  <div id={mem.id} className="userNote">
-                    {mem.text}
-                  </div>
-                )}
-              </div>
-            </div>
-          </>
-        ))}
+        <h4>Memebers</h4>
         <Link>
           <p className="seeall">seeAll(18)</p>
         </Link>

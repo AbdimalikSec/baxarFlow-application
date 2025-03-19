@@ -1,185 +1,251 @@
-import React, { useState, useRef, useContext } from "react";
-import { FaPlus } from "react-icons/fa6";
-import { Link } from "react-router-dom";
-import { TbJson } from "react-icons/tb";
-import { HiCodeBracket } from "react-icons/hi2";
-import { PiBracketsCurly} from "react-icons/pi";
-import { CiYoutube } from "react-icons/ci";
-import { CiImageOn } from "react-icons/ci";
-import { InputContext } from "../context/context";
-import Upload from "./upload";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { solarizedlight } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useContext, useRef, useEffect } from 'react';
+import { FaPaperclip, FaYoutube, FaLink, FaTimes, FaCheck } from 'react-icons/fa';
+import { InputContext } from '../context/context';
+import { v4 as uuidv4 } from 'uuid'; // For unique IDs
+import { db } from '../firebase'; // Ensure Firebase is imported
+import { collection, addDoc } from 'firebase/firestore'; // Firestore functions
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'; // Import Storage functions
 
 const Write = () => {
-  const [open, setOpen] = useState(false);
-  const { inputs, addInput, generatedTexts,setGeneratedTexts } = useContext(InputContext); // Access shared data
-  const [currentText, setCurrentText] = useState("");
-  const [isCodeInput, setIsCodeInput] = useState(false);
-  const [code, setCode] = useState("");
+  const { user, setGeneratedTexts } = useContext(InputContext);
+  const [isOpen, setIsOpen] = useState(false);
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [youtubeLink, setYoutubeLink] = useState('');
+  const [category, setCategory] = useState('');
+  const [showYoutubePopup, setShowYoutubePopup] = useState(false);
+  const [tempYoutubeLink, setTempYoutubeLink] = useState('');
+  const [showLinkPopup, setShowLinkPopup] = useState(false);
+  const [linkValue, setLinkValue] = useState('');
+  const [file, setFile] = useState(null);
+
   const inputRef = useRef(null);
-  const [showVideo, setShowVideo] = useState(false);
-  const [imageUrl, setImageUrl] = useState("");
+  const fileInputRef = useRef(null);
 
-
-
-  const handleImageClick = async () => {
-    // Make an API request to fetch the image from Upleash
-    try {
-      const response = await fetch("YOUR_UPLASH_API_ENDPOINT");
-      const data = await response.json();
-      const imageSrc = data.image_url;
-      setImageUrl(imageSrc);
-    } catch (error) {
-      console.log("Error fetching image from Upleash:", error);
-    }
-  };
-
-  const handleYoutubeClick = () => {
-    setShowVideo(true);
-  };
-
-  const handleTextChange = (event) => {
-    setCurrentText(event.target.value);
-  };
-
-  const handleCodeChange = (event) => {
-    setCode(event.target.value);
-  };
-
-  const handleKeyPress = (event) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-
-      if (isCodeInput) {
-        if (code.trim() !== "") {
-          setGeneratedTexts((prevTexts) => [
-            ...prevTexts,
-            { type: "code", content: code },
-          ]);
-          setCode("");
-          setIsCodeInput(false);
-        }
-      } else {
-        if (currentText.trim() !== "") {
-          setGeneratedTexts((prevTexts) => [
-            ...prevTexts,
-            { type: "text", content: currentText },
-          ]);
-          setCurrentText("");
-        }
-      }
+  useEffect(() => {
+    if (isOpen && inputRef.current) {
       inputRef.current.focus();
     }
-  };
+  }, [isOpen]);
 
-  const handlePublishClick = () => {
-    if (isCodeInput) {
-      if (code.trim() !== "") {
-        addInput({ type: "code", content: code });
-        setCode("");
-        setIsCodeInput(false);
-      }
-    } else {
-      if (currentText.trim() !== "") {
-        addInput(currentText);
-        setCurrentText("");
-      }
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      setFile(selectedFile);
     }
-    setGeneratedTexts([]); // Clear generated texts for next use
   };
 
-  const handleEditInput = (index, newValue) => {
-    setGeneratedTexts((prevTexts) => {
-      const updatedTexts = [...prevTexts];
-      updatedTexts[index] = { ...updatedTexts[index], content: newValue };
-      return updatedTexts;
-    });
-  };
-  console.log(generatedTexts)
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("Post button clicked!"); // Log action
+    console.log("Title:", title, "Category:", category); // Log current values
+    if (!title || !category) return;
 
+    try {
+      let imgUrl = null;
+
+      if (file) {
+        const storage = getStorage();
+        const storageRef = ref(storage, `images/${file.name}`);
+        await uploadBytes(storageRef, file);
+        imgUrl = await getDownloadURL(storageRef);
+      }
+
+      const newPost = {
+        id: uuidv4(),
+        title,
+        content,
+        img: imgUrl,
+        youtube: youtubeLink,
+        link: linkValue,
+        category,
+        author: user ? user.displayName : 'Guest',
+        authorImg: user ? user.photoURL : null,
+        date: new Date().toISOString(),
+        likes: 0,
+        comments: [],
+      };
+
+      await addDoc(collection(db, "articles"), newPost);
+      setGeneratedTexts((prev) => [...prev, newPost]);
+      console.log("Document written with ID: ", newPost.id); // Log success
+      
+      setTitle('');
+      setContent('');
+      setYoutubeLink('');
+      setLinkValue('');
+      setFile(null);
+      setCategory('');
+      setIsOpen(false);
+    } catch (error) {
+      console.error("Error adding document: ", error);
+    }
+  };
 
   return (
-    <>
-      <div className="generatedInput">
-        {generatedTexts.map((item, index) => (
-          <div className="singleInputGenerated" key={index}>
-            {item.type === "text" ? (
-              <input
-                type="text"
-                className="inputCodeKa"
-                value={item.content}
-                onChange={(e) => handleEditInput(index, e.target.value)}
-              />
-            ) : (
-              <div className="codeContainer">
-                <SyntaxHighlighter language="javascript" style={solarizedlight}>
-                  {item.content}
-                </SyntaxHighlighter>
+    <div className="relative w-full max-w-xl mx-auto mt-10">
+      {!isOpen && (
+        <div
+          className="flex items-center border p-4 rounded cursor-pointer hover:shadow"
+          onClick={() => setIsOpen(true)}
+          style={{ marginLeft: '50px', marginBottom: "30px", marginTop: "30px" }}
+        >
+          <input type="text" placeholder="Write something..." className="w-full outline-none cursor-pointer" readOnly />
+        </div>
+      )}
+
+      {isOpen && (
+        <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm z-10">
+          <div 
+            className="bg-white border rounded-lg p-4 w-full max-w-xl mx-8 relative shadow-lg z-10"
+            style={{ marginLeft: '50px' }}
+          >
+            <p className="font-bold mb-2">{user ? user.displayName : 'Guest User'}</p>
+            <input
+              ref={inputRef}
+              type="text"
+              placeholder="Title"
+              className="w-full text-xl font-semibold p-2 mb-2 border rounded"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+            <textarea
+              placeholder="Write something..."
+              className="w-full p-2 border rounded mb-2"
+              rows="4"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+            ></textarea>
+
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex space-x-3">
+                <input
+                  type="file"
+                  id="fileInput"
+                  style={{ display: 'none' }}
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                />
+                <button onClick={() => fileInputRef.current.click()}><FaPaperclip size={20} /></button>
+                <button onClick={() => setShowLinkPopup(true)}><FaLink size={20} /></button>
+                <button onClick={() => setShowYoutubePopup(true)}><FaYoutube size={20} /></button>
+                <select
+                  className="border rounded p-1"
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                >
+                  <option value="">Select Category</option>
+                  <option value="Web Security">Web Security</option>
+                  <option value="Network">Network</option>
+                  <option value="Pentesting">Pentesting</option>
+                  <option value="Tools">Tools</option>
+                </select>
+              </div>
+
+              <div className="flex space-x-2">
+                <button 
+                  className="px-3 py-1 border rounded text-red-500"
+                  onClick={() => setIsOpen(false)}>
+                  <FaTimes /> Cancel
+                </button>
+                <button
+                  className={`px-3 py-1 border rounded text-green-600 ${!title || !category ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  disabled={!title || !category}
+                  onClick={handleSubmit}
+                >
+                  <FaCheck /> Post
+                </button>
+              </div>
+            </div>
+
+            {youtubeLink && (
+              <div className="mt-2">
+                <p className="text-sm text-gray-600">YouTube Video:</p>
+                <a href={youtubeLink} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
+                  {youtubeLink}
+                </a>
+              </div>
+            )}
+
+            {linkValue && (
+              <div className="mt-2">
+                <p className="text-sm text-gray-600">Link:</p>
+                <a href={linkValue} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
+                  {linkValue}
+                </a>
+              </div>
+            )}
+
+            {file && (
+              <div className="mt-2 flex justify-between items-center">
+                <p className="text-sm text-gray-600">Attached File:</p>
+                <img src={URL.createObjectURL(file)} alt="Attached" className="w-16 h-16 rounded" />
               </div>
             )}
           </div>
-        ))}
+        </div>
+      )}
 
-        {showVideo && (
-          <div className="videoContainer">
-            {/* Replace "VIDEO_ID" with the actual YouTube video ID */}
-            <iframe
-              width="560"
-              height="315"
-              src="https://www.youtube.com/embed/CBYHwZcbD-s&list=PPSV"
-              title="YouTube Video"
-              frameBorder="0"
-              allowFullScreen
-            ></iframe>
+      {showYoutubePopup && (
+        <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm z-50">
+          <div className="bg-white p-4 rounded shadow-md w-96">
+            <p className="mb-2">Paste YouTube Video Link:</p>
+            <input
+              type="text"
+              value={tempYoutubeLink}
+              onChange={(e) => setTempYoutubeLink(e.target.value)}
+              className="border w-full p-2 mb-4 rounded"
+            />
+            <div className="flex justify-end space-x-2">
+              <button
+                className="px-3 py-1 border rounded text-red-500"
+                onClick={() => setShowYoutubePopup(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-3 py-1 border rounded text-green-600"
+                onClick={() => {
+                  setYoutubeLink(tempYoutubeLink);
+                  setTempYoutubeLink('');
+                  setShowYoutubePopup(false);
+                }}
+              >
+                Add
+              </button>
+            </div>
           </div>
-        )}
-        {imageUrl && <img src={imageUrl} alt="Upleash Image" />}
-      </div>
+        </div>
+      )}
 
-      <div className="write">
-        <FaPlus className="plus" onClick={() => setOpen(!open)} />
-        <input
-          type="text"
-          placeholder={isCodeInput ? "Enter code" : "Enter text"}
-          value={isCodeInput ? code : currentText}
-          onChange={isCodeInput ? handleCodeChange : handleTextChange}
-          onKeyDown={handleKeyPress} // Update the event handler to handle key press
-          ref={inputRef}
-          className={isCodeInput ? "codeInput" : ""}
-        />
-
-        {open && (
-          <div className="otherIcon">
-            <button>
-              <TbJson className="writeIcon" />
-            </button>
-            <button onClick={handleImageClick} className="img">
-              <CiImageOn className="writeIcon" />
-            </button>
-            <button onClick={handleYoutubeClick} className="youtube">
-              <CiYoutube className="writeIcon" />
-            </button>
-            <button className="code" onClick={() => setIsCodeInput(true)}>
-              <HiCodeBracket className="writeIcon" />
-            </button>
-            <button className="baraket">
-              <PiBracketsCurly className="writeIcon" />
-            </button>
+      {showLinkPopup && (
+        <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm z-50">
+          <div className="bg-white p-4 rounded shadow-md w-96">
+            <p className="mb-2">Paste Link:</p>
+            <input
+              type="text"
+              value={linkValue}
+              onChange={(e) => setLinkValue(e.target.value)}
+              className="border w-full p-2 mb-4 rounded"
+            />
+            <div className="flex justify-end space-x-2">
+              <button
+                className="px-3 py-1 border rounded text-red-500"
+                onClick={() => setShowLinkPopup(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-3 py-1 border rounded text-green-600"
+                onClick={() => setShowLinkPopup(false)}
+              >
+                Add
+              </button>
+            </div>
           </div>
-        )}
-      </div>
-
-      <div className="publish">
-        <Link className="btnpub" onClick={handlePublishClick}>
-          Publish
-        </Link>
-        <Link  to='/profile' className="btnpub" onClick={handlePublishClick}>
-          go
-        </Link>
-      </div>
-    </>
+        </div>
+      )}
+    </div>
   );
 };
 

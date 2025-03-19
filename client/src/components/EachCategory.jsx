@@ -1,7 +1,7 @@
 import React from "react";
 import { useContext } from "react";
 import { InputContext } from "../context/context";
-import Data from "./data";
+
 import ArticleCard from './articleCard'
 
 const EachCategory = () => {
@@ -14,7 +14,6 @@ const EachCategory = () => {
     };
   });
   console.log(filterSameCategory)
-
 
   return (
     <div className="eachCategory">
