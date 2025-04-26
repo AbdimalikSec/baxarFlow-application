@@ -4,7 +4,13 @@ import { InputContext } from '../context/context';
 import { v4 as uuidv4 } from 'uuid'; // For unique IDs
 import { db } from '../firebase'; // Ensure Firebase is imported
 import { collection, addDoc } from 'firebase/firestore'; // Firestore functions
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'; // Import Storage functions
+import { createClient } from '@supabase/supabase-js'; // Import Supabase client
+import { format } from 'date-fns';
+
+// Initialize Supabase
+const supabaseUrl =import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 const Write = () => {
   const { user, setGeneratedTexts } = useContext(InputContext);
@@ -13,14 +19,14 @@ const Write = () => {
   const [content, setContent] = useState('');
   const [youtubeLink, setYoutubeLink] = useState('');
   const [category, setCategory] = useState('');
-  const [showYoutubePopup, setShowYoutubePopup] = useState(false);
-  const [tempYoutubeLink, setTempYoutubeLink] = useState('');
-  const [showLinkPopup, setShowLinkPopup] = useState(false);
   const [linkValue, setLinkValue] = useState('');
   const [file, setFile] = useState(null);
-
+  const [showLinkPopup, setShowLinkPopup] = useState(false);
+  const [showYoutubePopup, setShowYoutubePopup] = useState(false);
   const inputRef = useRef(null);
   const fileInputRef = useRef(null);
+
+  
 
   useEffect(() => {
     if (isOpen && inputRef.current) {
@@ -36,40 +42,56 @@ const Write = () => {
   };
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
-    console.log("Post button clicked!"); // Log action
-    console.log("Title:", title, "Category:", category); // Log current values
-    if (!title || !category) return;
+    if (!user) {
+      console.error("User is not authenticated. Cannot post.");
+      return; // Prevent posting if user is not authenticated
+    }
+    if (!title || !category) return; // Ensure title and category are filled
+  
+    let imgUrl = null;
+  
+    if (file) {
+      try {
+        // Upload the file to Supabase Storage
+        const { data, error } = await supabase.storage
+          .from('articles-images')
+          .upload(`images/${file.name}`, file);
+  
+        if (error) {
+          throw error;
+        }
+  
+        // Get the public URL of the uploaded file
+        imgUrl = `${supabaseUrl}/storage/v1/object/public/articles-images/${data.path}`;
+      } catch (uploadError) {
+        console.error("Error uploading file: ", uploadError);
+        return; // Exit the function if file upload fails
+      }
+    }
+
+    const newPost = {
+      id: uuidv4(),
+      title,
+      content,
+      img: imgUrl,
+      youtube: youtubeLink,
+      link: linkValue,
+      category,
+      author: user.displayName || 'Guest',
+      authorImg: user.photoURL || null,
+      date: format(new Date(), 'PPP p'),
+      likes: 0,
+      comments: [],
+    };
 
     try {
-      let imgUrl = null;
-
-      if (file) {
-        const storage = getStorage();
-        const storageRef = ref(storage, `images/${file.name}`);
-        await uploadBytes(storageRef, file);
-        imgUrl = await getDownloadURL(storageRef);
-      }
-
-      const newPost = {
-        id: uuidv4(),
-        title,
-        content,
-        img: imgUrl,
-        youtube: youtubeLink,
-        link: linkValue,
-        category,
-        author: user ? user.displayName : 'Guest',
-        authorImg: user ? user.photoURL : null,
-        date: new Date().toISOString(),
-        likes: 0,
-        comments: [],
-      };
-
       await addDoc(collection(db, "articles"), newPost);
       setGeneratedTexts((prev) => [...prev, newPost]);
-      console.log("Document written with ID: ", newPost.id); // Log success
-      
+      console.log("Document added successfully!");
+
+      // Reset fields
       setTitle('');
       setContent('');
       setYoutubeLink('');
@@ -83,24 +105,35 @@ const Write = () => {
   };
 
   return (
-    <div className="relative w-full max-w-xl mx-auto mt-10">
-      {!isOpen && (
-        <div
-          className="flex items-center border p-4 rounded cursor-pointer hover:shadow"
-          onClick={() => setIsOpen(true)}
-          style={{ marginLeft: '50px', marginBottom: "30px", marginTop: "30px" }}
-        >
-          <input type="text" placeholder="Write something..." className="w-full outline-none cursor-pointer" readOnly />
-        </div>
-      )}
+    <>
+   <div className="inputOfWrite">
+  {!isOpen && (
+    <div
+      className="flex w-[500px] bg-white rounded-lg border border-gray-300 p-3 shadow-sm hover:shadow-md transition cursor-pointer"
+      onClick={() => setIsOpen(true)}
+    >
+    {/*<img
+            className="userImg"
+            src={user.photoURL || nin}
+            onClick={() => setOpen(!open)}
+            alt="User Avatar"
+            style={{ cursor: "pointer" }}
+    /> */}
+      <input
+        type="text"
+        placeholder="Write something..."
+        className=" w-full p-4 bg-gray-100 rounded-md text-gray-700 placeholder-gray-400 outline-none cursor-pointer"
+        readOnly
+      />
+    </div>
+  )}
+</div>
+  
 
       {isOpen && (
         <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm z-10">
-          <div 
-            className="bg-white border rounded-lg p-4 w-full max-w-xl mx-8 relative shadow-lg z-10"
-            style={{ marginLeft: '50px' }}
-          >
-            <p className="font-bold mb-2">{user ? user.displayName : 'Guest User'}</p>
+          <div className="bg-white border rounded-lg p-4 w-full max-w-xl mx-8 relative shadow-lg z-10">
+            <p className="font-bold mb-2">{user.displayName || 'Guest User'}</p>
             <input
               ref={inputRef}
               type="text"
@@ -143,13 +176,11 @@ const Write = () => {
               </div>
 
               <div className="flex space-x-2">
-                <button 
-                  className="px-3 py-1 border rounded text-red-500"
-                  onClick={() => setIsOpen(false)}>
+                <button className="px-3 py-1 border rounded text-red-500" onClick={() => setIsOpen(false)}>
                   <FaTimes /> Cancel
                 </button>
                 <button
-                  className={`px-3 py-1 border rounded text-green-600 ${!title || !category ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  className={`px-3 py-1 border rounded text-green-600 ${!title ? 'opacity-50 cursor-not-allowed' : ''}`}
                   disabled={!title || !category}
                   onClick={handleSubmit}
                 >
@@ -166,6 +197,32 @@ const Write = () => {
                 </a>
               </div>
             )}
+
+{showLinkPopup && (
+  <div className="fixed z-20 bg-white border p-4 rounded shadow-lg">
+    <input
+      type="text"
+      placeholder="Paste Link"
+      value={linkValue}
+      onChange={(e) => setLinkValue(e.target.value)}
+      className="border rounded p-2"
+    />
+    <button onClick={() => setShowLinkPopup(false)}>Done</button>
+  </div>
+)}
+
+{showYoutubePopup && (
+  <div className="fixed z-20 bg-white border p-4 rounded shadow-lg">
+    <input
+      type="text"
+      placeholder="Paste YouTube Link"
+      value={youtubeLink}
+      onChange={(e) => setYoutubeLink(e.target.value)}
+      className="border rounded p-2"
+    />
+    <button onClick={() => setShowYoutubePopup(false)}>Done</button>
+  </div>
+)}
 
             {linkValue && (
               <div className="mt-2">
@@ -185,67 +242,8 @@ const Write = () => {
           </div>
         </div>
       )}
-
-      {showYoutubePopup && (
-        <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm z-50">
-          <div className="bg-white p-4 rounded shadow-md w-96">
-            <p className="mb-2">Paste YouTube Video Link:</p>
-            <input
-              type="text"
-              value={tempYoutubeLink}
-              onChange={(e) => setTempYoutubeLink(e.target.value)}
-              className="border w-full p-2 mb-4 rounded"
-            />
-            <div className="flex justify-end space-x-2">
-              <button
-                className="px-3 py-1 border rounded text-red-500"
-                onClick={() => setShowYoutubePopup(false)}
-              >
-                Cancel
-              </button>
-              <button
-                className="px-3 py-1 border rounded text-green-600"
-                onClick={() => {
-                  setYoutubeLink(tempYoutubeLink);
-                  setTempYoutubeLink('');
-                  setShowYoutubePopup(false);
-                }}
-              >
-                Add
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {showLinkPopup && (
-        <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm z-50">
-          <div className="bg-white p-4 rounded shadow-md w-96">
-            <p className="mb-2">Paste Link:</p>
-            <input
-              type="text"
-              value={linkValue}
-              onChange={(e) => setLinkValue(e.target.value)}
-              className="border w-full p-2 mb-4 rounded"
-            />
-            <div className="flex justify-end space-x-2">
-              <button
-                className="px-3 py-1 border rounded text-red-500"
-                onClick={() => setShowLinkPopup(false)}
-              >
-                Cancel
-              </button>
-              <button
-                className="px-3 py-1 border rounded text-green-600"
-                onClick={() => setShowLinkPopup(false)}
-              >
-                Add
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
+   
+    </>
   );
 };
 

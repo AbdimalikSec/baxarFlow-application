@@ -1,28 +1,59 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import CommentModal from './CommentModal';
+import { doc, updateDoc, getDoc } from 'firebase/firestore';
+import { InputContext } from '../context/context';
+import { db } from '../firebase';
 
-const ArticleCard = ({ title, content, img, youtube, link, category, author, authorImg, date, likes, comments }) => {
+const ArticleCard = ({ id, title, content, img, youtube, link, category, author, authorImg, date, likes, comments }) => {
   const [isCommentModalOpen, setCommentModalOpen] = useState(false);
-  const [articleComments, setArticleComments] = useState(comments || []); // Initialize with passed comments
+  const [articleComments, setArticleComments] = useState(comments || []);
+  const { user } = useContext(InputContext);
 
-  const handleLike = () => {
-    // Logic to handle likes would go here, potentially updating Firestore
+  const handleLike = async () => {
+    const articleRef = doc(db, "articles", id); // Reference to the article document
+    console.log("Trying to like article with ID:", id); // Debugging log
+
+    try {
+      const articleSnap = await getDoc(articleRef);
+      if (!articleSnap.exists()) {
+        console.error("No such document for likes!");
+        return; // Document doesn't exist
+      }
+
+      const updatedLikes = articleSnap.data().likes + 1; // Increment the current likes
+      await updateDoc(articleRef, { likes: updatedLikes }); // Update likes in Firestore
+      console.log("Likes updated successfully!"); // Debugging log
+    } catch (error) {
+      console.error("Error updating likes: ", error);
+    }
   };
 
-  const handleCommentSubmit = (newComment) => {
-    setArticleComments((prevComments) => [
-      ...prevComments,
-      {
-        author: newComment.author,
-        authorImg: newComment.authorImg,
-        comment: newComment.comment,
-      },
-    ]);
+  const handleCommentSubmit = async (newComment) => {
+    const updatedComments = [...articleComments, newComment];
+    setArticleComments(updatedComments);
+
+    const articleRef = doc(db, "articles", id);
+    console.log("Trying to submit comment to article ID:", id); // Debugging log
+
+    try {
+      const articleSnap = await getDoc(articleRef);
+      if (!articleSnap.exists()) {
+        console.error("No such document for comments!");
+        return; // Document doesn't exist
+      }
+
+      await updateDoc(articleRef, {
+        comments: updatedComments, // Update comments in Firestore
+      });
+      console.log("Comment submitted successfully!"); // Debugging log
+    } catch (error) {
+      console.error("Error saving comment: ", error);
+    }
   };
 
   return (
-    <div className="border rounded-lg p-4 shadow-md mb-4 flex">
-      <div className="flex-1 mr-4">
+    <div className="articleCardBox border rounded-lg p-4 shadow-md mb-4 flex">
+      <div className="eachatricle  flex-1 mr-4">
         <div className="flex items-center mb-3">
           <img src={authorImg} alt={author} className="w-12 h-12 rounded-full mr-3" />
           <div>
@@ -63,6 +94,7 @@ const ArticleCard = ({ title, content, img, youtube, link, category, author, aut
         onSubmit={handleCommentSubmit}
         article={{ title, content, author, authorImg }} // Pass article info to modal
         comments={articleComments} // Pass updated comments to modal
+        articleId={id} // Pass the article ID to the modal
       />
     </div>
   );

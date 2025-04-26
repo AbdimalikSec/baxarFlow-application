@@ -13,6 +13,8 @@ import Profile from "./components/Profile";
 import JoinGroup from "./components/joinGroup"; // Import JoinGroup
 import { auth } from './firebase'; // Import Firebase auth
 import { onAuthStateChanged } from "firebase/auth";
+import ClassRome from "./components/ClassRome";
+import ClassDetail from "./components/classDetails";
 
 function App() {
   const { user, setUser } = useContext(InputContext);
@@ -40,6 +42,8 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/Members" element={<Members />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="Classroom" element={<ClassRome/>} />
+          <Route path="/class/:slug" element={<ClassDetail />} />
         </Routes>
       </div>
     </>

@@ -9,14 +9,22 @@ const Books = () => {
 
   useEffect(() => {
     const fetchArticles = async () => {
-      const articlesCollection = collection(db, 'articles');
-      const articlesSnapshot = await getDocs(articlesCollection);
-      const articlesList = articlesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setArticles(articlesList);
+      try {
+        const articlesCollection = collection(db, 'articles');
+        const articlesSnapshot = await getDocs(articlesCollection);
+        const articlesList = articlesSnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+          comments: doc.data().comments || [], // Ensure comments are included
+        }));
+        setArticles(articlesList);
+      } catch (error) {
+        console.error("Error fetching articles: ", error);
+      }
     };
 
     fetchArticles();
-  }, [setArticles]);
+  }, [setArticles]); // Dependency array to run effect once
 
   // Filter articles based on selected categories
   const filteredArticles = selectedCategory.length
@@ -29,6 +37,7 @@ const Books = () => {
         filteredArticles.map((article) => (
           <ArticleCard
             key={article.id}
+            id={article.id} // Pass the article ID
             title={article.title}
             content={article.content}
             img={article.img} // Use the img URL directly

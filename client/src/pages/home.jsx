@@ -23,17 +23,18 @@ const Home = () => {
         {user && (
           <div className={`sidebarHome`}>
             <Sidebar />
-            {/* Conditional rendering based on role */}
+            
             {user.role === 'admin' && (
               <div>
                 <h2 style={{ color: "red" }}>Admin Panel</h2>
-                {/* Add admin functionalities here */}
+              
               </div>
             )}
+
             {user.role === 'member' && (
               <div>
                 <h2 style={{ color: "red" }}>member Panel</h2>
-                {/* Add admin functionalities here */}
+                
               </div>
             )}
           </div>
@@ -45,4 +46,5 @@ const Home = () => {
 };
 
 export default Home;
+
 

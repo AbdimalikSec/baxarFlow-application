@@ -1,0 +1,87 @@
+.classdetailcontainer {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 3rem;
+  padding: 4rem 2rem;
+  flex-wrap: wrap;
+}
+
+.leftBox {
+  
+  flex: 1;
+  max-width: 500px;
+  background: #f8fafc;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.05);
+}
+
+.rightBox {
+  flex: 1;
+  max-width: 400px;
+  height: 400px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.05);
+  overflow-y: auto;
+}
+
+/* Section inside Left Box */
+.section {
+  margin-bottom: 20px;
+}
+
+.sectionHeader {
+  font-weight: bold;
+  font-size: 18px;
+  padding: 12px;
+  background-color: #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.sectionHeader:hover {
+  background-color: #d1d5db;
+}
+
+.subSection {
+  padding-left: 15px;
+  margin-top: 10px;
+}
+
+.subItem {
+  font-size: 15px;
+  padding: 8px 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.classbox {
+  width: 400px;
+  min-height: 300px;
+  padding: 2rem;
+  border-radius: 20px;
+  background-color: #f9f9f9;
+  transition: all 0.3s ease;
+}
+
+
+/* Right Box (add this class dynamically if needed) */
+.classboxRight {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  background-color: white;
+}
+
+.subItem:hover {
+  background-color: #f1f5f9;
+  cursor: pointer;
+  padding-left: 10px;
+  transition: all 0.3s ease;
+}
+
+.subItem.active {
+  background-color: #e2e8f0;
+  font-weight: 600;
+}

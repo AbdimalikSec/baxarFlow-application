@@ -21,13 +21,12 @@ const ChooseCategory = () => {
 
   return (
     <div className="Choose">
-      <h1>Categories</h1>
       <div className="chooseSome">
         {categories.map((category, index) => (
           <div 
             key={index}
             onClick={() => handleChoose(category)}
-            className={`cursor-pointer p-2 rounded ${isCategorySelected(category) ? "bg-blue-500 text-white" : "bg-gray-200"}`}>
+            className={`cursor-pointer p-2 rounded ${isCategorySelected(category) ? "bg-blue-500 text-white" : ""}`}>
             <p>{category}</p>
           </div>
         ))}

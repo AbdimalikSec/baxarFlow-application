@@ -1,0 +1,15 @@
+
+
+.ClassCardbox{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    flex-direction: column;
+    box-shadow: 0 0 10px;
+    width: 40%;
+    height: 70%;
+    margin: 2rem 1rem;
+    padding: 1rem;
+    border-radius: 0.30rem;
+}

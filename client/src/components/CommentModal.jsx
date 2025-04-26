@@ -1,14 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { doc, updateDoc, getDoc } from 'firebase/firestore';
+import { InputContext } from '../context/context';
+import { db } from '../firebase';
 
-const CommentModal = ({ isOpen, onClose, onSubmit, article, comments }) => {
+const CommentModal = ({ isOpen, onClose, onSubmit, article, comments, articleId }) => {
   const [comment, setComment] = useState('');
+  const { user } = useContext(InputContext);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (comment.trim()) {
-      onSubmit({ ...article, comment }); // Submit the comment along with article info
-      setComment(''); // Clear the input after submission
-      onClose(); // Close the modal
+      const newComment = {
+        author: user.displayName,
+        authorImg: user.photoURL,
+        comment,
+      };
+
+      const articleRef = doc(db, "articles", articleId);
+      console.log("Trying to submit comment to article ID:", articleId); // Debugging log
+
+      try {
+        const articleSnap = await getDoc(articleRef);
+        if (!articleSnap.exists()) {
+          console.error("No such document for comments!");
+          return; // Handle the case where the document does not exist
+        }
+
+        const updatedComments = [...articleSnap.data().comments || [], newComment];
+        await updateDoc(articleRef, {
+          comments: updatedComments,
+        });
+
+        onSubmit(newComment); // Pass the new comment to the parent component
+        setComment(''); // Clear the input after submission
+        onClose(); // Close the modal
+      } catch (error) {
+        console.error("Error saving comment: ", error);
+      }
     }
   };
 
