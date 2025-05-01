@@ -11,7 +11,7 @@ export const InputContext = createContext();
 export const InputProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [state, dispatch] = useReducer(Reducer, initialArticles);
-  const [selectedCategory, setSelectedCategory] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("All");
   const [clickedCategory, setClickedCategory] = useState([]);
   const [generatedTexts, setGeneratedTexts] = useState([]);
 

@@ -27,9 +27,12 @@ const Books = () => {
   }, [setArticles]); // Dependency array to run effect once
 
   // Filter articles based on selected categories
-  const filteredArticles = selectedCategory.length
-    ? articles.filter(article => selectedCategory.includes(article.category))
-    : articles;
+  const filteredArticles =
+  selectedCategory === "All"
+    ? articles
+    : articles.filter(article => article.category === selectedCategory);
+
+
 
   return (
     <div className="max-w-xl mx-auto mt-4">

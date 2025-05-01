@@ -1,8 +1,9 @@
 .classdetailcontainer {
   display: flex;
+  
   justify-content: center;
   align-items: flex-start;
-  gap: 3rem;
+  gap: 8rem;
   padding: 4rem 2rem;
   flex-wrap: wrap;
 }

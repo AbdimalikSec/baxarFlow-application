@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
-import Section from './sections';
+import Section from "./sections";
 import { nin } from "../assets";
 import { InputContext } from "../context/context";
 import { CiUser } from "react-icons/ci";
-import { auth } from '../firebase';
+import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
-import Login from './Login';
-import SignUp from './SignUp';
+import Login from "./Login";
+import SignUp from "./SignUp";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const { user, setUser } = useContext(InputContext);
@@ -16,7 +17,8 @@ const Header = () => {
   const [isHidden, setIsHidden] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const inputRef = useRef(null);
-  const [modal, setModal] = useState(null); 
+  const [modal, setModal] = useState(null);
+  const navigate = useNavigate();
 
   const handleInputChange = (event) => {
     setIsTyping(event.target.value !== "");
@@ -40,6 +42,7 @@ const Header = () => {
       await signOut(auth);
       setUser(null);
       console.log("Logged out successfully");
+      navigate("/"); // 3. Redirect after logout
     } catch (error) {
       console.error("Logout error: ", error);
     }
@@ -47,6 +50,7 @@ const Header = () => {
 
   return (
     <>
+    <div className="navAndSecHaye">
       <div className="navbar">
         {/* Logo and Search */}
         <div className="searchUser searchIconMobile">
@@ -55,37 +59,52 @@ const Header = () => {
           </Link>
         </div>
 
-        {user && !isTyping && (
+        {user && (
           <>
-            <div style={{ marginLeft: '650px', position: "absolute" }}>
-              <FaSearch />
+            <div style={{ position: "relative", marginLeft: "50px" }}>
+              <FaSearch
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "10px",
+                  transform: "translateY(-50%)",
+                  color: "#888",
+                  pointerEvents: "none",
+                }}
+              />
+              <input
+                type="text"
+                ref={inputRef}
+                onChange={handleInputChange}
+                placeholder="Search"
+                style={{
+                  paddingLeft: "35px", // enough space for icon
+                  paddingRight: "200px",
+                  height: "30px",
+                  borderRadius: "5px",
+                  border:  isTyping ? "1px solid gray" : "1px solid gray",
+                  backgroundColor: isTyping ? "#f0f0f0" : "white"
+                }}
+              />
             </div>
-            <input
-              type="text"
-              ref={inputRef}
-              onChange={handleInputChange}
-              placeholder="Search"
-              style={{ borderStyle: "gray" }}
-            />
           </>
         )}
 
         {/* Right Section */}
-        <div className="imageAndNav" style={{ marginRight: '50px' }}>
+        <div className="imageAndNav" style={{ marginRight: "50px" }}>
           {user ? (
             <>
-              <span style={{ marginRight: "10px" }}>{user.displayName || user.email}</span>
+              <div className="userImg">
               <img
-                className="userImg"
                 src={user.photoURL || nin}
                 onClick={() => setOpen(!open)}
                 alt="User Avatar"
-                style={{ cursor: "pointer" }}
-              />
+                />
+                </div>
             </>
           ) : (
             <button
-              onClick={() => setModal('login')}
+              onClick={() => setModal("login")}
               className="bg-green-600 text-white px-4 py-2 rounded-lg"
             >
               Login
@@ -99,19 +118,21 @@ const Header = () => {
             <Link style={{ textDecoration: "none" }} to="/profile">
               <div className="userProfileIcon">
                 <p>Profile</p>
-                <p><CiUser /></p>
+                <p>
+                  <CiUser />
+                </p>
               </div>
             </Link>
             <div className="userProfileIcon">
               <p>Email: {user.email}</p>
             </div>
             <div className="userProfileIcon">
-              <p>Display Name: {user.displayName}</p>
+              <p>Name: {user.displayName}</p>
             </div>
             <div className="userProfileIcon">
               <p>Role: {user.role}</p>
             </div>
-            <div onClick={logout} className="userProfileIcon">
+            <div style={{ cursor: "pointer" }} onClick={logout} className="userProfileIcon">
               <p>Logout</p>
             </div>
           </div>
@@ -119,20 +140,25 @@ const Header = () => {
       </div>
 
       {/* Modals */}
-      {modal === 'login' && (
+      {modal === "login" && (
         <div className="fixed inset-0 flex justify-center items-center z-50 backdrop-blur-sm">
-          <Login onClose={() => setModal(null)} onSwitchToSignUp={() => setModal('signup')} />
+          <Login
+            onClose={() => setModal(null)}
+            onSwitchToSignUp={() => setModal("signup")}
+          />
         </div>
       )}
 
-      {modal === 'signup' && (
+      {modal === "signup" && (
         <div className="fixed inset-0 flex justify-center items-center z-50 backdrop-blur-sm">
-          <SignUp onClose={() => setModal(null)} onSwitchToLogin={() => setModal('login')} />
+          <SignUp
+            onClose={() => setModal(null)}
+            onSwitchToLogin={() => setModal("login")}
+          />
         </div>
       )}
-      
       <Section />
-      <hr />
+      </div>
     </>
   );
 };

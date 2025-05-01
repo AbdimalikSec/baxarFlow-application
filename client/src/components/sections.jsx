@@ -1,30 +1,37 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
-import { InputContext } from "../context/context"; // Import the context
+import { Link, useLocation } from "react-router-dom";
+import { InputContext } from "../context/context";
 
 const Sections = () => {
-  const { user } = useContext(InputContext); // Get user from context
+  const { user } = useContext(InputContext);
+  const location = useLocation();
 
-  // Render nothing if the user is not logged in
-  if (!user) {
-    return null; // Do not render anything if the user is not authenticated
-  }
+  if (!user) return null;
+
+  const getLinkStyle = (path) => ({
+    borderBottom: location.pathname === path ? "5px solid #000" : "none",
+    paddingBottom: "4px", // space between text and underline
+    textDecoration: "none",
+  });
 
   return (
+    <>
     <div className="SecNav">
-      <Link className="secNavLink" style={{ textDecoration: "none" }} to="/">
+      <Link className="secNavLink" style={getLinkStyle("/")} to="/">
         Community
       </Link>
-      <Link className="secNavLink" style={{ textDecoration: "none" }} to="/Classroom">
+      <Link className="secNavLink" style={getLinkStyle("/Classroom")} to="/Classroom">
         Classroom
       </Link>
-      <Link className="secNavLink" style={{ textDecoration: "none" }} to="/Members">
+      <Link className="secNavLink" style={getLinkStyle("/Members")} to="/Members">
         Members
       </Link>
-      <Link className="secNavLink" style={{ textDecoration: "none" }} to="/about">
+      <Link className="secNavLink" style={getLinkStyle("/about")} to="/about">
         About
       </Link>
     </div>
+     <hr />
+    </>
   );
 };
 

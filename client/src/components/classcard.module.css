@@ -3,7 +3,7 @@
 .ClassCardbox{
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items:flex-start;
     background-color: #ffffff;
     flex-direction: column;
     box-shadow: 0 0 10px;

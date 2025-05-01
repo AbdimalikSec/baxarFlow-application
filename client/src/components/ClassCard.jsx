@@ -8,7 +8,7 @@ const ClassCard = ({title, desc, img}) => {
     
     <div className={classCardCss.ClassCardbox}>
       <img src={img} width={400} alt="" />
-    <Link to={`/class/${slug}`}>
+    <Link to={`/Classroom/${slug}`}>
         <h1>{title}</h1>
       <p>{desc}</p>  
     </Link>

@@ -43,7 +43,7 @@ function App() {
           <Route path="/Members" element={<Members />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="Classroom" element={<ClassRome/>} />
-          <Route path="/class/:slug" element={<ClassDetail />} />
+          <Route path="/Classroom/:slug" element={<ClassDetail />} />
         </Routes>
       </div>
     </>

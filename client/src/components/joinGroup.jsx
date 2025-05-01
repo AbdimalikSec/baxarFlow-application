@@ -1,15 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SignUp from './SignUp';
 import Login from './Login';
 import Sidebar from './Homesidebar';
 import { FaUserLock, FaUsers, FaRegMoneyBillAlt, FaStar } from 'react-icons/fa';
+import { db } from '../firebase';
+import { collection, getDocs } from 'firebase/firestore';
 
 const JoinGroup = () => {
   const [modal, setModal] = useState(null); // 'signup' | 'login' | null
+  const [memberCount, setMemberCount] = useState(0);
+
+  // Fetch real members from Firebase
+  useEffect(() => {
+    const fetchMemberCount = async () => {
+      try {
+        const membersCollection = collection(db, "users");
+        const memberSnapshot = await getDocs(membersCollection);
+        setMemberCount(memberSnapshot.size); // .size gives the number of docs
+      } catch (error) {
+        console.error("Error fetching members:", error);
+      }
+    };
+
+    fetchMemberCount();
+  }, []);
 
   return (
     <div className={`flex justify-center items-center min-h-screen px-4 py-10 transition-all duration-300 ${modal ? 'backdrop-blur-sm' : ''}`}>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl w-full">
+        
         {/* Left Box */}
         <div className="p-10 bg-white rounded-2xl shadow-xl flex flex-col items-center w-full">
           <h1 className="text-3xl font-extrabold mb-6 text-center">CyberHack Community</h1>
@@ -20,7 +39,7 @@ const JoinGroup = () => {
             </div>
             <div className="flex items-center">
               <FaUsers className="text-green-500 mr-2 text-xl" />
-              <p className="text-lg">9.1k members</p>
+              <p className="text-lg">{memberCount.toLocaleString()} members</p> {/* Dynamic member count */}
             </div>
             <div className="flex items-center">
               <FaRegMoneyBillAlt className="text-orange-500 mr-2 text-xl" />
@@ -31,6 +50,7 @@ const JoinGroup = () => {
               <p className="text-lg">By CyberHack ⭐</p>
             </div>
           </div>
+
           <p className="text-gray-700 text-center leading-relaxed">
             👋 Join a thriving cybersecurity community led by FOUR industry experts with over 30 years’ experience.
             Access free hands-on project tutorials, career guidance, and connect with like-minded professionals working
