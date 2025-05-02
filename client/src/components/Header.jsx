@@ -37,6 +37,16 @@ const Header = () => {
     };
   }, []);
 
+  useEffect(() => {
+    // Check for user data in local storage on component mount
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      console.log("User loaded from local storage:", parsedUser); // ADDED LOG
+      setUser(parsedUser); // Set the user object with the stored data
+    }
+  }, [setUser]);
+
   const logout = async () => {
     try {
       await signOut(auth);

@@ -15,10 +15,13 @@ const SignUp = ({ onClose, onSwitchToLogin }) => {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
+      const uid = user.uid;
 
       // Reference to the user's document in Firestore
-      const userRef = doc(db, 'users', user.uid);
+      const userRef = doc(db, 'users', uid);
       const userDoc = await getDoc(userRef);
+
+      let role = 'member'; // Default role
 
       if (!userDoc.exists()) {
         // Create a new user document with registration flag and default role
@@ -29,18 +32,27 @@ const SignUp = ({ onClose, onSwitchToLogin }) => {
           isRegistered: true,
           role: 'member', // Default role set to 'member'
         });
-      } else if (!userDoc.data().isRegistered) {
-        // Update the registration flag
-        await setDoc(userRef, { isRegistered: true }, { merge: true });
+      } else {
+        // User document exists, get the role from Firestore
+        const userData = userDoc.data(); // Get the user data
+        role = userData.role; // Get the role from the document
       }
 
-      setUser(user);
+      // Create a user object with the role
+      const userWithRole = {
+        uid: user.uid,
+        displayName: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+        role: role, // Include the role here
+      };
+
+      setUser(userWithRole); // Set the user object with the role
       onClose();
     } catch (error) {
       setError(error.message);
     }
   };
-
 
   return (
     <div className="relative bg-white rounded-2xl shadow-2xl p-10 w-full max-w-lg">

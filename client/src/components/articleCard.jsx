@@ -1,17 +1,45 @@
-import React, { useState, useContext } from 'react';
-import CommentModal from './CommentModal';
-import { doc, updateDoc, getDoc } from 'firebase/firestore';
-import { InputContext } from '../context/context';
-import { db } from '../firebase';
+import React, { useState, useContext, useEffect } from "react";
+import CommentModal from "./CommentModal";
+import { doc, updateDoc, getDoc } from "firebase/firestore";
+import { InputContext } from "../context/context";
+import { db } from "../firebase";
 
-const ArticleCard = ({ id, title, content, img, youtube, link, category, author, authorImg, date, likes, comments }) => {
+const ArticleCard = ({
+  id, // Firestore Document ID
+  title,
+  content,
+  img,
+  youtube,
+  link,
+  category,
+  author,
+  authorImg,
+  date,
+  likes, // This will now be an array of user IDs
+  comments,
+}) => {
   const [isCommentModalOpen, setCommentModalOpen] = useState(false);
   const [articleComments, setArticleComments] = useState(comments || []);
   const { user } = useContext(InputContext);
+  const [hasLiked, setHasLiked] = useState(false); // Track if the current user has liked the article
+  const [likeCount, setLikeCount] = useState(likes ? likes.length : 0); // Initialize like count
+
+  useEffect(() => {
+    // Check if the current user has already liked the article
+    if (user && likes && Array.isArray(likes) && likes.includes(user.uid)) {
+      setHasLiked(true);
+    } else {
+      setHasLiked(false);
+    }
+  }, [user, likes]);
 
   const handleLike = async () => {
-    const articleRef = doc(db, "articles", id);
-    console.log("Trying to like article with ID:", id);
+    if (!user) {
+      alert("You must be logged in to like this article.");
+      return;
+    }
+
+    const articleRef = doc(db, "articles", id); // Use the Firestore ID
 
     try {
       const articleSnap = await getDoc(articleRef);
@@ -20,8 +48,26 @@ const ArticleCard = ({ id, title, content, img, youtube, link, category, author,
         return;
       }
 
-      const updatedLikes = articleSnap.data().likes + 1;
+      const articleData = articleSnap.data();
+      let updatedLikes = articleData.likes;
+
+      // Ensure updatedLikes is an array
+      if (!Array.isArray(updatedLikes)) {
+        updatedLikes = []; // Initialize as an empty array if it's not an array
+      }
+
+      if (hasLiked) {
+        // Unlike the article
+        updatedLikes = updatedLikes.filter((userId) => userId !== user.uid);
+        setHasLiked(false);
+      } else {
+        // Like the article
+        updatedLikes.push(user.uid);
+        setHasLiked(true);
+      }
+
       await updateDoc(articleRef, { likes: updatedLikes });
+      setLikeCount(updatedLikes.length); // Update local state
       console.log("Likes updated successfully!");
     } catch (error) {
       console.error("Error updating likes: ", error);
@@ -32,16 +78,9 @@ const ArticleCard = ({ id, title, content, img, youtube, link, category, author,
     const updatedComments = [...articleComments, newComment];
     setArticleComments(updatedComments);
 
-    const articleRef = doc(db, "articles", id);
-    console.log("Trying to submit comment to article ID:", id);
+    const articleRef = doc(db, "articles", id); // Use the Firestore ID
 
     try {
-      const articleSnap = await getDoc(articleRef);
-      if (!articleSnap.exists()) {
-        console.error("No such document for comments!");
-        return;
-      }
-
       await updateDoc(articleRef, {
         comments: updatedComments,
       });
@@ -53,51 +92,68 @@ const ArticleCard = ({ id, title, content, img, youtube, link, category, author,
 
   return (
     <>
-<div className="articleCardBox border rounded-lg p-4 shadow-md mb-4 flex items-start">
-  {/* Left section */}
-  <div className="flex-1">
-    <div className="flex items-center mb-3">
-      <img src={authorImg} alt={author} className="w-12 h-12 rounded-full mr-3" />
-      <div>
-        <h2 className="text-lg font-bold">{title}</h2>
-        <p className="text-xs text-gray-500">By {author} on {date}</p>
+      <div className="articleCardBox border rounded-lg shadow-md mb-4 flex items-start w-[140%]">
+        {/* Left section */}
+        <div className="flex-1 ">
+          <div className="flex items-center mb-3 ">
+            <img
+               src={`${authorImg}?${Date.now()}`}
+              alt={author}
+              className="w-12 h-12 rounded-full mr-3"
+            />
+            <div>
+              <h2 className="text-lg font-bold">{title}</h2>
+              <p className="text-xs text-gray-500">
+                By {author} on {date}
+              </p>
+            </div>
+          </div>
+          <p className="text-gray-700 mb-3">{content}</p>
+          {youtube && (
+            <p className="text-sm text-blue-500 mb-1">
+              YouTube:{" "}
+              <a href={youtube} target="_blank" rel="noopener noreferrer">
+                {youtube}
+              </a>
+            </p>
+          )}
+          {link && (
+            <p className="text-sm text-blue-500 mb-1">
+              Link:{" "}
+              <a href={link} target="_blank" rel="noopener noreferrer">
+                {link}
+              </a>
+            </p>
+          )}
+          {category && (
+            <p className="text-sm text-green-500">Category: {category}</p>
+          )}
+
+          <div className="flex space-x-4 mt-2">
+            <button onClick={handleLike} className={`text-blue-500 ${hasLiked ? 'font-semibold' : ''}`}>
+              {hasLiked ? "Unlike" : "Like"} {likeCount > 0 && `(${likeCount})`}
+            </button>
+
+            <button
+              onClick={() => setCommentModalOpen(true)}
+              className="text-blue-500"
+            >
+              Comment
+            </button>
+          </div>
+        </div>
+
+        {/* Right image */}
+        {img && (
+          <div className="ml-6 flex-shrink-0">
+            <img
+              src={img}
+              alt="Attached"
+              className="w-32 h-32 object-cover rounded border border-gray-200"
+            />
+          </div>
+        )}
       </div>
-    </div>
-    <p className="text-gray-700 mb-3">{content}</p>
-    {youtube && (
-      <p className="text-sm text-blue-500 mb-1">
-        YouTube: <a href={youtube} target="_blank" rel="noopener noreferrer">{youtube}</a>
-      </p>
-    )}
-    {link && (
-      <p className="text-sm text-blue-500 mb-1">
-        Link: <a href={link} target="_blank" rel="noopener noreferrer">{link}</a>
-      </p>
-    )}
-    {category && <p className="text-sm text-green-500">Category: {category}</p>}
-
-    <div className="flex space-x-4 mt-2">
-      <button onClick={handleLike} className="text-blue-500">
-        Like {likes > 0 && `(${likes})`}
-      </button>
-      <button onClick={() => setCommentModalOpen(true)} className="text-blue-500">
-        Comment
-      </button>
-    </div>
-  </div>
-
-  {/* Right image */}
-  {img && (
-    <div className="ml-6 flex-shrink-0">
-      <img
-        src={img}
-        alt="Attached"
-        className="w-32 h-32 object-cover rounded border border-gray-200"
-      />
-    </div>
-  )}
-</div>
-
 
       {/* Comment Modal */}
       <CommentModal
@@ -106,7 +162,7 @@ const ArticleCard = ({ id, title, content, img, youtube, link, category, author,
         onSubmit={handleCommentSubmit}
         article={{ title, content, author, authorImg }}
         comments={articleComments}
-        articleId={id}
+        articleId={id} // Pass the Firestore ID to the modal
       />
     </>
   );

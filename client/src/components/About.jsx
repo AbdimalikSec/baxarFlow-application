@@ -71,8 +71,6 @@ const About = () => {
         {/* Right Box */}
         <div className="p-10 bg-white rounded-2xl shadow-lg flex flex-col w-full">
           <Sidebar />
-          
-         
         </div>
       </div>
 

@@ -5,7 +5,7 @@ import { db } from '../firebase';
 import { collection, getDocs } from 'firebase/firestore';
 
 const Books = () => {
-  const { articles, setArticles, selectedCategory } = useContext(InputContext);
+  const { articles, setArticles, selectedCategory, setGeneratedTexts } = useContext(InputContext);
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -13,18 +13,19 @@ const Books = () => {
         const articlesCollection = collection(db, 'articles');
         const articlesSnapshot = await getDocs(articlesCollection);
         const articlesList = articlesSnapshot.docs.map(doc => ({
-          id: doc.id,
+          id: doc.id, // This is the Firestore document ID!
           ...doc.data(),
           comments: doc.data().comments || [], // Ensure comments are included
         }));
         setArticles(articlesList);
+        setGeneratedTexts(articlesList); // Update generated texts with fetched articles
       } catch (error) {
         console.error("Error fetching articles: ", error);
       }
     };
 
     fetchArticles();
-  }, [setArticles]); // Dependency array to run effect once
+  }, [setArticles, setGeneratedTexts]); // Dependency array to run effect once
 
   // Filter articles based on selected categories
   const filteredArticles =
@@ -40,7 +41,7 @@ const Books = () => {
         filteredArticles.map((article) => (
           <ArticleCard
             key={article.id}
-            id={article.id} // Pass the article ID
+            id={article.id} // Pass the Firestore document ID
             title={article.title}
             content={article.content}
             img={article.img} // Use the img URL directly

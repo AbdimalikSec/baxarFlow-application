@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { doc, updateDoc, getDoc } from 'firebase/firestore';
+import { doc, updateDoc } from 'firebase/firestore';
 import { InputContext } from '../context/context';
 import { db } from '../firebase';
 
@@ -16,17 +16,17 @@ const CommentModal = ({ isOpen, onClose, onSubmit, article, comments, articleId 
         comment,
       };
 
-      const articleRef = doc(db, "articles", articleId);
+      const articleRef = doc(db, "articles", articleId); // Use the Firestore ID
       console.log("Trying to submit comment to article ID:", articleId); // Debugging log
 
       try {
-        const articleSnap = await getDoc(articleRef);
-        if (!articleSnap.exists()) {
-          console.error("No such document for comments!");
-          return; // Handle the case where the document does not exist
-        }
+        //const articleSnap = await getDoc(articleRef); //No need to get doc just to update comments
+        //if (!articleSnap.exists()) {
+        //  console.error("No such document for comments!");
+        //  return; // Handle the case where the document does not exist
+        //}
 
-        const updatedComments = [...articleSnap.data().comments || [], newComment];
+        const updatedComments = [...comments, newComment]; // Use the comments passed as props
         await updateDoc(articleRef, {
           comments: updatedComments,
         });
