@@ -953,6 +953,6 @@ footer {
 .navAndSecHaye{
   position: sticky;
   top: 0;
-  z-index: 999999999;
+  z-index: 9999;
   background-color: #ffff;
 }

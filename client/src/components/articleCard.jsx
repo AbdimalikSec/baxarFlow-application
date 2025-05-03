@@ -3,7 +3,7 @@ import CommentModal from "./CommentModal";
 import { doc, updateDoc, getDoc, deleteDoc } from "firebase/firestore";
 import { InputContext } from "../context/context";
 import { db } from "../firebase";
-
+import ArticleDetailModal from "./ArticleDetailModal";
 const ArticleCard = ({
   id, // Firestore Document ID
   title,
@@ -23,6 +23,7 @@ const ArticleCard = ({
   const { user } = useContext(InputContext);
   const [hasLiked, setHasLiked] = useState(false); // Track if the current user has liked the article
   const [likeCount, setLikeCount] = useState(likes ? likes.length : 0); // Initialize like count
+  const [isDetailOpen, setDetailOpen] = useState(false);
 
   useEffect(() => {
     if (user && likes && Array.isArray(likes) && likes.includes(user.uid)) {
@@ -87,7 +88,9 @@ const ArticleCard = ({
   };
 
   const handleRemove = async () => {
-    const confirmDelete = window.confirm("Are you sure you want to remove this article?");
+    const confirmDelete = window.confirm(
+      "Are you sure you want to remove this article?"
+    );
     if (!confirmDelete) return;
 
     try {
@@ -99,13 +102,14 @@ const ArticleCard = ({
     }
   };
 
-  const canRemove =
-    user &&
-    (user.role === "admin" || user.uid === author); // author is user.uid of the one who posted
+  const canRemove = user && (user.role === "admin" || user.uid === author); // author is user.uid of the one who posted
 
   return (
     <>
-      <div className="articleCardBox border rounded-lg shadow-md mb-4 flex items-start w-[140%]">
+      <div
+        onClick={() => setDetailOpen(true)}
+        className="articleCardBox cursor border rounded-lg shadow-md mb-4 flex items-start w-[140%]"
+      >
         {/* Left section */}
         <div className="flex-1">
           <div className="flex items-center mb-3">
@@ -156,13 +160,12 @@ const ArticleCard = ({
             >
               Comment
             </button>
-
           </div>
-            {canRemove && (
-              <button onClick={handleRemove} className="text-red-500">
-                Remove
-              </button>
-            )}
+          {canRemove && (
+            <button onClick={handleRemove} className="text-red-500">
+              Remove
+            </button>
+          )}
         </div>
 
         {/* Right image */}
@@ -185,6 +188,24 @@ const ArticleCard = ({
         article={{ title, content, author, authorImg }}
         comments={articleComments}
         articleId={id}
+      />
+      <ArticleDetailModal
+        isOpen={isDetailOpen}
+        onClose={() => setDetailOpen(false)}
+        article={{
+          id,
+          title,
+          content,
+          img,
+          youtube,
+          link,
+          category,
+          author,
+          authorImg,
+          date,
+          likes,
+          comments,
+        }}
       />
     </>
   );
