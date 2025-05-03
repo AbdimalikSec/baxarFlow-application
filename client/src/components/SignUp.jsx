@@ -32,6 +32,7 @@ const SignUp = ({ onClose, onSwitchToLogin }) => {
           isRegistered: true,
           role: 'member', // Default role set to 'member'
         });
+
       } else {
         // User document exists, get the role from Firestore
         const userData = userDoc.data(); // Get the user data
@@ -48,6 +49,7 @@ const SignUp = ({ onClose, onSwitchToLogin }) => {
       };
 
       setUser(userWithRole); // Set the user object with the role
+      localStorage.setItem("user", JSON.stringify(userWithRole)); // ✅ Save after signup
       onClose();
     } catch (error) {
       setError(error.message);

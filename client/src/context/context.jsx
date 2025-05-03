@@ -14,6 +14,7 @@ export const InputProvider = ({ children }) => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [clickedCategory, setClickedCategory] = useState([]);
   const [generatedTexts, setGeneratedTexts] = useState([]);
+  const [loadingUser, setLoadingUser] = useState(true); // New
 
   const addCategory = (category) => {
     if (!selectedCategory.includes(category)) {
@@ -69,7 +70,9 @@ export const InputProvider = ({ children }) => {
         user,
         setUser,
         setGeneratedTexts,
-        generatedTexts
+        generatedTexts,
+        loadingUser,
+        setLoadingUser, // Expose
       }}
     >
       {children}

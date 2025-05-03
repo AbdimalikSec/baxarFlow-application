@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import CommentModal from "./CommentModal";
-import { doc, updateDoc, getDoc } from "firebase/firestore";
+import { doc, updateDoc, getDoc, deleteDoc } from "firebase/firestore";
 import { InputContext } from "../context/context";
 import { db } from "../firebase";
 
@@ -25,7 +25,6 @@ const ArticleCard = ({
   const [likeCount, setLikeCount] = useState(likes ? likes.length : 0); // Initialize like count
 
   useEffect(() => {
-    // Check if the current user has already liked the article
     if (user && likes && Array.isArray(likes) && likes.includes(user.uid)) {
       setHasLiked(true);
     } else {
@@ -39,7 +38,7 @@ const ArticleCard = ({
       return;
     }
 
-    const articleRef = doc(db, "articles", id); // Use the Firestore ID
+    const articleRef = doc(db, "articles", id);
 
     try {
       const articleSnap = await getDoc(articleRef);
@@ -51,23 +50,20 @@ const ArticleCard = ({
       const articleData = articleSnap.data();
       let updatedLikes = articleData.likes;
 
-      // Ensure updatedLikes is an array
       if (!Array.isArray(updatedLikes)) {
-        updatedLikes = []; // Initialize as an empty array if it's not an array
+        updatedLikes = [];
       }
 
       if (hasLiked) {
-        // Unlike the article
         updatedLikes = updatedLikes.filter((userId) => userId !== user.uid);
         setHasLiked(false);
       } else {
-        // Like the article
         updatedLikes.push(user.uid);
         setHasLiked(true);
       }
 
       await updateDoc(articleRef, { likes: updatedLikes });
-      setLikeCount(updatedLikes.length); // Update local state
+      setLikeCount(updatedLikes.length);
       console.log("Likes updated successfully!");
     } catch (error) {
       console.error("Error updating likes: ", error);
@@ -78,7 +74,7 @@ const ArticleCard = ({
     const updatedComments = [...articleComments, newComment];
     setArticleComments(updatedComments);
 
-    const articleRef = doc(db, "articles", id); // Use the Firestore ID
+    const articleRef = doc(db, "articles", id);
 
     try {
       await updateDoc(articleRef, {
@@ -90,14 +86,31 @@ const ArticleCard = ({
     }
   };
 
+  const handleRemove = async () => {
+    const confirmDelete = window.confirm("Are you sure you want to remove this article?");
+    if (!confirmDelete) return;
+
+    try {
+      const articleRef = doc(db, "articles", id);
+      await deleteDoc(articleRef); // Hard delete. Replace with updateDoc({deleted: true}) if soft-delete needed
+      console.log("Article removed successfully.");
+    } catch (error) {
+      console.error("Error removing article:", error);
+    }
+  };
+
+  const canRemove =
+    user &&
+    (user.role === "admin" || user.uid === author); // author is user.uid of the one who posted
+
   return (
     <>
       <div className="articleCardBox border rounded-lg shadow-md mb-4 flex items-start w-[140%]">
         {/* Left section */}
-        <div className="flex-1 ">
-          <div className="flex items-center mb-3 ">
+        <div className="flex-1">
+          <div className="flex items-center mb-3">
             <img
-               src={`${authorImg}?${Date.now()}`}
+              src={`${authorImg}?${Date.now()}`}
               alt={author}
               className="w-12 h-12 rounded-full mr-3"
             />
@@ -130,7 +143,10 @@ const ArticleCard = ({
           )}
 
           <div className="flex space-x-4 mt-2">
-            <button onClick={handleLike} className={`text-blue-500 ${hasLiked ? 'font-semibold' : ''}`}>
+            <button
+              onClick={handleLike}
+              className={`text-blue-500 ${hasLiked ? "font-semibold" : ""}`}
+            >
               {hasLiked ? "Unlike" : "Like"} {likeCount > 0 && `(${likeCount})`}
             </button>
 
@@ -140,7 +156,13 @@ const ArticleCard = ({
             >
               Comment
             </button>
+
           </div>
+            {canRemove && (
+              <button onClick={handleRemove} className="text-red-500">
+                Remove
+              </button>
+            )}
         </div>
 
         {/* Right image */}
@@ -162,7 +184,7 @@ const ArticleCard = ({
         onSubmit={handleCommentSubmit}
         article={{ title, content, author, authorImg }}
         comments={articleComments}
-        articleId={id} // Pass the Firestore ID to the modal
+        articleId={id}
       />
     </>
   );

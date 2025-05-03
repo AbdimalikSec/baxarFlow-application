@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import Section from "./sections";
 import { nin } from "../assets";
 import { InputContext } from "../context/context";
 import { CiUser } from "react-icons/ci";
 import { auth } from "../firebase";
-import { signOut } from "firebase/auth";
+import { signOut, onAuthStateChanged } from "firebase/auth";
 import Login from "./Login";
 import SignUp from "./SignUp";
-import { useNavigate } from "react-router-dom";
+import { getDoc, doc } from "firebase/firestore";
+import { db } from "../firebase";
 
 const Header = () => {
   const { user, setUser } = useContext(InputContext);
@@ -31,28 +32,45 @@ const Header = () => {
     };
 
     window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // 🔥 Auth state listener
   useEffect(() => {
-    // Check for user data in local storage on component mount
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      const parsedUser = JSON.parse(storedUser);
-      console.log("User loaded from local storage:", parsedUser); // ADDED LOG
-      setUser(parsedUser); // Set the user object with the stored data
-    }
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
+        const userRef = doc(db, "users", firebaseUser.uid);
+        const userSnap = await getDoc(userRef);
+
+        const userData = userSnap.exists()
+          ? userSnap.data()
+          : { role: "member" };
+
+        const fullUser = {
+          uid: firebaseUser.uid,
+          displayName: firebaseUser.displayName,
+          email: firebaseUser.email,
+          photoURL: firebaseUser.photoURL,
+          role: userData.role,
+        };
+
+        setUser(fullUser);
+        localStorage.setItem("user", JSON.stringify(fullUser));
+      } else {
+        setUser(null);
+        localStorage.removeItem("user");
+      }
+    });
+
+    return () => unsubscribe(); // cleanup listener
   }, [setUser]);
 
   const logout = async () => {
     try {
       await signOut(auth);
       setUser(null);
-      console.log("Logged out successfully");
-      navigate("/"); // 3. Redirect after logout
+      localStorage.removeItem("user");
+      navigate("/");
     } catch (error) {
       console.error("Logout error: ", error);
     }
@@ -60,17 +78,16 @@ const Header = () => {
 
   return (
     <>
-    <div className="navAndSecHaye">
-      <div className="navbar">
-        {/* Logo and Search */}
-        <div className="searchUser searchIconMobile">
-          <Link to="/" style={{ textDecoration: "none" }}>
-            <h1 className="logo">BaxarFlow</h1>
-          </Link>
-        </div>
+      <div className="navAndSecHaye">
+        <div className="navbar">
+          {/* Logo and Search */}
+          <div className="searchUser searchIconMobile">
+            <Link to="/" style={{ textDecoration: "none" }}>
+              <h1 className="logo">BaxarFlow</h1>
+            </Link>
+          </div>
 
-        {user && (
-          <>
+          {user && (
             <div style={{ position: "relative", marginLeft: "50px" }}>
               <FaSearch
                 style={{
@@ -88,86 +105,79 @@ const Header = () => {
                 onChange={handleInputChange}
                 placeholder="Search"
                 style={{
-                  paddingLeft: "35px", // enough space for icon
+                  paddingLeft: "35px",
                   paddingRight: "200px",
                   height: "30px",
                   borderRadius: "5px",
-                  border:  isTyping ? "1px solid gray" : "1px solid gray",
-                  backgroundColor: isTyping ? "#f0f0f0" : "white"
+                  border: "1px solid gray",
+                  backgroundColor: isTyping ? "#f0f0f0" : "white",
                 }}
               />
             </div>
-          </>
-        )}
+          )}
 
-        {/* Right Section */}
-        <div className="imageAndNav" style={{ marginRight: "50px" }}>
-          {user ? (
-            <>
+          {/* Right Section */}
+          <div className="imageAndNav" style={{ marginRight: "50px" }}>
+            {user ? (
               <div className="userImg">
-              <img
-                src={user.photoURL || nin}
-                onClick={() => setOpen(!open)}
-                alt="User Avatar"
+                <img
+                  src={user.photoURL || nin}
+                  onClick={() => setOpen(!open)}
+                  alt="User Avatar"
                 />
+              </div>
+            ) : (
+              <button
+                onClick={() => setModal("login")}
+                className="bg-green-600 text-white px-4 py-2 rounded-lg"
+              >
+                Login
+              </button>
+            )}
+          </div>
+
+          {/* User Info */}
+          {open && !isHidden && user && (
+            <div className="userInfo">
+              <Link style={{ textDecoration: "none" }} to="/profile">
+                <div className="userProfileIcon">
+                  <p>Profile</p>
+                  <p><CiUser /></p>
                 </div>
-            </>
-          ) : (
-            <button
-              onClick={() => setModal("login")}
-              className="bg-green-600 text-white px-4 py-2 rounded-lg"
-            >
-              Login
-            </button>
+              </Link>
+              <div className="userProfileIcon"><p>Email: {user.email}</p></div>
+              <div className="userProfileIcon"><p>Name: {user.displayName}</p></div>
+              <div className="userProfileIcon"><p>Role: {user.role}</p></div>
+              <div
+                style={{ cursor: "pointer" }}
+                onClick={logout}
+                className="userProfileIcon"
+              >
+                <p>Logout</p>
+              </div>
+            </div>
           )}
         </div>
 
-        {/* User Info */}
-        {open && !isHidden && user && (
-          <div className="userInfo">
-            <Link style={{ textDecoration: "none" }} to="/profile">
-              <div className="userProfileIcon">
-                <p>Profile</p>
-                <p>
-                  <CiUser />
-                </p>
-              </div>
-            </Link>
-            <div className="userProfileIcon">
-              <p>Email: {user.email}</p>
-            </div>
-            <div className="userProfileIcon">
-              <p>Name: {user.displayName}</p>
-            </div>
-            <div className="userProfileIcon">
-              <p>Role: {user.role}</p>
-            </div>
-            <div style={{ cursor: "pointer" }} onClick={logout} className="userProfileIcon">
-              <p>Logout</p>
-            </div>
+        {/* Modals */}
+        {modal === "login" && (
+          <div className="fixed inset-0 flex justify-center items-center z-50 backdrop-blur-sm">
+            <Login
+              onClose={() => setModal(null)}
+              onSwitchToSignUp={() => setModal("signup")}
+            />
           </div>
         )}
-      </div>
+        {modal === "signup" && (
+          <div className="fixed inset-0 flex justify-center items-center z-50 backdrop-blur-sm">
+            <SignUp
+              onClose={() => setModal(null)}
+              onSwitchToLogin={() => setModal("login")}
+            />
+          </div>
+        )}
 
-      {/* Modals */}
-      {modal === "login" && (
-        <div className="fixed inset-0 flex justify-center items-center z-50 backdrop-blur-sm">
-          <Login
-            onClose={() => setModal(null)}
-            onSwitchToSignUp={() => setModal("signup")}
-          />
-        </div>
-      )}
-
-      {modal === "signup" && (
-        <div className="fixed inset-0 flex justify-center items-center z-50 backdrop-blur-sm">
-          <SignUp
-            onClose={() => setModal(null)}
-            onSwitchToLogin={() => setModal("login")}
-          />
-        </div>
-      )}
-      <Section />
+        <Section />
       </div>
     </>
   );

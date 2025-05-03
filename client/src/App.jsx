@@ -15,21 +15,30 @@ import { auth } from './firebase'; // Import Firebase auth
 import { onAuthStateChanged } from "firebase/auth";
 import ClassRome from "./components/ClassRome";
 import ClassDetail from "./components/classDetails";
+import Spinner from "./components/spinner";
 
 function App() {
-  const { user, setUser } = useContext(InputContext);
+  const { user, setUser, loadingUser,setLoadingUser } = useContext(InputContext); // Make sure loadingUser is exposed
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setUser(user); // Set user in context
+        setUser(user);
       } else {
-        setUser(null); // No user is signed in
+        setUser(null);
       }
+      setLoadingUser(false); // ✅ <-- Add this here, outside the if-else
     });
-    return () => unsubscribe(); // Cleanup subscription on unmount
+    return () => unsubscribe();
   }, [setUser]);
 
+  if (loadingUser) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <Spinner/>
+      </div>
+    );
+  }
   return (
     <>
       <div>

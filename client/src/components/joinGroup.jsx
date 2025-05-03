@@ -1,14 +1,35 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect ,useContext,} from 'react';
 import SignUp from './SignUp';
 import Login from './Login';
 import Sidebar from './Homesidebar';
 import { FaUserLock, FaUsers, FaRegMoneyBillAlt, FaStar } from 'react-icons/fa';
-import { db } from '../firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { db , auth} from '../firebase';
+import { collection, getDocs,getDoc, doc} from 'firebase/firestore';
+import { InputContext } from '../context/context';
+import { onAuthStateChanged } from 'firebase/auth';
+
 
 const JoinGroup = () => {
   const [modal, setModal] = useState(null); // 'signup' | 'login' | null
   const [memberCount, setMemberCount] = useState(0);
+  const { setUser, setLoadingUser } = useContext(InputContext);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
+        const userRef = doc(db, "users", firebaseUser.uid);
+        const userSnap = await getDoc(userRef);
+        if (userSnap.exists()) {
+          setUser(userSnap.data());
+        }
+      } else {
+        setUser(null);
+      }
+      setLoadingUser(false);
+    });
+  
+    return () => unsubscribe();
+  }, []);
 
   // Fetch real members from Firebase
   useEffect(() => {

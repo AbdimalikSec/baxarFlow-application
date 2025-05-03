@@ -5,11 +5,18 @@ import Footer from "../components/footer";
 import Write from "../components/Write";
 import { InputContext } from "../context/context";
 import ChooseCategory from "../components/Choose";
+import Spinner from "../components/spinner";
 
 const Home = () => {
-  const { user } = useContext(InputContext);
+  const { user, loadingUser } = useContext(InputContext);
 
-  //  console.log("User in Home:", user);
+  if (loadingUser) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <>
