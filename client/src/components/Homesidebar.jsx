@@ -35,7 +35,7 @@ const Sidebar = () => {
   return user ? (
     <UserSidebar />
   ) : (
-    <div className="DiscoverHome">
+    <div className="DiscoverHome  backdrop-blur-sm">
       <div className="Discover">
         <img src={mustafa} alt="Community" />
         <h2 className="font-bold">CyberHack | Community</h2>
