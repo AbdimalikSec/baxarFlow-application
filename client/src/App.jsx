@@ -16,6 +16,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import ClassRome from "./components/ClassRome";
 import ClassDetail from "./components/classDetails";
 import Spinner from "./components/spinner";
+import UserProfile from "./components/UserProfile";
 
 function App() {
   const { user, setUser, loadingUser,setLoadingUser } = useContext(InputContext); // Make sure loadingUser is exposed
@@ -52,6 +53,7 @@ function App() {
           <Route path="/Members" element={<Members />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="Classroom" element={<ClassRome/>} />
+          <Route path="/userProfile" element={<UserProfile/>} />
           <Route path="/Classroom/:slug" element={<ClassDetail />} />
         </Routes>
       </div>

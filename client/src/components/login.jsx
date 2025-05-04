@@ -24,6 +24,9 @@ const Login = ({ onClose, onSwitchToSignUp }) => {
         setError('No account found. Please sign up first.');
         return;
       }
+   /*    if(userCredential == ""){
+        setError('please enter your email and password');
+      } */
 
       const userData = userDoc.data();
       setUser({ ...user, role: userData.role });
@@ -56,7 +59,7 @@ const Login = ({ onClose, onSwitchToSignUp }) => {
   };
 
   return (
-    <div className="relative bg-white rounded-2xl shadow-2xl p-10 w-full max-w-lg mx-auto m-20">
+    <div className="relative bg-white rounded-2xl shadow-2xl p-50 w-full max-w-lg mx-auto">
       <button onClick={onClose} className="absolute top-4 right-4 text-gray-500 hover:text-red-500 transition">
         <FaTimes size={20} />
       </button>
@@ -67,8 +70,9 @@ const Login = ({ onClose, onSwitchToSignUp }) => {
         type="email"
         placeholder="Email"
         value={email}
+       
         onChange={(e) => setEmail(e.target.value)}
-        className="border rounded w-full p-3 mb-4"
+        className="border rounded w-full p-50 mb-20"
       />
       <input
         type="password"
@@ -89,12 +93,12 @@ const Login = ({ onClose, onSwitchToSignUp }) => {
         onClick={handleGoogleSignIn}
         className="flex items-center justify-center bg-red-600 text-white py-3 rounded-lg hover:bg-red-700 transition w-full font-semibold mt-4"
       >
-        <FaGoogle className="mr-2" />
+        <FaGoogle className="mr-[20px]" />
         Sign in with Google
       </button>
 
       <p className="text-gray-600 mt-6 text-center">
-        Don't have an account?{' '}
+        Don't have an account?
         <span onClick={onSwitchToSignUp} className="text-green-600 cursor-pointer hover:underline">
           Sign up here
         </span>

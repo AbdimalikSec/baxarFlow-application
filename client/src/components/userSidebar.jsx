@@ -70,12 +70,7 @@ const sidebar = () => {
         )}
         <span>17Followers</span>
       </div>
-      <div className="icons">
-        <p>Follow</p>
-        <p>
-          <MdOutlineAttachEmail className="emailIcon" />
-        </p>
-      </div>
+     
       <div className="members">
         <p>Stop theory, start doing cyber! Get free hands-on projects & practical 
         skill-building guidance to gain foundational skills for a cybersecurity career.</p>

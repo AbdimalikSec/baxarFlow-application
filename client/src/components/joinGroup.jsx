@@ -47,7 +47,8 @@ const JoinGroup = () => {
   }, []);
 
   return (
-    <div className={`flex justify-center items-center min-h-screen px-4 py-10 transition-all duration-300 ${modal ? 'backdrop-blur-sm' : ''}`}>
+    <>
+    <div className={`flex justify-center  items-center min-h-screen px-4 py-10 transition-all duration-300 ${modal ? 'backdrop-blur-sm' : ''}`}>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl w-full">
         
         {/* Left Box */}
@@ -60,7 +61,7 @@ const JoinGroup = () => {
             </div>
             <div className="flex items-center">
               <FaUsers className="text-green-500 mr-2 text-xl" />
-              <p className="text-lg">{memberCount.toLocaleString()} members</p> {/* Dynamic member count */}
+              <p className="text-lg">{memberCount.toLocaleString()} members</p> 
             </div>
             <div className="flex items-center">
               <FaRegMoneyBillAlt className="text-orange-500 mr-2 text-xl" />
@@ -91,6 +92,7 @@ const JoinGroup = () => {
         </div>
       </div>
 
+            </div>
       {/* SignUp Modal */}
       {modal === 'signup' && (
         <div className="fixed inset-0 flex justify-center items-center z-50">
@@ -104,7 +106,7 @@ const JoinGroup = () => {
           <Login onClose={() => setModal(null)} onSwitchToSignUp={() => setModal('signup')} />
         </div>
       )}
-    </div>
+       </>
   );
 };
 

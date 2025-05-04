@@ -20,6 +20,8 @@ const Header = () => {
   const inputRef = useRef(null);
   const [modal, setModal] = useState(null);
   const navigate = useNavigate();
+  const modalRef = useRef(null);
+
 
   const handleInputChange = (event) => {
     setIsTyping(event.target.value !== "");
@@ -35,7 +37,6 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // 🔥 Auth state listener
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
@@ -62,7 +63,7 @@ const Header = () => {
       }
     });
 
-    return () => unsubscribe(); // cleanup listener
+    return () => unsubscribe();
   }, [setUser]);
 
   const logout = async () => {
@@ -76,11 +77,29 @@ const Header = () => {
     }
   };
 
+  const handleClickOutside = (event) => {
+    if (open && modalRef.current && !modalRef.current.contains(event.target)) {
+      setOpen(false);
+    }
+  };
+  
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [open]);
+
+  // Prevent closing modal when clicking inside it
+  const handleModalClick = (event) => {
+    event.stopPropagation();
+  };
+
   return (
     <>
       <div className="navAndSecHaye">
         <div className="navbar">
-          {/* Logo and Search */}
           <div className="searchUser searchIconMobile">
             <Link to="/" style={{ textDecoration: "none" }}>
               <h1 className="logo">BaxarFlow</h1>
@@ -116,7 +135,6 @@ const Header = () => {
             </div>
           )}
 
-          {/* Right Section */}
           <div className="imageAndNav" style={{ marginRight: "50px" }}>
             {user ? (
               <div className="userImg">
@@ -136,30 +154,39 @@ const Header = () => {
             )}
           </div>
 
-          {/* User Info */}
           {open && !isHidden && user && (
-            <div className="userInfo">
-              <Link style={{ textDecoration: "none" }} to="/profile">
-                <div className="userProfileIcon">
-                  <p>Profile</p>
-                  <p><CiUser /></p>
+            <div
+            ref={modalRef}
+              className="userInfo"
+              style={{
+                width: "340px",
+                background: "black",
+                padding: "10px",
+                borderRadius: "8px",
+                boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
+              }}
+              onClick={handleModalClick} // Ensure this calls the stopPropagation function
+            >
+              <Link
+                to="/userProfile"
+                style={{ textDecoration: "none" }}
+                onClick={() => setOpen(false)}
+              >
+                <div
+                  className="userProfileIcon"
+                  style={{ display: "flex", alignItems: "center" }}
+                >
+                  <p style={{ marginRight: "10px" }}>Profile</p>
+                  <CiUser />
                 </div>
               </Link>
-              <div className="userProfileIcon"><p>Email: {user.email}</p></div>
-              <div className="userProfileIcon"><p>Name: {user.displayName}</p></div>
-              <div className="userProfileIcon"><p>Role: {user.role}</p></div>
-              <div
-                style={{ cursor: "pointer" }}
-                onClick={logout}
-                className="userProfileIcon"
-              >
-                <p>Logout</p>
+              <div className="userProfileIcon">
+                <p>{user.email}</p>
               </div>
             </div>
           )}
         </div>
 
-        {/* Modals */}
         {modal === "login" && (
           <div className="fixed inset-0 flex justify-center items-center z-50 backdrop-blur-sm">
             <Login
