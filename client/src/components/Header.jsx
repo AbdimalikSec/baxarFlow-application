@@ -10,7 +10,8 @@ import { signOut, onAuthStateChanged } from "firebase/auth";
 import Login from "./Login";
 import SignUp from "./SignUp";
 import { getDoc, doc } from "firebase/firestore";
-import { db } from "../firebase";
+import { db ,} from "../firebase";
+import { updateDoc } from "firebase/firestore";
 
 const Header = () => {
   const { user, setUser } = useContext(InputContext);
@@ -68,9 +69,17 @@ const Header = () => {
 
   const logout = async () => {
     try {
-      await signOut(auth);
+      if (user) {
+        // Update the user's online status to false
+        await updateDoc(doc(db, 'users', user.uid), { isOnline: false });
+        // Remove user from local storage
+        localStorage.removeItem("user");
+      }
+      // Set user state to null
       setUser(null);
-      localStorage.removeItem("user");
+      // Sign out the user
+      await signOut(auth);
+      // Navigate to home page
       navigate("/");
     } catch (error) {
       console.error("Logout error: ", error);

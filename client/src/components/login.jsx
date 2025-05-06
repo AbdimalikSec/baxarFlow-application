@@ -3,7 +3,7 @@ import { auth } from '../firebase';
 import { signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { InputContext } from '../context/context';
 import { FaTimes, FaGoogle } from 'react-icons/fa';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 
 const Login = ({ onClose, onSwitchToSignUp }) => {
@@ -24,9 +24,9 @@ const Login = ({ onClose, onSwitchToSignUp }) => {
         setError('No account found. Please sign up first.');
         return;
       }
-   /*    if(userCredential == ""){
-        setError('please enter your email and password');
-      } */
+
+      // Set the user as online on login
+      await setDoc(userRef, { isOnline: true }, { merge: true });
 
       const userData = userDoc.data();
       setUser({ ...user, role: userData.role });
@@ -50,6 +50,9 @@ const Login = ({ onClose, onSwitchToSignUp }) => {
         return;
       }
 
+      // Set the user as online on login
+      await setDoc(userRef, { isOnline: true }, { merge: true });
+
       const userData = userDoc.data();
       setUser({ ...user, role: userData.role });
       onClose();
@@ -59,20 +62,19 @@ const Login = ({ onClose, onSwitchToSignUp }) => {
   };
 
   return (
-    <div className="relative bg-white rounded-2xl shadow-2xl p-50 w-full max-w-lg mx-auto">
+    <div className="relative bg-white rounded-2xl shadow-2xl p-10 w-full max-w-lg mx-auto">
       <button onClick={onClose} className="absolute top-4 right-4 text-gray-500 hover:text-red-500 transition">
         <FaTimes size={20} />
       </button>
       <h2 className="text-3xl font-bold mb-6 text-center text-green-600">Log In</h2>
       {error && <p className="text-red-500 text-sm mb-4 text-center">{error}</p>}
-      
+
       <input
         type="email"
         placeholder="Email"
         value={email}
-       
         onChange={(e) => setEmail(e.target.value)}
-        className="border rounded w-full p-50 mb-20"
+        className="border rounded w-full p-3 mb-4"
       />
       <input
         type="password"
@@ -93,7 +95,7 @@ const Login = ({ onClose, onSwitchToSignUp }) => {
         onClick={handleGoogleSignIn}
         className="flex items-center justify-center bg-red-600 text-white py-3 rounded-lg hover:bg-red-700 transition w-full font-semibold mt-4"
       >
-        <FaGoogle className="mr-[20px]" />
+        <FaGoogle className="mr-2" />
         Sign in with Google
       </button>
 

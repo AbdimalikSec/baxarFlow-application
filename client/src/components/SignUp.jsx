@@ -3,7 +3,7 @@ import { auth } from '../firebase';
 import { GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword } from 'firebase/auth';
 import { InputContext } from '../context/context';
 import { FaTimes, FaGoogle } from 'react-icons/fa';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc ,getDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 
 const SignUp = ({ onClose, onSwitchToLogin }) => {
@@ -18,13 +18,14 @@ const SignUp = ({ onClose, onSwitchToLogin }) => {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       const userRef = doc(db, 'users', user.uid);
-      
+
       await setDoc(userRef, {
         displayName: displayName,
         email: email,
         photoURL: '',
         isRegistered: true,
         role: 'member',
+        isOnline: true // ADD THIS
       });
 
       const userWithRole = {
@@ -62,6 +63,7 @@ const SignUp = ({ onClose, onSwitchToLogin }) => {
           photoURL: user.photoURL,
           isRegistered: true,
           role: 'member',
+          isOnline: true // ADD THIS
         });
       }
 
@@ -81,11 +83,10 @@ const SignUp = ({ onClose, onSwitchToLogin }) => {
   };
 
   return (
-    <div className="relative  bg-white rounded-2xl shadow-2xl p-10 w-full max-w-lg mx-auto mt-20">
+    <div className="relative bg-white rounded-2xl shadow-2xl p-10 w-full max-w-lg mx-auto mt-20">
       <button onClick={onClose} className="absolute top-4 right-4 text-gray-500 hover:text-red-500 transition">
         <FaTimes size={20} />
       </button>
-
       <h2 className="text-3xl font-bold mb-6 text-center text-blue-600">Create an Account</h2>
       {error && <p className="text-red-500 text-sm mb-4 text-center">{error}</p>}
 
