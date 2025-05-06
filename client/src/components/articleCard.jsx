@@ -102,13 +102,13 @@ const ArticleCard = ({
     }
   };
 
-  const canRemove = user && (user.role === "admin" || user.uid === author); // author is user.uid of the one who posted
+  const canRemove = user && user.role === "admin"; // author is user.uid of the one who posted
 
   return (
     <>
       <div
         onClick={() => setDetailOpen(true)}
-        className="articleCardBox cursor border rounded-lg shadow-md mb-4 flex items-start w-[140%]"
+        className="articleCardBox  rounded-lg shadow-md flex items-start w-[140%]"
       >
         {/* Left section */}
         <div className="flex-1">
@@ -128,7 +128,7 @@ const ArticleCard = ({
           <p className="text-gray-700 mb-3">{content}</p>
           {youtube && (
             <p className="text-sm text-blue-500 mb-1">
-              YouTube:{" "}
+              YouTube:
               <a href={youtube} target="_blank" rel="noopener noreferrer">
                 {youtube}
               </a>
@@ -136,7 +136,7 @@ const ArticleCard = ({
           )}
           {link && (
             <p className="text-sm text-blue-500 mb-1">
-              Link:{" "}
+              Link:
               <a href={link} target="_blank" rel="noopener noreferrer">
                 {link}
               </a>
@@ -148,36 +148,50 @@ const ArticleCard = ({
 
           <div className="flex space-x-4 mt-2">
             <button
-              onClick={handleLike}
-              className={`text-blue-500 ${hasLiked ? "font-semibold" : ""}`}
+              onClick={(e) => {
+                e.stopPropagation(); // Prevents the parent div's click from firing
+                handleLike();
+              }}
+              className={`text-blue-500 cursor ${hasLiked ? "font-semibold" : ""}`}
             >
               {hasLiked ? "Unlike" : "Like"} {likeCount > 0 && `(${likeCount})`}
             </button>
 
             <button
-              onClick={() => setCommentModalOpen(true)}
+              onClick={(e) => {
+                e.stopPropagation(); // Prevents the parent div's click from firing
+                setCommentModalOpen(true);
+              }}
               className="text-blue-500"
             >
               Comment
             </button>
           </div>
           {canRemove && (
-            <button onClick={handleRemove} className="text-red-500">
+            <button
+              onClick={(e) => {
+                e.stopPropagation(); // Prevents the parent div's click from firing
+                handleRemove();
+              }}
+              className="text-red-500 cursor"
+            >
               Remove
             </button>
           )}
         </div>
 
         {/* Right image */}
-        {img && (
-          <div className="ml-6 flex-shrink-0">
-            <img
-              src={img}
-              alt="Attached"
-              className="w-32 h-32 object-cover rounded border border-gray-200"
-            />
-          </div>
-        )}
+        <div>
+          {img && (
+            <div className="ml-6 flex-shrink-0  p-[200px]">
+              <img
+                src={img}
+                alt="Attached"
+                className="w-32 h-32 object-cover rounded border border-gray-200"
+              />
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Comment Modal */}

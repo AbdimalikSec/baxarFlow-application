@@ -61,7 +61,6 @@ nav ul li a {
   color: black;
 }
 
-
 .navka ul {
   display: flex;
   justify-content: center;
@@ -110,8 +109,6 @@ nav ul li a {
   width: 100%;
   margin: auto;
 }
-
-
 
 .icons p {
   display: flex;
@@ -168,7 +165,6 @@ nav ul li a {
   aspect-ratio: 1/1;
   border-radius: 50%;
 }
-
 
 .signup {
   color: white;
@@ -273,7 +269,6 @@ nav ul li a {
   width: 118%;
 }
 
-
 .member {
   display: flex;
   justify-content: center;
@@ -351,7 +346,6 @@ nav ul li a {
   color: black;
 }
 
-
 .seeMore {
   font-size: 1.2rem;
   color: #486b74;
@@ -362,6 +356,7 @@ nav ul li a {
 .name {
   font-size: 2rem;
 }
+/* dashboard flex of sidebar and articles  */
 
 .homeFlex {
   display: flex;
@@ -369,187 +364,14 @@ nav ul li a {
   gap: 4rem;
 }
 
-.singleArticle {
-  width: 70%;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  margin: auto;
-  align-items: center;
+/* ends */
+
+/* choose start */
+
+.choose {
 }
 
-.singleArticle h2 {
-  font-size: 3.4rem;
-  margin-bottom: 1.2rem;
-}
-
-.singleArticle img {
-  width: 60%;
-}
-
-.highlighter {
-  /* important oen don't forget this down */
-  align-self: flex-start;
-  margin-top: 1.2rem;
-}
-
-footer {
-  background-color: black;
-  margin-top: 2rem;
-}
-
-.footerDiv {
-  width: 80%;
-  margin: auto;
-  padding: 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: white;
-}
-
-.policyDiv {
-  display: flex;
-  justify-content: center;
-}
-
-.developeby {
-  font-size: 1.5rem;
-}
-
-.policyDiv p {
-  font-size: 1.4rem;
-  margin: 0.4rem;
-}
-
-.iconf {
-  font-size: 2rem;
-  margin: 0 0.4rem;
-}
-
-
-.userInfoValid {
-  display: block;
-}
-.discover {
-  display: block;
-  margin-top: 1.2rem;
-  color: black;
-  font-size: 2rem;
-}
-
-.discover:hover {
-  text-decoration: none;
-}
-
-/* hhero next */
-
-.PlaceBaxar {
-  width: 85%;
-  margin: auto;
-}
-
-.PlaceBaxar h1 {
-  font-size: 3.5rem;
-  margin: auto;
-}
-
-.PlaceBaxar p {
-  font-size: 1rem;
-  margin-bottom: 1.7rem;
-}
-
-.write {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-self: left;
-  margin-top: 1rem;
-}
-
-.write input {
-  width: 50%;
-  padding: 30px;
-  border: none;
-  background-color: white;
-  outline: none;
-  box-sizing: border-box;
-}
-
-.write input::placeholder {
-  font-size: 1.4rem;
-}
-
-.write input::placeholder:focus {
-  display: none;
-}
-
-
-
-.writeIcon {
-  margin: 0 0.4rem;
-  border: var(--main-color);
-}
-
-.publish {
-  display: flex;
-  justify-content: center;
-  margin-top: 1rem;
-}
-
-.btnpub {
-  border-radius: 7px;
-  padding: 5px 10px;
-  font-size: 1.2rem;
-  text-align: center;
-}
-
-.previousInput {
-  position: absolute;
-  left: 25%;
-  top: 12%;
-  display: flex;
-  justify-content: center;
-  align-self: flex-start;
-}
-.displayText {
-  position: absolute;
-  left: 25%;
-  top: 40%;
-  display: flex;
-  justify-content: center;
-  align-self: flex-start;
-}
-
-/* choose */
-
-.chooseHaye {
-  width: 50%;
-  margin: auto;
-}
-
-.chooseOne {
-  height: 2%;
-  overflow: hidden;
-  color: #63cee9;
-  font-size: 1.4rem;
-  
-}
-
-.chosedOne {
-  display: flex;
-  font-size: 1.3rem;
-  background-color: #104579;
-  color: white;
-  text-decoration: none;
-  border-radius: 4px;
-}
-
-.choose{
- 
-}
-
-.chooseSome{
+.chooseSome {
   display: flex;
   margin-left: 6rem;
 }
@@ -565,132 +387,9 @@ footer {
   font-size: 1.3rem;
 }
 
+/* choose end */
 
-
-.articleUserHaye {
-  display: flex;
-  gap: 2rem;
-}
-
-.articleUser {
-  width: 80%;
-  margin: auto;
-}
-
-.seeMore {
-  color: black;
-  padding: 4px 6px;
-  margin-top: 2rem;
-}
-
-/* userchoose and choose  COMPONENTS*/
-
-/* write component */
-
-.generatedInput {
-  width: 80%;
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-left: -5rem;
-}
-
-.singleInputGenerated {
-  margin: 10px;
-  max-width: 40%;
-}
-
-.singleInputGenerated input {
-  width: 250%;
-  padding: 10px;
-  border-radius: 4px;
-  border: none;
-  outline: none;
-  box-sizing: none;
-  font-size: 16px;
-}
-
-/* write end */
-
-/* HomeGeneratedArray */
-
-.HomeGeneratedArray {
-  display: flex;
-  justify-content: flex-start;
-  width: 70%;
-  margin: auto;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-/* usechooses */
-
-.UserChoseIcon {
-  font-size: 1.4rem;
-}
-
-/* user that logged in img */
-
-.search {
-  display: none;
-}
-
-.navka {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.searchUser {
-  display: block;
-}
-
-.userDisplayInputDesktop {
-  padding: 2px;
-}
-
-
-
-/* eachCategory */
-
-.eachCategory h1 {
-  text-align: center;
-  font-size: 4rem;
-}
-
-/* end */
-
-/* upload */
-
-.upload {
-  width: 95%;
-  margin: auto;
-}
-
-.upload img {
-  display: flex;
-  margin-top: 1.2rem;
-}
-
-.displayHeroNone {
-  display: none;
-}
-
-.SearchMobileQari {
-  display: none;
-}
-
-.DiscoverNone {
-  display: none;
-}
-
-.searchIconMobile input {
-  width: 200%;
-  padding: 6px;
-  border-radius: 6px;
-}
+/* profile start */
 .searchUser .iconInMobile {
   top: 40%;
   right: 10%;
@@ -711,246 +410,69 @@ footer {
   color: white;
 }
 
-.red {
-  background-color: red;
-}
-
-
-
-.profile {
-  width: 80%;
-  margin: auto;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 35rem;
-}
-
-.profilename {
-  margin-left: 3rem;
-}
-
-.profileNav {
-  display: flex;
-  margin: auto;
-}
-
-.profileNav p {
-  cursor: pointer;
-  font-size: 1.2rem;
-  margin: 0 1rem;
-}
-
-.UserProfileEDit img {
-  width: 30%;
-  border-radius: 50%;
-  aspect-ratio: 1/1;
-}
-
-.UserProfileEDit h2 {
-  margin-bottom: 1rem;
-}
-
-/* about */
-
-.about {
-  width: 80%;
-  margin: auto;
-}
-
-.about p {
-  width: 60%;
-  margin: auto;
-  margin-right: 80rem;
-}
-
-/* end */
-
-/* userpublished */
-
-.userpublished {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 3rem;
-}
-
-.userpublishedName {
-  display: flex;
-  justify-content: left;
-  margin-left: 25rem;
-  align-items: center;
-  align-self: flex-start;
-}
-
-.userpublished img {
-  width: 2%;
-  border-radius: 50%;
-  margin: 0 1rem;
-  aspect-ratio: 1/1;
-}
-
-.userPublishedIcon {
-  border: 1px solid rgba(128, 128, 128, 0.336);
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 35rem;
-  margin-top: 2rem;
-  align-items: center;
-}
-
-.publishIcon {
-  font-size: 1.5rem;
-}
-
-.publishIcon p {
-  margin: auto 1rem;
-}
-
-/* header */
-
-.responseModel {
-  cursor: pointer;
-  position: absolute;
-  right: 0;
-  top: 4rem;
-  width: 30%;
-  height: 75vh;
-  margin: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  background-color: white;
-  padding: 10px;
-  box-shadow: 0 0 20px 0 rgba(77, 18, 18, 0.2);
-}
-
-.flexresponseHeader {
-  display: flex;
-  justify-content: left;
-  align-items: baseline;
-  gap: 5rem;
-  margin: auto 0.4rem;
-  margin-bottom: 1rem;
-}
-
-.responseModel img {
-  display: block;
-  width: 10%;
-  border-radius: 50%;
-  aspect-ratio: 1/1;
-}
-
-.responseHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.responseHeader {
-  display: inline;
-}
-
-.textareaBottom {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  text-align: left;
-  justify-content: left;
-  align-items: baseline;
-  margin: 1rem;
-  gap: 3rem;
-}
-
-.textareaBottom button {
-  margin: 0.4rem;
-  padding: 5px;
-  border-radius: 7px;
-}
-
-/* end */
+/* profile ends */
 
 /* iphone 14 */
 @media (min-width: 430px) and (max-width: 850px) {
-
 }
-
 
 /*  */
 
-.imageAndNav{
+.imageAndNav {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.imageAndNav span{
- 
+.imageAndNav span {
 }
-.SecNav{
+.SecNav {
   display: flex;
   align-items: center;
   width: 80%;
   margin: 0 auto;
 }
 
-.secNavLink{
+.secNavLink {
   margin: 20px 20px;
   font-size: 1.4rem;
   font-weight: 500;
 }
 
-.flex-Category-Article{
+.flex-Category-Article {
   display: block;
 }
 
-
 /* memebrs css */
-
-
-
 
 /* write css */
 
-.inputOfWrite{
+.inputOfWrite {
   margin-left: 10rem;
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
 
-.inputOfWrite input{
+.inputOfWrite input {
   width: 100%;
   padding: 0.5rem 1rem;
 }
 
-
-/*  */
-
-
-
 /* articlecard css */
 
-
-.articleCardBox{
+.articleCardBox {
   margin-left: 6rem;
   margin-top: 1rem;
+  cursor: pointer;
 }
-
-.eachatricle{
-  padding: 0.1rem;
-  width: 100%;
-  height: 100%;
-}
-
 
 /* header css */
 
-.userImg img{
+.userImg img {
   width: 35%;
 }
 
-.navAndSecHaye{
+.navAndSecHaye {
   position: sticky;
   top: 0;
   z-index: 9999;

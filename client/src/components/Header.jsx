@@ -21,7 +21,7 @@ const Header = () => {
   const [modal, setModal] = useState(null);
   const navigate = useNavigate();
   const modalRef = useRef(null);
-
+  const imageRef = useRef(null);
 
   const handleInputChange = (event) => {
     setIsTyping(event.target.value !== "");
@@ -78,11 +78,15 @@ const Header = () => {
   };
 
   const handleClickOutside = (event) => {
-    if (open && modalRef.current && !modalRef.current.contains(event.target)) {
+    if (
+      modalRef.current &&
+      !modalRef.current.contains(event.target) &&
+      imageRef.current &&
+      !imageRef.current.contains(event.target)
+    ) {
       setOpen(false);
     }
   };
-  
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -139,8 +143,9 @@ const Header = () => {
             {user ? (
               <div className="userImg">
                 <img
+                  ref={imageRef}
                   src={user.photoURL || nin}
-                  onClick={() => setOpen(!open)}
+                  onClick={() => setOpen((prev) => !prev)}
                   alt="User Avatar"
                 />
               </div>
@@ -156,7 +161,7 @@ const Header = () => {
 
           {open && !isHidden && user && (
             <div
-            ref={modalRef}
+              ref={modalRef}
               className="userInfo"
               style={{
                 width: "340px",
@@ -176,12 +181,19 @@ const Header = () => {
                   className="userProfileIcon"
                   style={{ display: "flex", alignItems: "center" }}
                 >
-                  <p style={{ marginRight: "10px" }}>Profile</p>
                   <CiUser />
+                  <p style={{ marginRight: "10px" }}>Profile</p>
                 </div>
               </Link>
               <div className="userProfileIcon">
                 <p>{user.email}</p>
+              </div>
+              <div
+                style={{ cursor: "pointer" }}
+                onClick={logout}
+                className="userProfileIcon"
+              >
+                <p>Logout</p>
               </div>
             </div>
           )}

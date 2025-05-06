@@ -49,12 +49,9 @@ const Books = () => {
 
   return (
     <div className="max-w-xl mx-auto mt-4">
-           {" "}
       {loading ? (
         <div className="flex justify-center items-center h-48">
-                   {" "}
           <div className="w-8 h-8 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
-                 {" "}
         </div>
       ) : filteredArticles && filteredArticles.length > 0 ? (
         filteredArticles.map((article) => (
@@ -79,7 +76,6 @@ const Books = () => {
           No articles available in this category.
         </p>
       )}
-         {" "}
     </div>
   );
 };
